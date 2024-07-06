@@ -1,45 +1,13 @@
 import React from 'react';
-import Loader from './loader';
+// import Loader from './loader';
 // import Result from './result';
 
-class Results extends React.Component {
-  state = {
-    link: 'https://swapi.dev/api/people/',
-    search: 'https://swapi.dev/api/people/?search=',
-    result: [],
-    loader: false,
-  };
-
-  getElement = async (link: string) => {
-    this.setState({ loader: true });
-    try {
-      const response = await fetch(link, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await response.json();
-      this.setState({ result: data.results });
-    } catch (error) {
-      console.log(error);
-    }
-    this.setState({ loader: false });
-  };
-
-  componentDidMount() {
-    this.getElement(this.state.link);
-    console.log(this.state.result);
+class Results extends React.Component<{ result: [] | object[] }> {
+  constructor(props: { result: [] | object[] }) {
+    super(props);
   }
   render() {
-    return (
-      <>
-        {this.state.loader && <Loader />}
-        {!this.state.loader && (
-          <div className="results">{JSON.stringify(this.state.result)}</div>
-        )}
-      </>
-    );
+    return <div className="results">{JSON.stringify(this.props.result)}</div>;
   }
 }
 
