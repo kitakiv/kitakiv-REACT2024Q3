@@ -1,17 +1,23 @@
 @import './variables.scss';
 @import './styles/search.scss';
-@import './styles/searchResults.scss';
 @import './styles/loader.scss';
+@import './styles/results.scss';
 
 * {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 body {
-  background-image: url('./assets/img/dark.png');
+  background-image: url('./assets/img/dark-vader.webp');
   background-size: 100vw auto;
   background-repeat: no-repeat;
   background-position: center top;
+  background-color: black;
+
+  @media screen and (max-width: 768px) {
+    background-image: url('./assets/img/vader.webp');
+    background-size: auto 100vh;
+  }
 }
 
 .shadow {

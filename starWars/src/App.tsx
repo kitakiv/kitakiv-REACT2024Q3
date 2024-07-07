@@ -2,11 +2,18 @@ import React from 'react';
 import Search from './components/search';
 import Results from './components/searchResults';
 import Loader from './components/loader';
+import {
+  SWFilm,
+  SWCharacterWithFilms,
+  SWApiResponse,
+} from './interface/interface';
 
 interface State {
   link: string;
   search: string;
-  result: [];
+  result: SWApiResponse | null;
+  films: string;
+  filmRes: SWFilm[] | null;
   loader: boolean;
 }
 
@@ -16,7 +23,9 @@ class App extends React.Component<object, State> {
     this.state = {
       link: 'https://swapi.dev/api/people/',
       search: 'https://swapi.dev/api/people/?search=',
-      result: [],
+      films: 'https://swapi.dev/api/films/',
+      filmRes: null,
+      result: null,
       loader: false,
     };
   }
@@ -30,8 +39,17 @@ class App extends React.Component<object, State> {
           'Content-Type': 'application/json',
         },
       });
-      const data = await response.json();
-      this.setState({ result: data.results });
+      const data = (await response.json()) as SWApiResponse;
+      const filmResponse = await fetch(this.state.films, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const filmRes = ((await filmResponse.json()) as SWCharacterWithFilms)
+        .results as SWFilm[];
+      this.setState({ result: data });
+      this.setState({ filmRes: filmRes });
     } catch (error) {
       console.log(error);
     }
@@ -58,7 +76,9 @@ class App extends React.Component<object, State> {
       <>
         <Search onSearch={this.handleSearch} />
         {this.state.loader && <Loader />}
-        {!this.state.loader && <Results result={this.state.result} />}
+        {!this.state.loader && (
+          <Results result={this.state.result} filmRes={this.state.filmRes} />
+        )}
       </>
     );
   }

@@ -5,12 +5,10 @@
   margin: 0 10px;
   width: calc(100% - 20px);
   z-index: 1;
-  background-color: $light-blue;
+  background-color: $dark-blue;
   height: 70px;
   border-radius: 100px;
-  box-shadow:
-    rgba(255, 255, 255, 0.3) 0px 19px 38px,
-    rgba(255, 255, 255, 0.22) 0px 15px 12px;
+  box-shadow: $dark-blue 0px 0px 16px 6px;
   display: flex;
   align-items: self-end;
   justify-content: center;
