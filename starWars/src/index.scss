@@ -25,3 +25,11 @@ body {
     $dark-blue 0px 30px 60px -12px inset,
     $dark-blue 0px 18px 36px -18px inset;
 }
+
+.error {
+  margin: 40px;
+  color: $yellow;
+  font-size: large;
+  height: 100%;
+  text-align: center;
+}

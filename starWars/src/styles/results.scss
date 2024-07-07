@@ -1,7 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap');
 
+.error-button {
+  position: absolute;
+  top: 120px;
+  left: 25px;
+  background-color: $light-blue;
+  color: $white;
+  border-radius: 5px;
+  z-index: 3;
+  padding: 5px 10px;
+  font-family: 'Rubik Mono One', monospace;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.5s;
+  border: none;
+
+  &:hover {
+    background-color: $dark-blue;
+  }
+}
+
 .results {
-  margin-top: 50px;
+  margin-top: 70px;
   transition: all 0.5s;
   height: 65vh;
   overflow-y: scroll;

@@ -47,23 +47,25 @@ class Search extends React.Component<
 
   render() {
     return (
-      <header className="app-header">
-        <form onSubmit={this.submitResult}>
-          <div>
-            <input
-              type="text"
-              name="search"
-              className="shadow"
-              value={this.state.inputValue}
-              onChange={this.handleNameChange}
-              id="search"
-              placeholder="Darth Vader"
-            />
-            <label htmlFor="search">{this.state.errorInput}</label>
-          </div>
-          <button type="submit"></button>
-        </form>
-      </header>
+      <>
+        <header className="app-header">
+          <form onSubmit={this.submitResult}>
+            <div>
+              <input
+                type="text"
+                name="search"
+                className="shadow"
+                value={this.state.inputValue}
+                onChange={this.handleNameChange}
+                id="search"
+                placeholder="Darth Vader"
+              />
+              <label htmlFor="search">{this.state.errorInput}</label>
+            </div>
+            <button type="submit"></button>
+          </form>
+        </header>
+      </>
     );
   }
 }

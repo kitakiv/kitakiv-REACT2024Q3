@@ -2,6 +2,7 @@ import React from 'react';
 import Search from './components/search';
 import Results from './components/searchResults';
 import Loader from './components/loader';
+import ErrorBoundary from './components/errorBoundary';
 import {
   SWFilm,
   SWCharacterWithFilms,
@@ -74,10 +75,14 @@ class App extends React.Component<object, State> {
   render() {
     return (
       <>
-        <Search onSearch={this.handleSearch} />
+        <ErrorBoundary>
+          <Search onSearch={this.handleSearch} />
+        </ErrorBoundary>
         {this.state.loader && <Loader />}
         {!this.state.loader && (
-          <Results result={this.state.result} filmRes={this.state.filmRes} />
+          <ErrorBoundary>
+            <Results result={this.state.result} filmRes={this.state.filmRes} />
+          </ErrorBoundary>
         )}
       </>
     );
