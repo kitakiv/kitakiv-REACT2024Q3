@@ -26,6 +26,10 @@ class Results extends React.Component<
     };
   }
   render() {
+    if (this.state.error) {
+      return <div className="error">{this.state.errorText}</div>;
+    }
+
     return (
       <>
         <button
