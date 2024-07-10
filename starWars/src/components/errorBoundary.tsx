@@ -17,7 +17,7 @@ class ErrorBoundary extends React.Component<IErrorBoundary> {
     this.logErrorToServices(error.toString(), info.componentStack);
   }
 
-  logErrorToServices = console.log;
+  logErrorToServices = console.error;
 
   render() {
     if (this.state.errorMessage) {

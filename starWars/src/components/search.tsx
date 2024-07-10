@@ -48,7 +48,7 @@ class Search extends React.Component<
   render() {
     return (
       <>
-        <header className="app-header">
+        <section className="app-search">
           <form onSubmit={this.submitResult}>
             <div>
               <input
@@ -64,7 +64,7 @@ class Search extends React.Component<
             </div>
             <button type="submit"></button>
           </form>
-        </header>
+        </section>
       </>
     );
   }

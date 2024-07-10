@@ -27,11 +27,11 @@ class Results extends React.Component<
   }
   render() {
     if (this.state.error) {
-      return <div className="error">{this.state.errorText}</div>;
+      throw new Error(this.state.errorText);
     }
 
     return (
-      <>
+      <section>
         <button
           className="error-button shadow"
           onClick={() => this.setState({ error: true })}
@@ -45,7 +45,7 @@ class Results extends React.Component<
             })}
           </div>
         )}
-      </>
+      </section>
     );
   }
 }
