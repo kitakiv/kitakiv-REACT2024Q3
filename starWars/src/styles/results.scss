@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap');
+
+.error-button {
+  position: absolute;
+  top: 120px;
+  left: 25px;
+  background-color: $light-blue;
+  color: $white;
+  border-radius: 5px;
+  z-index: 3;
+  padding: 5px 10px;
+  font-family: 'Rubik Mono One', monospace;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.5s;
+  border: none;
+
+  &:hover {
+    background-color: $dark-blue;
+  }
+}
+
+.results {
+  margin-top: 70px;
+  transition: all 0.5s;
+  height: 65vh;
+  overflow-y: scroll;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 10px 20px;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background-color: $dark-blue;
+    box-shadow: $dark-blue 0px 0px 5px 5px;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: black;
+  }
+
+  &-hero {
+    font-family: 'Rubik Mono One', monospace;
+    font-weight: 400;
+    font-style: normal;
+    background-color: $light-blue;
+    border-radius: 30px;
+    transition: all 0.5s;
+    color: $white;
+
+    &:hover {
+      box-shadow:
+        $yellow 0px 30px 60px -12px inset,
+        $yellow 0px 18px 36px -18px inset,
+        rgb(0, 0, 0) 0 0 10px 3px;
+      color: $yellow;
+
+      li {
+        color: $yellow;
+      }
+    }
+  }
+
+  h3 {
+    font-family: 'Rubik Mono One', monospace;
+    font-weight: 400;
+    font-style: normal;
+    text-align: center;
+    color: $black;
+  }
+
+  li {
+    font-size: 1em;
+    font-family: 'Rubik Mono One', monospace;
+    font-weight: 400;
+    font-style: normal;
+    color: $dark-blue;
+  }
+
+  h4 {
+    font-family: 'Rubik Mono One', monospace;
+    font-weight: 400;
+    font-style: normal;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+}
