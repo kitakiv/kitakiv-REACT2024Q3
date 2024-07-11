@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import Search from './components/search';
 import Results from './components/searchResults';
 import Loader from './components/loader';
@@ -9,30 +9,16 @@ import {
   SWApiResponse,
 } from './interface/interface';
 
-interface State {
-  link: string;
-  search: string;
-  result: SWApiResponse | null;
-  films: string;
-  filmRes: SWFilm[] | null;
-  loader: boolean;
-}
+function App() {
+  const link = 'https://swapi.dev/api/people/';
+  const search = 'https://swapi.dev/api/people/?search=';
+  const films = 'https://swapi.dev/api/films/';
+  const [filmRes, setFilmRes] = useState<SWFilm[] | null>(null);
+  const [result, setResult] = useState<SWApiResponse | null>(null);
+  const [loader, setLoader] = useState(false);
 
-class App extends React.Component<object, State> {
-  constructor(props: object) {
-    super(props);
-    this.state = {
-      link: 'https://swapi.dev/api/people/',
-      search: 'https://swapi.dev/api/people/?search=',
-      films: 'https://swapi.dev/api/films/',
-      filmRes: null,
-      result: null,
-      loader: false,
-    };
-  }
-
-  getElement = async (link: string) => {
-    this.setState({ loader: true });
+  async function getElement(link: string) {
+    setLoader(true);
     try {
       const response = await fetch(link, {
         method: 'GET',
@@ -41,7 +27,7 @@ class App extends React.Component<object, State> {
         },
       });
       const data = (await response.json()) as SWApiResponse;
-      const filmResponse = await fetch(this.state.films, {
+      const filmResponse = await fetch(films, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -49,44 +35,43 @@ class App extends React.Component<object, State> {
       });
       const filmRes = ((await filmResponse.json()) as SWCharacterWithFilms)
         .results as SWFilm[];
-      this.setState({ result: data });
-      this.setState({ filmRes: filmRes });
+      setResult(data);
+      setFilmRes(filmRes);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
-    this.setState({ loader: false });
-  };
+    setLoader(false);
+  }
 
-  componentDidMount() {
+  useEffect(() => {
     if (localStorage.getItem('search')) {
-      const search = localStorage.getItem('search');
-      const link = this.state.search + search;
-      this.getElement(link);
+      const searchResult = localStorage.getItem('search');
+      const link = search + searchResult;
+      getElement(link);
     } else {
-      this.getElement(this.state.link);
+      getElement(link);
     }
+  }, []);
+
+  function handleSearch(searchResult: string) {
+    localStorage.setItem('search', searchResult);
+    const link = search + searchResult;
+    getElement(link);
   }
 
-  handleSearch = (search: string) => {
-    localStorage.setItem('search', search);
-    const link = this.state.search + search;
-    this.getElement(link);
-  };
-  render() {
-    return (
-      <>
+  return (
+    <>
+      <ErrorBoundary>
+        <Search onSearch={handleSearch} />
+      </ErrorBoundary>
+      {loader && <Loader />}
+      {!loader && (
         <ErrorBoundary>
-          <Search onSearch={this.handleSearch} />
+          <Results result={result} filmRes={filmRes} />
         </ErrorBoundary>
-        {this.state.loader && <Loader />}
-        {!this.state.loader && (
-          <ErrorBoundary>
-            <Results result={this.state.result} filmRes={this.state.filmRes} />
-          </ErrorBoundary>
-        )}
-      </>
-    );
-  }
+      )}
+    </>
+  );
 }
 
 export default App;
