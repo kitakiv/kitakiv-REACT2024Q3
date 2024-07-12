@@ -1,5 +1,65 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap');
 
+.app-results {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.results-container {
+  width: 110%;
+}
+
+.details-page {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 10px 20px;
+  width: 100%;
+  background-color: $yellow;
+  border-radius: 20px;
+  box-shadow:
+    $dark-blue 0px 30px 60px -12px inset,
+    $dark-blue 0px 18px 36px -18px inset;
+
+  h1,
+  h3 {
+    font-family: 'Rubik Mono One', monospace;
+    font-weight: 400;
+    font-style: normal;
+    text-align: center;
+  }
+
+  .vader {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    margin: 0 auto;
+  }
+
+  .cross {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 40px;
+    transition: all 0.5s;
+    text-decoration: none;
+    width: 40px;
+    height: 40px;
+    background-image: url('./assets/svg/cross.svg');
+    background-size: contain;
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+}
+
 .error-button {
   position: absolute;
   top: 120px;
@@ -22,8 +82,51 @@
   }
 }
 
+.pagination {
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.link-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  text-decoration: none;
+  color: $white;
+  transition: all 0.5s;
+  background-color: $yellow;
+  box-shadow:
+    $dark-blue 0px 30px 60px -12px inset,
+    $dark-blue 0px 18px 36px -18px inset;
+  border-radius: 5px;
+
+  &:hover {
+    box-shadow:
+      $light-blue 0px 30px 60px -12px inset,
+      $light-blue 0px 18px 36px -18px inset;
+  }
+}
+
+.link-page-active {
+  background-color: $dark-blue;
+  box-shadow:
+    $light-blue 0px 30px 60px -12px inset,
+    $light-blue 0px 18px 36px -18px inset;
+}
+
 .results {
-  margin-top: 70px;
+  border-top: 10px solid $dark-blue;
+  border-bottom: 10px solid $dark-blue;
+  border-left: 3px solid $dark-blue;
+  border-right: 3px solid $dark-blue;
+  border-radius: 20px;
+  margin-top: 50px;
   transition: all 0.5s;
   height: 65vh;
   overflow-y: scroll;
@@ -46,6 +149,7 @@
   }
 
   &-hero {
+    text-decoration: none;
     font-family: 'Rubik Mono One', monospace;
     font-weight: 400;
     font-style: normal;

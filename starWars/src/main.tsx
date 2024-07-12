@@ -5,7 +5,9 @@ import './index.scss';
 import Results from './components/searchResults';
 import NoResults from './components/noResults';
 import NotFound from './components/notFound';
+import DetailsPage from './components/detailsPage';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { loaderDetails, loaderResult } from './components/loaders/loaders.tsx';
 
 const router = createBrowserRouter([
   {
@@ -14,42 +16,19 @@ const router = createBrowserRouter([
     errorElement: <div>Error! Redirecting...</div>,
     children: [
       {
+        path: '/no-results',
+        element: <NoResults />,
+      },
+      {
         path: 'search/:search/page/:page',
         element: <Results />,
-        loader: async ({ params }) => {
-          const searchName = params.search === 'default' ? '' : params.search;
-          try {
-            const res = await fetch(
-              `https://swapi.dev/api/people/?search=${searchName}&page=${params.page}`
-            );
-            if (!res.ok) {
-              throw new Error('Network response was not ok');
-            }
-            const data = await res.json();
-            return data;
-          } catch (error) {
-            console.error(error);
-          }
-        },
+        loader: loaderResult,
         errorElement: <NoResults />,
         children: [
           {
             path: 'detail/:id',
-            element: <div>hello children</div>,
-            loader: async ({ params }) => {
-              try {
-                const res = await fetch(
-                  `https://swapi.dev/api/people/${params.id}`
-                );
-                if (!res.ok) {
-                  throw new Error('Network response was not ok');
-                }
-                const data = await res.json();
-                return data;
-              } catch (error) {
-                console.error(error);
-              }
-            },
+            element: <DetailsPage />,
+            loader: loaderDetails,
             errorElement: <NoResults />,
           },
         ],
