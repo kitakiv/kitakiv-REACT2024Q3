@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { SWApiResponse, SWFilm } from '../interface/interface';
+import { SWApiResponse } from '../interface/interface';
 import Result from './result';
+import { useLoaderData } from 'react-router-dom';
 
-function Results(props: {
-  result: SWApiResponse | null;
-  filmRes: SWFilm[] | null;
-}) {
+function Results() {
+  const result = useLoaderData() as SWApiResponse;
   const [error, setError] = useState(false);
   const errorText = 'Something went wrong. Please try again later.';
 
@@ -18,10 +17,10 @@ function Results(props: {
       <button className="error-button shadow" onClick={() => setError(true)}>
         Throw an error
       </button>
-      {props.result !== null && props.filmRes !== null && (
+      {result !== null && (
         <div className="results">
-          {...props.result.results.map((elem) => {
-            return <Result result={elem} filmRes={props.filmRes} />;
+          {...result.results.map((elem) => {
+            return <Result result={elem} keyProps={elem.name} />;
           })}
         </div>
       )}
