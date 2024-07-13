@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { SWApiResponse } from '../interface/interface';
 import Result from './result';
 import { useLoaderData, Outlet, useParams, Link } from 'react-router-dom';
+import NoResults from './noResults';
 
 function Results() {
   const [result] = useLoaderData() as [SWApiResponse];
@@ -19,7 +20,7 @@ function Results() {
         <button className="error-button shadow" onClick={() => setError(true)}>
           Throw an error
         </button>
-        {result !== null && (
+        {result !== null && result.count > 0 && (
           <div className="results-container">
             <div className="results">
               {...result.results.map((elem) => {
@@ -64,6 +65,7 @@ function Results() {
             </div>
           </div>
         )}
+        {result !== null && result.count === 0 && <NoResults />}
       </>
       <Outlet />
     </section>
