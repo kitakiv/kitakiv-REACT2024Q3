@@ -1,2 +1,2 @@
 cd starWars
-npm test
+npm run test
