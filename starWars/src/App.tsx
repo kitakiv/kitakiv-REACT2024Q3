@@ -1,10 +1,12 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import Search from './components/search';
 import ErrorBoundary from './components/errorBoundary';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useNavigation } from 'react-router-dom';
 import { useCallback, useEffect } from 'react';
+import Loader from './components/loader';
 
 function App() {
+  const { state } = useNavigation();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -30,6 +32,7 @@ function App() {
 
   return (
     <>
+      {state === 'loading' && <Loader />}
       <ErrorBoundary>
         <Search onSearch={handleSearch} />
       </ErrorBoundary>

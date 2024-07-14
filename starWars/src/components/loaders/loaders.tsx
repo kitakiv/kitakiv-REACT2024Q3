@@ -1,5 +1,11 @@
-import { redirect, Params } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
 import { SWCharacter, SWFilm } from '../../interface/interface';
+
+interface Params {
+  search: string;
+  page: string;
+  id?: string;
+}
 
 export async function loaderResult({ params }: { params: Params }) {
   const searchName = params.search === 'default' ? '' : params.search;
