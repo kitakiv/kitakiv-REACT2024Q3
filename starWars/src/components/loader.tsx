@@ -1,6 +1,6 @@
 function Loader() {
   return (
-    <div className="pop-up-load">
+    <div className="pop-up-load" title="Loading">
       <div className="loader"></div>
     </div>
   );

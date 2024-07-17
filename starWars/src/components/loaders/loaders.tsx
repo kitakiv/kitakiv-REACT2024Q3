@@ -10,7 +10,6 @@ export async function loaderResult({ params }: { params: Params }) {
     const data = await res.json();
     return [data];
   } catch (error) {
-    console.error(error);
     return redirect('/no-results');
   }
 }
@@ -48,7 +47,6 @@ export async function loaderDetails({ params }: { params: Params }) {
     console.log(filmsRes);
     return [data, filmsRes, homeworldData.name, vehiclesRes, starshipsRes];
   } catch (error) {
-    console.error(error);
     throw new Error('Something went wrong. Please try again later.');
   }
 }

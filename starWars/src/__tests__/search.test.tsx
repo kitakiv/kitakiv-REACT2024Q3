@@ -16,7 +16,7 @@ describe('submit result with right values', () => {
     await user.click(getByRole('button'));
     expect(functionSearch).toHaveBeenCalledWith('Luke');
 
-    await user.type(input, ' luke ');
+    await user.type(input, 'luke ');
     expect(
       queryByText('Please remove space from starting and ending of the name')
     ).toBeInTheDocument();

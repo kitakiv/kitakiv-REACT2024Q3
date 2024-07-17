@@ -38,7 +38,7 @@ function DetailsPage() {
             <li>Gender: {data.gender}</li>
           </ul>
         </div>
-        <div>
+        <div className="films" id="films">
           <h3>Films</h3>
           <ul>
             {...films.map((film) => (
@@ -53,7 +53,7 @@ function DetailsPage() {
           <p>{homeworld}</p>
         </div>
         {vehicles.length > 0 && (
-          <div>
+          <div className="vehicles">
             <h3>Vehicles</h3>
             <ul>
               {...vehicles.map((vehicle) => (
@@ -65,7 +65,7 @@ function DetailsPage() {
           </div>
         )}
         {starships.length > 0 && (
-          <div>
+          <div className="starships">
             <h3>Starships</h3>
             <ul>
               {...starships.map((starship) => (
@@ -76,7 +76,11 @@ function DetailsPage() {
             </ul>
           </div>
         )}
-        <Link to={`/search/${search}/page/${page}`} className="cross"></Link>
+        <Link
+          to={`/search/${search}/page/${page}`}
+          className="cross"
+          defaultValue="back"
+        ></Link>
       </div>
     </>
   );

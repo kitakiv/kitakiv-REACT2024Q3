@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { SWApiResponse } from '../interface/interface';
 import Result from './result';
 import {
@@ -19,16 +19,14 @@ function Results() {
   const [error, setError] = useState(false);
   const errorText = 'Something went wrong. Please try again later.';
   const { search, page, id } = useParams();
+  const resultRef = useRef(null);
 
   if (error) {
     throw new Error(errorText);
   }
 
-  const closeDetailPage = (event: React.MouseEvent) => {
-    if (
-      id &&
-      (event.target as HTMLElement).classList.contains('results-container')
-    ) {
+  const closeDetailPage = () => {
+    if (id !== undefined && resultRef.current !== null) {
       navigate('.', { relative: 'path' });
     }
   };
@@ -36,7 +34,11 @@ function Results() {
   return (
     <>
       {state === 'loading' && <Loader />}
-      <section className="app-results" onClick={closeDetailPage}>
+      <section
+        className="app-results"
+        onClick={closeDetailPage}
+        title="Results"
+      >
         <>
           <button
             className="error-button shadow"
@@ -45,14 +47,14 @@ function Results() {
             Throw an error
           </button>
           {result !== null && result.count > 0 && (
-            <div className="results-container">
+            <div className="results-container" ref={resultRef}>
               <div className="results">
                 {...result.results.map((elem) => {
                   const number = elem.url;
                   return <Result result={elem} keyProps={number} />;
                 })}
               </div>
-              <div className="pagination">
+              <div className="pagination" title="Pagination">
                 {result.previous !== null && id !== undefined && (
                   <Link
                     className="link-page"

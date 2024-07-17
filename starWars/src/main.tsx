@@ -9,7 +9,7 @@ import DetailsPage from './components/detailsPage';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { loaderDetails, loaderResult } from './components/loaders/loaders.tsx';
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
