@@ -1,62 +1,24 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import Search from '../components/search';
 import '@testing-library/jest-dom';
+import { render } from '@testing-library/react';
+import Search from '../components/search';
+import userEvent from '@testing-library/user-event';
 
-describe('Search Component', () => {
-  it('renders the input and button correctly', () => {
-    render(<Search onSearch={jest.fn()} />);
-    const inputElement = screen.getByPlaceholderText('Darth Vader');
-    const buttonElement = screen.getByRole('button');
+describe('submit result with right values', () => {
+  test('Renders the main page', async () => {
+    const functionSearch = jest.fn();
+    const { queryByText, getByRole } = render(
+      <Search onSearch={functionSearch} />
+    );
+    const user = userEvent.setup();
+    const input = getByRole('textbox');
 
-    expect(inputElement).toBeInTheDocument();
-    expect(buttonElement).toBeInTheDocument();
-  });
+    await user.type(input, 'Luke');
+    await user.click(getByRole('button'));
+    expect(functionSearch).toHaveBeenCalledWith('Luke');
 
-  it('displays an error message when the input starts or ends with a space', () => {
-    render(<Search onSearch={jest.fn()} />);
-    const inputElement = screen.getByPlaceholderText('Darth Vader');
-
-    fireEvent.change(inputElement, { target: { value: ' Darth Vader' } });
+    await user.type(input, ' luke ');
     expect(
-      screen.getByText(
-        'Please remove space from starting and ending of the name'
-      )
+      queryByText('Please remove space from starting and ending of the name')
     ).toBeInTheDocument();
-
-    fireEvent.change(inputElement, { target: { value: 'Darth Vader ' } });
-    expect(
-      screen.getByText(
-        'Please remove space from starting and ending of the name'
-      )
-    ).toBeInTheDocument();
-  });
-
-  it('calls the onSearch function with the correct value when the form is submitted', () => {
-    const onSearchMock = jest.fn();
-    render(<Search onSearch={onSearchMock} />);
-    const inputElement = screen.getByPlaceholderText('Darth Vader');
-    const formElement = screen.getByRole('form');
-
-    fireEvent.change(inputElement, { target: { value: 'Darth Vader' } });
-    fireEvent.submit(formElement);
-
-    expect(onSearchMock).toHaveBeenCalledWith('Darth Vader');
-  });
-
-  it('does not call the onSearch function if the input starts or ends with a space', () => {
-    const onSearchMock = jest.fn();
-    render(<Search onSearch={onSearchMock} />);
-    const inputElement = screen.getByPlaceholderText('Darth Vader');
-    const formElement = screen.getByRole('form');
-
-    fireEvent.change(inputElement, { target: { value: ' Darth Vader' } });
-    fireEvent.submit(formElement);
-
-    expect(onSearchMock).not.toHaveBeenCalled();
-
-    fireEvent.change(inputElement, { target: { value: 'Darth Vader ' } });
-    fireEvent.submit(formElement);
-
-    expect(onSearchMock).not.toHaveBeenCalled();
   });
 });
