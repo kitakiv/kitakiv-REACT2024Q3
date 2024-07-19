@@ -1,0 +1,2 @@
+cd starWars
+npx lint-staged
