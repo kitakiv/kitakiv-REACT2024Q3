@@ -7,7 +7,7 @@ describe('submit result with right values', () => {
   test('Renders the main page', async () => {
     const functionSearch = jest.fn();
     const { queryByText, getByRole } = render(
-      <Search onSearch={functionSearch} />
+      <Search onSearch={functionSearch} onChangeTemplate={jest.fn()} />
     );
     const user = userEvent.setup();
     const input = getByRole('textbox');
