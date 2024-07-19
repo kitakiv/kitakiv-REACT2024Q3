@@ -15,6 +15,11 @@ function Result({ result, keyProps }: Props) {
       to={`/search/${search}/page/${page}/detail/${keyProps.split('/')[keyProps.split('/').length - 2]}`}
     >
       <h3>{result.name}</h3>
+      <img
+        src="https://www.allsmileys.com/files/sweetim-fantasy/6455.gif"
+        alt="vader"
+        className="fighter"
+      />
       <ul>
         <li>Height: {result.height}</li>
         <li>Mass: {result.mass}</li>

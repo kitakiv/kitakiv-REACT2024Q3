@@ -1,5 +1,29 @@
-$light-blue: #000000;
-$dark-blue: #b10000;
-$black: #000000;
-$white: #ffffff;
-$yellow: #ffff00;
+$light-theme: (
+  light-blue: #feacac,
+  dark-blue: #ffff52,
+  black: #bf56c3,
+  white: #910071,
+  yellow: #f8d4ff,
+);
+
+$dark-theme: (
+  light-blue: #000000,
+  dark-blue: #b10000,
+  black: #000000,
+  white: #ffffff,
+  yellow: #ffff00,
+);
+
+@mixin theme($theme-map) {
+  @each $color, $value in $theme-map {
+    --#{$color}: #{$value};
+  }
+}
+
+.light {
+  @include theme($light-theme);
+}
+
+.dark {
+  @include theme($dark-theme);
+}

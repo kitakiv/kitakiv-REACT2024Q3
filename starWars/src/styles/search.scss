@@ -1,41 +1,40 @@
+.search-container {
+  height: 130px;
+}
+
 .app-search {
+  width: 100%;
   display: flex;
   position: sticky;
   top: 20px;
-  margin: 20px 10px;
-  width: calc(100% - 20px);
   z-index: 1;
-  background-color: $dark-blue;
+  background-color: var(--dark-blue);
   height: 70px;
   border-radius: 100px;
-  box-shadow: $dark-blue 0px 0px 16px 6px;
+  box-shadow: var(--dark-blue) 0px 0px 16px 6px;
   display: flex;
-  align-items: self-end;
+  align-items: center;
   justify-content: center;
 
   form {
-    width: 70%;
+    width: 100%;
     display: flex;
     gap: 20px;
-
-    div {
-      width: 100%;
-      position: relative;
-    }
+    align-items: center;
+    justify-content: center;
   }
 
   input[type='text'] {
-    width: 100%;
     outline: none;
     border: none;
-    background-color: $white;
+    background-color: var(--white);
     padding: 0 20px;
-    color: $white;
+    color: var(--white);
     font-size: 20px;
     padding: 5px 10px;
     border-radius: 100px;
     transition: 0.3s;
-    color: $dark-blue;
+    color: var(--dark-blue);
 
     &:focus {
       box-shadow: none;

@@ -2,13 +2,14 @@ import { Outlet, useLocation } from 'react-router-dom';
 import Search from './components/search';
 import ErrorBoundary from './components/errorBoundary';
 import { useNavigate, useNavigation } from 'react-router-dom';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Loader from './components/loader';
 
 function App() {
   const { state } = useNavigation();
   const navigate = useNavigate();
   const location = useLocation();
+  const [template, setTemplate] = useState('dark');
 
   const handleSearch = useCallback(
     (searchResult: string) => {
@@ -23,6 +24,14 @@ function App() {
     [navigate]
   );
 
+  const handleChange = () => {
+    if (template === 'dark') {
+      setTemplate('light');
+    } else {
+      setTemplate('dark');
+    }
+  };
+
   useEffect(() => {
     if (location.pathname === '/') {
       const search = localStorage.getItem('search') || '';
@@ -31,16 +40,16 @@ function App() {
   }, [handleSearch, location.pathname]);
 
   return (
-    <>
+    <div className={template}>
       {state === 'loading' && <Loader />}
       <ErrorBoundary>
-        <Search onSearch={handleSearch} />
+        <Search onSearch={handleSearch} onChangeTemplate={handleChange} />
       </ErrorBoundary>
 
       <ErrorBoundary>
         <Outlet />
       </ErrorBoundary>
-    </>
+    </div>
   );
 }
 

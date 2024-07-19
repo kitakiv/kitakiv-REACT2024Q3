@@ -1,6 +1,9 @@
 import { ChangeEvent, FormEvent, useState, useEffect } from 'react';
 
-function Search(props: { onSearch: (search: string) => void }) {
+function Search(props: {
+  onSearch: (search: string) => void;
+  onChangeTemplate: () => void;
+}) {
   const [inputValue, setInputValue] = useState('');
   const [errorInput, setErrorInput] = useState('');
 
@@ -25,7 +28,7 @@ function Search(props: { onSearch: (search: string) => void }) {
     }
   }
   return (
-    <>
+    <div className="search-container">
       <section className="app-search">
         <form onSubmit={submitResult}>
           <div>
@@ -41,9 +44,12 @@ function Search(props: { onSearch: (search: string) => void }) {
             <label htmlFor="search">{errorInput}</label>
           </div>
           <button type="submit"></button>
+          <div className="template" onClick={props.onChangeTemplate}>
+            <div className="template-circle"></div>
+          </div>
         </form>
       </section>
-    </>
+    </div>
   );
 }
 

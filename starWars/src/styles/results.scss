@@ -1,17 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap');
 
 .app-results {
-  width: 100%;
   display: flex;
   flex-direction: row;
+  gap: 20px;
+  justify-content: space-around;
 
   @media screen and (max-width: 768px) {
+    align-items: center;
     flex-direction: column-reverse;
   }
 }
 
 .results-container {
-  width: 110%;
+  width: 100%;
 }
 
 .details-page {
@@ -20,12 +22,13 @@
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
   padding: 10px 20px;
-  width: 100%;
-  background-color: $yellow;
+  width: 85%;
+  color: var(--black);
+  background-color: var(--yellow);
   border-radius: 20px;
   box-shadow:
-    $dark-blue 0px 30px 60px -12px inset,
-    $dark-blue 0px 18px 36px -18px inset;
+    var(--dark-blue) 0px 30px 60px -12px inset,
+    var(--dark-blue) 0px 18px 36px -18px inset;
 
   h1,
   h3 {
@@ -62,10 +65,10 @@
 
 .error-button {
   position: absolute;
-  top: 120px;
+  top: 95px;
   left: 25px;
-  background-color: $light-blue;
-  color: $white;
+  background-color: var(--light-blue);
+  color: var(--white);
   border-radius: 5px;
   z-index: 3;
   padding: 5px 10px;
@@ -78,7 +81,7 @@
   border: none;
 
   &:hover {
-    background-color: $dark-blue;
+    background-color: var(--dark-blue);
   }
 }
 
@@ -98,75 +101,83 @@
   width: 40px;
   height: 40px;
   text-decoration: none;
-  color: $white;
+  color: var(--white);
   transition: all 0.5s;
-  background-color: $yellow;
+  background-color: var(--yellow);
   box-shadow:
-    $dark-blue 0px 30px 60px -12px inset,
-    $dark-blue 0px 18px 36px -18px inset;
+    var(--dark-blue) 0px 30px 60px -12px inset,
+    var(--dark-blue) 0px 18px 36px -18px inset;
   border-radius: 5px;
 
   &:hover {
     box-shadow:
-      $light-blue 0px 30px 60px -12px inset,
-      $light-blue 0px 18px 36px -18px inset;
+      var(--light-blue) 0px 30px 60px -12px inset,
+      var(--light-blue) 0px 18px 36px -18px inset;
   }
 }
 
 .link-page-active {
-  background-color: $dark-blue;
+  background-color: var(--dark-blue);
   box-shadow:
-    $light-blue 0px 30px 60px -12px inset,
-    $light-blue 0px 18px 36px -18px inset;
+    var(--light-blue) 0px 30px 60px -12px inset,
+    var(--light-blue) 0px 18px 36px -18px inset;
 }
 
 .results {
-  border-top: 10px solid $dark-blue;
-  border-bottom: 10px solid $dark-blue;
-  border-left: 3px solid $dark-blue;
-  border-right: 3px solid $dark-blue;
+  border-top: 10px solid var(--dark-blue);
+  border-bottom: 10px solid var(--dark-blue);
+  border-left: 3px solid var(--dark-blue);
+  border-right: 3px solid var(--dark-blue);
   border-radius: 20px;
-  margin-top: 50px;
   transition: all 0.5s;
   height: 65vh;
   overflow-y: scroll;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
-  padding: 10px 20px;
 
   &::-webkit-scrollbar {
     width: 10px;
     height: 10px;
-    background-color: $dark-blue;
-    box-shadow: $dark-blue 0px 0px 5px 5px;
+    background-color: var(--dark-blue);
+    box-shadow: var(--dark-blue) 0px 0px 5px 5px;
     border-radius: 3px;
   }
 
   &::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background-color: black;
+    background-color: var(--black);
   }
 
   &-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-decoration: none;
     font-family: 'Rubik Mono One', monospace;
     font-weight: 400;
     font-style: normal;
-    background-color: $light-blue;
+    background-color: var(--light-blue);
     border-radius: 30px;
     transition: all 0.5s;
-    color: $white;
+    color: var(--white);
+
+    .fighter {
+      width: 130px;
+      height: auto;
+      object-fit: contain;
+    }
 
     &:hover {
       box-shadow:
-        $yellow 0px 30px 60px -12px inset,
-        $yellow 0px 18px 36px -18px inset,
-        rgb(0, 0, 0) 0 0 10px 3px;
-      color: $yellow;
+        var(--yellow) 0px 30px 60px -12px inset,
+        var(--yellow) 0px 18px 36px -18px inset,
+        var(--black) 0 0 10px 3px;
+      color: var(--yellow);
 
       li {
-        color: $yellow;
+        color: var(--yellow);
       }
     }
   }
@@ -176,7 +187,7 @@
     font-weight: 400;
     font-style: normal;
     text-align: center;
-    color: $black;
+    color: var(--black);
   }
 
   li {
@@ -184,7 +195,7 @@
     font-family: 'Rubik Mono One', monospace;
     font-weight: 400;
     font-style: normal;
-    color: $dark-blue;
+    color: var(--dark-blue);
   }
 
   h4 {

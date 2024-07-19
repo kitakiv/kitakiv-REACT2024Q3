@@ -4,7 +4,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  background: #000000;
+  background: var(--black);
   height: 100vh;
   width: 100vw;
   z-index: 5;
@@ -19,7 +19,7 @@
   font-weight: bold;
   font-family: monospace;
   font-size: 30px;
-  background: radial-gradient(circle closest-side, $dark-blue 94%, #0000)
+  background: radial-gradient(circle closest-side, var(--dark-blue) 94%, #0000)
     right/calc(200% - 1em) 100%;
   animation: l24 1s infinite alternate linear;
 }
@@ -28,7 +28,11 @@
   line-height: 2em;
   color: #0000;
   background: inherit;
-  background-image: radial-gradient(circle closest-side, #fff 94%, $dark-blue);
+  background-image: radial-gradient(
+    circle closest-side,
+    #fff 94%,
+    var(--dark-blue)
+  );
   -webkit-background-clip: text;
   background-clip: text;
 }

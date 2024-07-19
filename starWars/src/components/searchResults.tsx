@@ -7,13 +7,11 @@ import {
   useParams,
   Link,
   useNavigation,
-  useNavigate,
 } from 'react-router-dom';
 import NoResults from './noResults';
 import Loader from './loader';
 
 function Results() {
-  const navigate = useNavigate();
   const [result] = useLoaderData() as [SWApiResponse];
   const { state } = useNavigation();
   const [error, setError] = useState(false);
@@ -25,20 +23,10 @@ function Results() {
     throw new Error(errorText);
   }
 
-  const closeDetailPage = () => {
-    if (id !== undefined && resultRef.current !== null) {
-      navigate('.', { relative: 'path' });
-    }
-  };
-
   return (
     <>
       {state === 'loading' && <Loader />}
-      <section
-        className="app-results"
-        onClick={closeDetailPage}
-        title="Results"
-      >
+      <section className="app-results" title="Results">
         <>
           <button
             className="error-button shadow"
