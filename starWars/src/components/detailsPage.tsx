@@ -24,7 +24,11 @@ function DetailsPage() {
       <div className="details-page">
         <div>
           <h1>{data.name}</h1>
-          <img src="/logo.svg" alt="vader" className="vader" />
+          <img
+            src="https://media4.giphy.com/media/SmYqlOh9GtnuAe4SwB/giphy.gif?cid=6c09b952xlb8fg6fyamxsbe02ovtxdxelr36om2xti5w0auf&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=s"
+            alt="vader"
+            className="vader"
+          />
         </div>
         <div>
           <h3>Details</h3>
