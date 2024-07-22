@@ -15,8 +15,8 @@ $dark-theme: (
 );
 
 @mixin theme($theme-map) {
-  @each $color, $value in $theme-map {
-    --#{$color}: #{$value};
+  @each $colors, $value in $theme-map {
+    --#{$colors}: #{$value};
   }
 }
 
