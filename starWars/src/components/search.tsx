@@ -1,15 +1,14 @@
-import { ChangeEvent, FormEvent, useState, useEffect } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 
 function Search(props: {
   onSearch: (search: string) => void;
   onChangeTemplate: () => void;
+  initialSearch: string | undefined;
 }) {
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState<string>(
+    props.initialSearch === 'default' ? '' : props.initialSearch || ''
+  );
   const [errorInput, setErrorInput] = useState('');
-
-  useEffect(() => {
-    setInputValue(localStorage.getItem('search') || '');
-  }, []);
 
   function submitResult(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

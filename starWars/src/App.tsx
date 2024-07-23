@@ -2,26 +2,28 @@ import { Outlet, useLocation } from 'react-router-dom';
 import Search from './components/search';
 import ErrorBoundary from './components/errorBoundary';
 import { useNavigate, useNavigation } from 'react-router-dom';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import Loader from './components/loader';
+import { useLocalStorage } from 'usehooks-ts';
 
 function App() {
+  const [search, setSearch, removeSearch] = useLocalStorage('search', '');
+  const [template, setTemplate] = useLocalStorage('background', 'dark');
   const { state } = useNavigation();
   const navigate = useNavigate();
   const location = useLocation();
-  const [template, setTemplate] = useState('dark');
 
   const handleSearch = useCallback(
     (searchResult: string) => {
       if (searchResult === '') {
         navigate(`/search/default/page/1`);
-        localStorage.removeItem('search');
+        removeSearch();
       } else {
-        localStorage.setItem('search', searchResult);
+        setSearch(searchResult);
         navigate(`/search/${searchResult}/page/1`);
       }
     },
-    [navigate]
+    [navigate, removeSearch, setSearch]
   );
 
   const handleChange = () => {
@@ -34,16 +36,19 @@ function App() {
 
   useEffect(() => {
     if (location.pathname === '/') {
-      const search = localStorage.getItem('search') || '';
       handleSearch(search);
     }
-  }, [handleSearch, location.pathname]);
+  }, [handleSearch, location.pathname, search]);
 
   return (
     <div className={template}>
       {state === 'loading' && <Loader />}
       <ErrorBoundary>
-        <Search onSearch={handleSearch} onChangeTemplate={handleChange} />
+        <Search
+          onSearch={handleSearch}
+          onChangeTemplate={handleChange}
+          initialSearch={search}
+        />
       </ErrorBoundary>
 
       <ErrorBoundary>

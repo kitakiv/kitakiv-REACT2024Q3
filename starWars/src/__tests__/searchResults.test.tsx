@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import SearchResults from '../components/searchResults';
+import SearchResults from '../features/results/searchResults';
 import {
   BrowserRouter,
   useLoaderData,

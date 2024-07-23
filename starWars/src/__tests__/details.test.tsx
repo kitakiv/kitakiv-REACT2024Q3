@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import Details from '../components/detailsPage';
+import Details from '../features/details/detailsPage';
 import { BrowserRouter, useLoaderData, useNavigation } from 'react-router-dom';
 
 const LoaderData = [

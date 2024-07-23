@@ -4,10 +4,9 @@ import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 import fetchMock from 'jest-fetch-mock';
 import App from '../App';
 import NoResults from '../components/noResults';
-import Results from '../components/searchResults';
-import DetailsPage from '../components/detailsPage';
+import Results from '../features/results/searchResults';
+import DetailsPage from '../features/details/detailsPage';
 import NotFound from '../components/notFound';
-import { loaderResult } from '../components/loaders/loaders';
 import { loaderDetails } from '../components/loaders/loaders';
 import { act } from '@testing-library/react';
 
@@ -26,7 +25,6 @@ const routes = [
       {
         path: 'search/:search/page/:page',
         element: <Results />,
-        loader: loaderResult,
         errorElement: <NoResults />,
         children: [
           {
@@ -114,7 +112,7 @@ describe('App Router', () => {
     fetchMock.mockResponseOnce(JSON.stringify(mockLoaderData));
 
     const router = createMemoryRouter(routes, {
-      initialEntries: ['/search/Luke/page/1'],
+      initialEntries: ['/search/llll/page/1'],
     });
 
     await act(async () => {
@@ -122,7 +120,7 @@ describe('App Router', () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByText(/Luke Skywalker/i)).toBeInTheDocument();
+      expect(screen.getByText(/no results/i)).toBeInTheDocument();
     });
   });
 

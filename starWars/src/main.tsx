@@ -2,12 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.scss';
-import Results from './components/searchResults';
+import Results from './features/results/searchResults.tsx';
 import NoResults from './components/noResults';
 import NotFound from './components/notFound';
-import DetailsPage from './components/detailsPage';
+import DetailsPage from './features/details/detailsPage.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { loaderDetails, loaderResult } from './components/loaders/loaders.tsx';
+import { ApiProvider } from '@reduxjs/toolkit/query/react';
+import { apiSlice } from './features/api/apiSlice.ts';
 
 export const router = createBrowserRouter([
   {
@@ -22,13 +23,11 @@ export const router = createBrowserRouter([
       {
         path: 'search/:search/page/:page',
         element: <Results />,
-        loader: loaderResult,
         errorElement: <NoResults />,
         children: [
           {
             path: 'detail/:id',
             element: <DetailsPage />,
-            loader: loaderDetails,
             errorElement: <NoResults />,
           },
         ],
@@ -43,6 +42,8 @@ export const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ApiProvider api={apiSlice}>
+      <RouterProvider router={router} />
+    </ApiProvider>
   </React.StrictMode>
 );
