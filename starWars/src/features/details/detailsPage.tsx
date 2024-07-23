@@ -3,9 +3,11 @@ import { SWFilm } from '../../interface/interface';
 import Loader from '../../components/loader';
 import { useState, useEffect } from 'react';
 import { useGetDetailsQuery, useGetFilmsQuery } from '../api/apiSlice';
+import { useLocalStorage } from 'usehooks-ts';
 
 function DetailsPage() {
   const [films, setFilms] = useState<{ [key: string]: string }>({});
+  const [template] = useLocalStorage('background', 'dark');
   const [state, setState] = useState('loading');
   const { search, page, id } = useParams();
   const {
@@ -40,11 +42,19 @@ function DetailsPage() {
         <div className="details-page">
           <div>
             <h1>{details.name}</h1>
-            <img
-              src="https://media4.giphy.com/media/SmYqlOh9GtnuAe4SwB/giphy.gif?cid=6c09b952xlb8fg6fyamxsbe02ovtxdxelr36om2xti5w0auf&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=s"
-              alt="vader"
-              className="vader"
-            />
+            {template === 'light' ? (
+              <img
+                src="https://media.tenor.com/Ok5fuOj3FjYAAAAj/star-wars-walking.gif"
+                alt="vader"
+                className="vader"
+              />
+            ) : (
+              <img
+                src="https://media4.giphy.com/media/SmYqlOh9GtnuAe4SwB/giphy.gif?cid=6c09b952xlb8fg6fyamxsbe02ovtxdxelr36om2xti5w0auf&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=s"
+                alt="vader"
+                className="vader"
+              />
+            )}
           </div>
           <div>
             <h3>Details</h3>
