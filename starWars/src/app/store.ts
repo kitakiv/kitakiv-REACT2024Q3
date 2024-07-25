@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import cardsReducer from '../features/favoriteCards/cardsSlice';
+import currentPageReducer from '../features/results/currentPageSlice';
 import { apiSlice } from '../features/api/apiSlice';
 
 const store = configureStore({
   reducer: {
     cards: cardsReducer,
+    currentPage: currentPageReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => {

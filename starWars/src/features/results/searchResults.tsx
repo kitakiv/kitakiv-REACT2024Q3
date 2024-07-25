@@ -6,6 +6,8 @@ import NoResults from '../../components/noResults';
 import Loader from '../../components/loader';
 import Pagination from '../../components/pagination';
 import { SWFilm } from '../../interface/interface';
+import { useAppDispatch } from '../../app/hooks';
+import { setCurrentPage } from './currentPageSlice';
 
 function Results() {
   const [films, setFilms] = useState<{ [key: string]: string }>({});
@@ -15,6 +17,7 @@ function Results() {
   const resultRef = useRef(null);
   const searchName = search === 'default' ? '' : search;
   const pageName = page ? page : '1';
+  const dispatch = useAppDispatch();
   const {
     data: result,
     isError,
@@ -34,7 +37,8 @@ function Results() {
         setFilms((prev) => ({ ...prev, [film.url]: film.title }));
       });
     }
-  }, [isSuccessFilms, filmsResult]);
+    dispatch(setCurrentPage(result?.results || []));
+  }, [isSuccessFilms, filmsResult, dispatch, result?.results]);
 
   if (errorThrown || isError || error) {
     throw new Error(errorText);

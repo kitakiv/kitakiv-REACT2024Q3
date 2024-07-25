@@ -32,6 +32,8 @@ const cardsSlice = createSlice({
           birth_year,
           gender,
           url,
+          created,
+          edited,
         } = card;
         const id = url.split('/').at(-2)?.toString() || '0';
         const result: DetailsCharacter = {
@@ -46,6 +48,8 @@ const cardsSlice = createSlice({
           gender,
           films,
           url,
+          created,
+          edited,
         };
         return {
           payload: result,

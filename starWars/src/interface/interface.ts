@@ -65,4 +65,6 @@ export interface DetailsCharacter {
   gender: string;
   films: string[];
   url: string;
+  created: string;
+  edited: string;
 }
