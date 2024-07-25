@@ -9,6 +9,8 @@ import DetailsPage from './features/details/detailsPage.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ApiProvider } from '@reduxjs/toolkit/query/react';
 import { apiSlice } from './features/api/apiSlice.ts';
+import store from './app/store.ts';
+import { Provider } from 'react-redux';
 
 export const router = createBrowserRouter([
   {
@@ -43,7 +45,9 @@ export const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ApiProvider api={apiSlice}>
-      <RouterProvider router={router} />
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
     </ApiProvider>
   </React.StrictMode>
 );

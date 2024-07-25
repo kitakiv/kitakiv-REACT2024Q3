@@ -43,11 +43,10 @@ body {
     border-radius: 100px;
     border: var(--yellow) 5px solid;
     display: flex;
-    justify-content: center;
     transition: all 1s;
 
     &-circle {
-      transition: all 1s;
+      transition: all 0.6s;
       width: 30px;
       height: 30px;
       background-color: var(--dark-blue);
@@ -59,8 +58,8 @@ body {
 
 .light {
   .template {
-    justify-content: flex-end;
     &-circle {
+      margin-left: 0;
       background-image: url('./assets/svg/sun.svg');
       background-size: 25px 25px;
       background-repeat: no-repeat;
@@ -71,8 +70,8 @@ body {
 
 .dark {
   .template {
-    justify-content: flex-start;
     &-circle {
+      margin-left: 30px;
       background-image: url('./assets/svg/moon.svg');
       background-size: 25px 25px;
       background-repeat: no-repeat;

@@ -1,12 +1,14 @@
-import { useState, useRef } from 'react';
-import { useGetSearchAndPageQuery } from '../api/apiSlice';
-import Result from '../../components/result';
+import { useState, useRef, useEffect } from 'react';
+import { useGetFilmsQuery, useGetSearchAndPageQuery } from '../api/apiSlice';
+import Result from '../favoriteCards/result';
 import { Outlet, useParams } from 'react-router-dom';
 import NoResults from '../../components/noResults';
 import Loader from '../../components/loader';
 import Pagination from '../../components/pagination';
+import { SWFilm } from '../../interface/interface';
 
 function Results() {
+  const [films, setFilms] = useState<{ [key: string]: string }>({});
   const [errorThrown, setErrorThrown] = useState(false);
   const errorText = 'Something went wrong. Please try again later.';
   const { search, page, id } = useParams();
@@ -23,6 +25,16 @@ function Results() {
     search: searchName || '',
     page: pageName,
   });
+
+  const { data: filmsResult, isSuccess: isSuccessFilms } = useGetFilmsQuery();
+
+  useEffect(() => {
+    if (isSuccessFilms) {
+      filmsResult.results.forEach((film: SWFilm) => {
+        setFilms((prev) => ({ ...prev, [film.url]: film.title }));
+      });
+    }
+  }, [isSuccessFilms, filmsResult]);
 
   if (errorThrown || isError || error) {
     throw new Error(errorText);
@@ -44,7 +56,9 @@ function Results() {
               <div className="results">
                 {...result.results.map((elem) => {
                   const number = elem.url;
-                  return <Result result={elem} keyProps={number} />;
+                  return (
+                    <Result result={elem} keyProps={number} films={films} />
+                  );
                 })}
               </div>
               <Pagination

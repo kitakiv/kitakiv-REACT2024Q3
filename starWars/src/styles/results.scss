@@ -149,12 +149,21 @@
     background-color: var(--black);
   }
 
-  &-hero {
+  &-link {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-decoration: none;
+    text-decoration: none;
+  }
+
+  &-hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     font-family: 'Rubik Mono One', monospace;
     font-weight: 400;
     font-style: normal;
@@ -178,6 +187,45 @@
 
       li {
         color: var(--yellow);
+      }
+    }
+  }
+
+  .checkbox-container {
+    height: 40px;
+    .checkbox-wrapper {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 60px;
+      height: 30px;
+      background-color: var(--black);
+      cursor: pointer;
+      border-radius: 100px;
+      border: var(--dark-blue) 5px solid;
+      display: flex;
+      transition: all 1s;
+
+      .round {
+        transition: transform 0.3s;
+        width: 30px;
+        height: 30px;
+        background-color: var(--dark-blue);
+        cursor: pointer;
+        border-radius: 100px;
+      }
+
+      .checkbox-input {
+        display: none;
+      }
+
+      .checkbox-input:checked + .round {
+        transform: translateX(30px);
+        background-color: var(--yellow);
+        background-image: url('./assets/svg/arrow.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 60% 60%;
       }
     }
   }

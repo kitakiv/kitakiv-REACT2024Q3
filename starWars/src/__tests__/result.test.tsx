@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import Result from '../components/result';
+import Result from '../features/favoriteCards/result';
 import { BrowserRouter } from 'react-router-dom';
 
 describe('create result card', () => {

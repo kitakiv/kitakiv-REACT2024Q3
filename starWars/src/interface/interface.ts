@@ -47,3 +47,21 @@ export interface SWFilm {
   edited: string;
   url: string;
 }
+
+export interface DataInitial {
+  ids: string[];
+  entities: { [key: string]: DetailsCharacter };
+}
+
+export interface DetailsCharacter {
+  id: string;
+  name: string;
+  height: string;
+  mass: string;
+  hair_color: string;
+  skin_color: string;
+  eye_color: string;
+  birth_year: string;
+  gender: string;
+  films: string[];
+}
