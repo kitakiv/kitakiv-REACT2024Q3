@@ -64,4 +64,5 @@ export interface DetailsCharacter {
   birth_year: string;
   gender: string;
   films: string[];
+  url: string;
 }

@@ -63,14 +63,11 @@
   }
 }
 
+.button,
 .error-button {
-  position: absolute;
-  top: 95px;
-  left: 25px;
   background-color: var(--light-blue);
   color: var(--white);
-  border-radius: 5px;
-  z-index: 3;
+  border-radius: 20px;
   padding: 5px 10px;
   font-family: 'Rubik Mono One', monospace;
   font-weight: 400;
@@ -79,10 +76,18 @@
   cursor: pointer;
   transition: all 0.5s;
   border: none;
+  text-decoration: none;
 
   &:hover {
     background-color: var(--dark-blue);
   }
+}
+
+.error-button {
+  position: absolute;
+  top: 95px;
+  left: 25px;
+  z-index: 0;
 }
 
 .pagination {
@@ -130,7 +135,7 @@
   border-right: 3px solid var(--dark-blue);
   border-radius: 20px;
   transition: all 0.5s;
-  height: 65vh;
+  height: 70vh;
   overflow-y: scroll;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

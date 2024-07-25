@@ -5,6 +5,7 @@ import { useNavigate, useNavigation } from 'react-router-dom';
 import { useCallback, useEffect } from 'react';
 import Loader from './components/loader';
 import { useLocalStorage } from 'usehooks-ts';
+import { MenuCards } from './features/favoriteCards/menuCards';
 
 function App() {
   const [search, setSearch, removeSearch] = useLocalStorage('search', '');
@@ -53,6 +54,10 @@ function App() {
 
       <ErrorBoundary>
         <Outlet />
+      </ErrorBoundary>
+
+      <ErrorBoundary>
+        <MenuCards />
       </ErrorBoundary>
     </div>
   );

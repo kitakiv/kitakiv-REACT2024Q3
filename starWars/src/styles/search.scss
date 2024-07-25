@@ -1,30 +1,30 @@
-.search-container {
-  height: 130px;
-}
-
 .app-search {
   width: 100%;
   display: flex;
-  position: sticky;
-  top: 20px;
+  position: absolute;
+  top: 15px;
   z-index: 1;
   background-color: var(--dark-blue);
-  height: 70px;
   border-radius: 100px;
   box-shadow: var(--dark-blue) 0px 0px 16px 6px;
   display: flex;
   align-items: center;
+  padding: 8px 0;
   justify-content: center;
 
   form {
     width: 100%;
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 0.9fr 0.05fr 0.05fr;
+    margin: 10px 30px 0 30px;
+
+    @media screen and (max-width: 768px) {
+      grid-template-columns: 1fr 0.15fr 0.15fr;
+    }
   }
 
   input[type='text'] {
+    width: 98%;
     outline: none;
     border: none;
     background-color: var(--white);

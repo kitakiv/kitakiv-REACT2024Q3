@@ -35,6 +35,12 @@ body {
 }
 .light,
 .dark {
+  padding: 130px 0 90px 0;
+
+  @media screen and (max-width: 768px) {
+    padding-bottom: 160px;
+  }
+
   .template {
     width: 60px;
     height: 30px;

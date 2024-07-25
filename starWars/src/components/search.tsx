@@ -27,28 +27,26 @@ function Search(props: {
     }
   }
   return (
-    <div className="search-container">
-      <section className="app-search">
-        <form onSubmit={submitResult}>
-          <div>
-            <input
-              type="text"
-              name="search"
-              className="shadow"
-              value={inputValue}
-              onChange={handleNameChange}
-              id="search"
-              placeholder="Darth Vader"
-            />
-            <label htmlFor="search">{errorInput}</label>
-          </div>
-          <button type="submit"></button>
-          <div className="template" onClick={props.onChangeTemplate}>
-            <div className="template-circle"></div>
-          </div>
-        </form>
-      </section>
-    </div>
+    <section className="app-search">
+      <form onSubmit={submitResult}>
+        <div>
+          <input
+            type="text"
+            name="search"
+            className="shadow"
+            value={inputValue}
+            onChange={handleNameChange}
+            id="search"
+            placeholder="Darth Vader"
+          />
+          <label htmlFor="search">{errorInput}</label>
+        </div>
+        <button type="submit"></button>
+        <div className="template" onClick={props.onChangeTemplate}>
+          <div className="template-circle"></div>
+        </div>
+      </form>
+    </section>
   );
 }
 

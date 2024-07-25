@@ -45,6 +45,7 @@ const cardsSlice = createSlice({
           birth_year,
           gender,
           films,
+          url,
         };
         return {
           payload: result,
@@ -57,14 +58,25 @@ const cardsSlice = createSlice({
       state.ids.splice(index, 1);
       delete state.entities[id];
     },
+    removeAllCards: (state) => {
+      state.ids = [];
+      state.entities = {};
+    },
   },
 });
 
-export const { addFavoriteCard, removeFavoriteCard } = cardsSlice.actions;
+export function convertToCSV(cards: DataInitial) {
+  const keys = Object.keys(cards.entities[cards.ids[0]]);
+  const value = cards.ids.map((elem) => {
+    const obj = cards.entities[elem];
+    obj.films.join(',');
+    const values = Object.values(obj).join(';');
+    return values;
+  });
+  const str = keys.join(';') + '\n' + value.join('\n');
+  return str;
+}
 
-// export const selectCards = (cards: DataInitial, id: string) => {
-//     console.log(cards.ids, id )
-//     return cards.ids.includes(id) ? true : false;
-// }
-
+export const { addFavoriteCard, removeFavoriteCard, removeAllCards } =
+  cardsSlice.actions;
 export default cardsSlice.reducer;
