@@ -2,6 +2,8 @@
 // import { render, screen } from '@testing-library/react';
 // import Details from '../features/details/detailsPage';
 // import { BrowserRouter, useLoaderData, useNavigation } from 'react-router-dom';
+// import { useGetDetailsQuery, apiSlice } from '../features/api/apiSlice';
+// import { Provider } from 'react-redux';
 
 // const LoaderData = [
 //   {
@@ -42,31 +44,22 @@
 
 // jest.mock('react-router-dom', () => ({
 //   ...jest.requireActual('react-router-dom'),
-//   useLoaderData: jest.fn(),
 //   useNavigation: jest.fn(),
 // }));
 
+// const { store } = setupApiStore(apiSlice);
+
 // describe('make details page with right values', () => {
 //   test('render details page', async () => {
-//     (useLoaderData as jest.Mock).mockReturnValue(LoaderData);
 //     (useNavigation as jest.Mock).mockReturnValue({ state: 'idle' });
 
 //     render(
-//       <BrowserRouter>
+//         <Provider store={store}>
+//             <BrowserRouter>
 //         <Details />
 //       </BrowserRouter>
+//         </Provider>
 //     );
-//     const films = screen.getAllByText(/film/i);
-//     expect(films).toHaveLength(4);
-
-//     const vehicles = screen.getAllByText(/vehicle/i);
-//     expect(vehicles).toHaveLength(3);
-
-//     const starships = screen.getAllByText(/starship/i);
-//     expect(starships).toHaveLength(3);
-
-//     const homeworld = screen.getByText(/Tatooine/i);
-//     expect(homeworld).toBeInTheDocument();
 
 //     const gender = screen.getByText(/male/i);
 //     expect(gender).toBeInTheDocument();
@@ -98,3 +91,6 @@
 //     expect(screen.getByTitle('Loading')).toBeInTheDocument();
 //   });
 // });
+// function setupApiStore(apiSlice: any): { store: any; } {
+//     throw new Error('Function not implemented.');
+// }

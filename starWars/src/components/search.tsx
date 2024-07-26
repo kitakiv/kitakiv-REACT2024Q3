@@ -21,7 +21,7 @@ function Search(props: {
     const { value } = event.target as HTMLInputElement;
     setInputValue(value);
     if (value.startsWith(' ') || value.endsWith(' ')) {
-      setErrorInput('Please remove space from starting and ending of the name');
+      setErrorInput('Please remove space');
     } else {
       setErrorInput('');
     }
@@ -29,7 +29,7 @@ function Search(props: {
   return (
     <section className="app-search">
       <form onSubmit={submitResult}>
-        <div>
+        <div className="input-container">
           <input
             type="text"
             name="search"
@@ -42,7 +42,11 @@ function Search(props: {
           <label htmlFor="search">{errorInput}</label>
         </div>
         <button type="submit"></button>
-        <div className="template" onClick={props.onChangeTemplate}>
+        <div
+          data-testid="template"
+          className="template"
+          onClick={props.onChangeTemplate}
+        >
           <div className="template-circle"></div>
         </div>
       </form>

@@ -1,366 +1,968 @@
 // import '@testing-library/jest-dom';
-// import { render, screen } from '@testing-library/react';
-// import userEvent from '@testing-library/user-event';
-// import SearchResults from '../features/results/searchResults';
+// import { Provider } from 'react-redux';
+// import { ApiProvider } from '@reduxjs/toolkit/query/react';
+// import { BrowserRouter } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 // import {
-//   BrowserRouter,
-//   useLoaderData,
-//   useNavigation,
-//   useParams,
-// } from 'react-router-dom';
+//   useGetSearchAndPageQuery,
+//   useGetFilmsQuery,
+// } from '../features/api/apiSlice';
+// import Results from '../features/results/searchResults';
+// import store from '../app/store';
+// import { apiSlice } from '../features/api/apiSlice';
+// import { render, screen } from '@testing-library/react';
+// import { SWApiResponse } from '../interface/interface';
+// import userEvent from '@testing-library/user-event';
 
+// const mockResult: SWApiResponse = {
+//     count: 82,
+//     previous: null,
+//     next: 'https://swapi.dev/api/people/?page=2',
+//     results: [
+//       {
+//         name: 'Luke Skywalker',
+//         height: '172',
+//         mass: '77',
+//         hair_color: 'blond',
+//         skin_color: 'fair',
+//         eye_color: 'blue',
+//         birth_year: '19BBY',
+//         gender: 'male',
+//         homeworld: 'https://swapi.dev/api/planets/1/',
+//         films: [
+//           'https://swapi.dev/api/films/1/',
+//           'https://swapi.dev/api/films/2/',
+//           'https://swapi.dev/api/films/3/',
+//           'https://swapi.dev/api/films/6/',
+//         ],
+//         species: [],
+//         vehicles: [
+//           'https://swapi.dev/api/vehicles/14/',
+//           'https://swapi.dev/api/vehicles/30/',
+//         ],
+//         starships: [
+//           'https://swapi.dev/api/starships/12/',
+//           'https://swapi.dev/api/starships/22/',
+//         ],
+//         created: '2014-12-09T13:50:51.644000Z',
+//         edited: '2014-12-20T21:17:56.891000Z',
+//         url: 'https://swapi.dev/api/people/1/',
+//       },
+//       {
+//         name: 'C-3PO',
+//         height: '167',
+//         mass: '75',
+//         hair_color: 'n/a',
+//         skin_color: 'gold',
+//         eye_color: 'yellow',
+//         birth_year: '112BBY',
+//         gender: 'n/a',
+//         homeworld: 'https://swapi.dev/api/planets/1/',
+//         films: [
+//           'https://swapi.dev/api/films/1/',
+//           'https://swapi.dev/api/films/2/',
+//           'https://swapi.dev/api/films/3/',
+//           'https://swapi.dev/api/films/4/',
+//           'https://swapi.dev/api/films/5/',
+//           'https://swapi.dev/api/films/6/',
+//         ],
+//         species: ['https://swapi.dev/api/species/2/'],
+//         vehicles: [],
+//         starships: [],
+//         created: '2014-12-10T15:10:51.357000Z',
+//         edited: '2014-12-20T21:17:50.309000Z',
+//         url: 'https://swapi.dev/api/people/2/',
+//       },
+//       {
+//         name: 'R2-D2',
+//         height: '96',
+//         mass: '32',
+//         hair_color: 'n/a',
+//         skin_color: 'white, blue',
+//         eye_color: 'red',
+//         birth_year: '33BBY',
+//         gender: 'n/a',
+//         homeworld: 'https://swapi.dev/api/planets/8/',
+//         films: [
+//           'https://swapi.dev/api/films/1/',
+//           'https://swapi.dev/api/films/2/',
+//           'https://swapi.dev/api/films/3/',
+//           'https://swapi.dev/api/films/4/',
+//           'https://swapi.dev/api/films/5/',
+//           'https://swapi.dev/api/films/6/',
+//         ],
+//         species: ['https://swapi.dev/api/species/2/'],
+//         vehicles: [],
+//         starships: [],
+//         created: '2014-12-10T15:11:50.376000Z',
+//         edited: '2014-12-20T21:17:50.311000Z',
+//         url: 'https://swapi.dev/api/people/3/',
+//       },
+//       {
+//         name: 'Darth Vader',
+//         height: '202',
+//         mass: '136',
+//         hair_color: 'none',
+//         skin_color: 'white',
+//         eye_color: 'yellow',
+//         birth_year: '41.9BBY',
+//         gender: 'male',
+//         homeworld: 'https://swapi.dev/api/planets/1/',
+//         films: [
+//           'https://swapi.dev/api/films/1/',
+//           'https://swapi.dev/api/films/2/',
+//           'https://swapi.dev/api/films/3/',
+//           'https://swapi.dev/api/films/6/',
+//         ],
+//         species: [],
+//         vehicles: [],
+//         starships: ['https://swapi.dev/api/starships/13/'],
+//         created: '2014-12-10T15:18:20.704000Z',
+//         edited: '2014-12-20T21:17:50.313000Z',
+//         url: 'https://swapi.dev/api/people/4/',
+//       },
+//       {
+//         name: 'Leia Organa',
+//         height: '150',
+//         mass: '49',
+//         hair_color: 'brown',
+//         skin_color: 'light',
+//         eye_color: 'brown',
+//         birth_year: '19BBY',
+//         gender: 'female',
+//         homeworld: 'https://swapi.dev/api/planets/2/',
+//         films: [
+//           'https://swapi.dev/api/films/1/',
+//           'https://swapi.dev/api/films/2/',
+//           'https://swapi.dev/api/films/3/',
+//           'https://swapi.dev/api/films/6/',
+//         ],
+//         species: [],
+//         vehicles: ['https://swapi.dev/api/vehicles/30/'],
+//         starships: [],
+//         created: '2014-12-10T15:20:09.791000Z',
+//         edited: '2014-12-20T21:17:50.315000Z',
+//         url: 'https://swapi.dev/api/people/5/',
+//       },
+//       {
+//         name: 'Owen Lars',
+//         height: '178',
+//         mass: '120',
+//         hair_color: 'brown, grey',
+//         skin_color: 'light',
+//         eye_color: 'blue',
+//         birth_year: '52BBY',
+//         gender: 'male',
+//         homeworld: 'https://swapi.dev/api/planets/1/',
+//         films: [
+//           'https://swapi.dev/api/films/1/',
+//           'https://swapi.dev/api/films/5/',
+//           'https://swapi.dev/api/films/6/',
+//         ],
+//         species: [],
+//         vehicles: [],
+//         starships: [],
+//         created: '2014-12-10T15:52:14.024000Z',
+//         edited: '2014-12-20T21:17:50.317000Z',
+//         url: 'https://swapi.dev/api/people/6/',
+//       },
+//       {
+//         name: 'Beru Whitesun lars',
+//         height: '165',
+//         mass: '75',
+//         hair_color: 'brown',
+//         skin_color: 'light',
+//         eye_color: 'blue',
+//         birth_year: '47BBY',
+//         gender: 'female',
+//         homeworld: 'https://swapi.dev/api/planets/1/',
+//         films: [
+//           'https://swapi.dev/api/films/1/',
+//           'https://swapi.dev/api/films/5/',
+//           'https://swapi.dev/api/films/6/',
+//         ],
+//         species: [],
+//         vehicles: [],
+//         starships: [],
+//         created: '2014-12-10T15:53:41.121000Z',
+//         edited: '2014-12-20T21:17:50.319000Z',
+//         url: 'https://swapi.dev/api/people/7/',
+//       },
+//       {
+//         name: 'R5-D4',
+//         height: '97',
+//         mass: '32',
+//         hair_color: 'n/a',
+//         skin_color: 'white, red',
+//         eye_color: 'red',
+//         birth_year: 'unknown',
+//         gender: 'n/a',
+//         homeworld: 'https://swapi.dev/api/planets/1/',
+//         films: ['https://swapi.dev/api/films/1/'],
+//         species: ['https://swapi.dev/api/species/2/'],
+//         vehicles: [],
+//         starships: [],
+//         created: '2014-12-10T15:57:50.959000Z',
+//         edited: '2014-12-20T21:17:50.321000Z',
+//         url: 'https://swapi.dev/api/people/8/',
+//       },
+//       {
+//         name: 'Biggs Darklighter',
+//         height: '183',
+//         mass: '84',
+//         hair_color: 'black',
+//         skin_color: 'light',
+//         eye_color: 'brown',
+//         birth_year: '24BBY',
+//         gender: 'male',
+//         homeworld: 'https://swapi.dev/api/planets/1/',
+//         films: ['https://swapi.dev/api/films/1/'],
+//         species: [],
+//         vehicles: [],
+//         starships: ['https://swapi.dev/api/starships/12/'],
+//         created: '2014-12-10T15:59:50.509000Z',
+//         edited: '2014-12-20T21:17:50.323000Z',
+//         url: 'https://swapi.dev/api/people/9/',
+//       },
+//       {
+//         name: 'Obi-Wan Kenobi',
+//         height: '182',
+//         mass: '77',
+//         hair_color: 'auburn, white',
+//         skin_color: 'fair',
+//         eye_color: 'blue-gray',
+//         birth_year: '57BBY',
+//         gender: 'male',
+//         homeworld: 'https://swapi.dev/api/planets/20/',
+//         films: [
+//           'https://swapi.dev/api/films/1/',
+//           'https://swapi.dev/api/films/2/',
+//           'https://swapi.dev/api/films/3/',
+//           'https://swapi.dev/api/films/4/',
+//           'https://swapi.dev/api/films/5/',
+//           'https://swapi.dev/api/films/6/',
+//         ],
+//         species: [],
+//         vehicles: ['https://swapi.dev/api/vehicles/38/'],
+//         starships: [
+//           'https://swapi.dev/api/starships/48/',
+//           'https://swapi.dev/api/starships/59/',
+//           'https://swapi.dev/api/starships/64/',
+//           'https://swapi.dev/api/starships/65/',
+//           'https://swapi.dev/api/starships/74/',
+//         ],
+//         created: '2014-12-10T16:16:29.192000Z',
+//         edited: '2014-12-20T21:17:50.325000Z',
+//         url: 'https://swapi.dev/api/people/10/',
+//       },
+//     ],
+//   };
+
+//   const mockFilmsResult = {
+//     count: 6,
+//     next: null,
+//     previous: null,
+//     results: [
+//       {
+//         title: 'A New Hope',
+//         episode_id: 4,
+//         opening_crawl:
+//           "It is a period of civil war.\r\nRebel spaceships, striking\r\nfrom a hidden base, have won\r\ntheir first victory against\r\nthe evil Galactic Empire.\r\n\r\nDuring the battle, Rebel\r\nspies managed to steal secret\r\nplans to the Empire's\r\nultimate weapon, the DEATH\r\nSTAR, an armored space\r\nstation with enough power\r\nto destroy an entire planet.\r\n\r\nPursued by the Empire's\r\nsinister agents, Princess\r\nLeia races home aboard her\r\nstarship, custodian of the\r\nstolen plans that can save her\r\npeople and restore\r\nfreedom to the galaxy....",
+//         director: 'George Lucas',
+//         producer: 'Gary Kurtz, Rick McCallum',
+//         release_date: '1977-05-25',
+//         characters: [
+//           'https://swapi.dev/api/people/1/',
+//           'https://swapi.dev/api/people/2/',
+//           'https://swapi.dev/api/people/3/',
+//           'https://swapi.dev/api/people/4/',
+//           'https://swapi.dev/api/people/5/',
+//           'https://swapi.dev/api/people/6/',
+//           'https://swapi.dev/api/people/7/',
+//           'https://swapi.dev/api/people/8/',
+//           'https://swapi.dev/api/people/9/',
+//           'https://swapi.dev/api/people/10/',
+//           'https://swapi.dev/api/people/12/',
+//           'https://swapi.dev/api/people/13/',
+//           'https://swapi.dev/api/people/14/',
+//           'https://swapi.dev/api/people/15/',
+//           'https://swapi.dev/api/people/16/',
+//           'https://swapi.dev/api/people/18/',
+//           'https://swapi.dev/api/people/19/',
+//           'https://swapi.dev/api/people/81/',
+//         ],
+//         planets: [
+//           'https://swapi.dev/api/planets/1/',
+//           'https://swapi.dev/api/planets/2/',
+//           'https://swapi.dev/api/planets/3/',
+//         ],
+//         starships: [
+//           'https://swapi.dev/api/starships/2/',
+//           'https://swapi.dev/api/starships/3/',
+//           'https://swapi.dev/api/starships/5/',
+//           'https://swapi.dev/api/starships/9/',
+//           'https://swapi.dev/api/starships/10/',
+//           'https://swapi.dev/api/starships/11/',
+//           'https://swapi.dev/api/starships/12/',
+//           'https://swapi.dev/api/starships/13/',
+//         ],
+//         vehicles: [
+//           'https://swapi.dev/api/vehicles/4/',
+//           'https://swapi.dev/api/vehicles/6/',
+//           'https://swapi.dev/api/vehicles/7/',
+//           'https://swapi.dev/api/vehicles/8/',
+//         ],
+//         species: [
+//           'https://swapi.dev/api/species/1/',
+//           'https://swapi.dev/api/species/2/',
+//           'https://swapi.dev/api/species/3/',
+//           'https://swapi.dev/api/species/4/',
+//           'https://swapi.dev/api/species/5/',
+//         ],
+//         created: '2014-12-10T14:23:31.880000Z',
+//         edited: '2014-12-20T19:49:45.256000Z',
+//         url: 'https://swapi.dev/api/films/1/',
+//       },
+//       {
+//         title: 'The Empire Strikes Back',
+//         episode_id: 5,
+//         opening_crawl:
+//           'It is a dark time for the\r\nRebellion. Although the Death\r\nStar has been destroyed,\r\nImperial troops have driven the\r\nRebel forces from their hidden\r\nbase and pursued them across\r\nthe galaxy.\r\n\r\nEvading the dreaded Imperial\r\nStarfleet, a group of freedom\r\nfighters led by Luke Skywalker\r\nhas established a new secret\r\nbase on the remote ice world\r\nof Hoth.\r\n\r\nThe evil lord Darth Vader,\r\nobsessed with finding young\r\nSkywalker, has dispatched\r\nthousands of remote probes into\r\nthe far reaches of space....',
+//         director: 'Irvin Kershner',
+//         producer: 'Gary Kurtz, Rick McCallum',
+//         release_date: '1980-05-17',
+//         characters: [
+//           'https://swapi.dev/api/people/1/',
+//           'https://swapi.dev/api/people/2/',
+//           'https://swapi.dev/api/people/3/',
+//           'https://swapi.dev/api/people/4/',
+//           'https://swapi.dev/api/people/5/',
+//           'https://swapi.dev/api/people/10/',
+//           'https://swapi.dev/api/people/13/',
+//           'https://swapi.dev/api/people/14/',
+//           'https://swapi.dev/api/people/18/',
+//           'https://swapi.dev/api/people/20/',
+//           'https://swapi.dev/api/people/21/',
+//           'https://swapi.dev/api/people/22/',
+//           'https://swapi.dev/api/people/23/',
+//           'https://swapi.dev/api/people/24/',
+//           'https://swapi.dev/api/people/25/',
+//           'https://swapi.dev/api/people/26/',
+//         ],
+//         planets: [
+//           'https://swapi.dev/api/planets/4/',
+//           'https://swapi.dev/api/planets/5/',
+//           'https://swapi.dev/api/planets/6/',
+//           'https://swapi.dev/api/planets/27/',
+//         ],
+//         starships: [
+//           'https://swapi.dev/api/starships/3/',
+//           'https://swapi.dev/api/starships/10/',
+//           'https://swapi.dev/api/starships/11/',
+//           'https://swapi.dev/api/starships/12/',
+//           'https://swapi.dev/api/starships/15/',
+//           'https://swapi.dev/api/starships/17/',
+//           'https://swapi.dev/api/starships/21/',
+//           'https://swapi.dev/api/starships/22/',
+//           'https://swapi.dev/api/starships/23/',
+//         ],
+//         vehicles: [
+//           'https://swapi.dev/api/vehicles/8/',
+//           'https://swapi.dev/api/vehicles/14/',
+//           'https://swapi.dev/api/vehicles/16/',
+//           'https://swapi.dev/api/vehicles/18/',
+//           'https://swapi.dev/api/vehicles/19/',
+//           'https://swapi.dev/api/vehicles/20/',
+//         ],
+//         species: [
+//           'https://swapi.dev/api/species/1/',
+//           'https://swapi.dev/api/species/2/',
+//           'https://swapi.dev/api/species/3/',
+//           'https://swapi.dev/api/species/6/',
+//           'https://swapi.dev/api/species/7/',
+//         ],
+//         created: '2014-12-12T11:26:24.656000Z',
+//         edited: '2014-12-15T13:07:53.386000Z',
+//         url: 'https://swapi.dev/api/films/2/',
+//       },
+//       {
+//         title: 'Return of the Jedi',
+//         episode_id: 6,
+//         opening_crawl:
+//           'Luke Skywalker has returned to\r\nhis home planet of Tatooine in\r\nan attempt to rescue his\r\nfriend Han Solo from the\r\nclutches of the vile gangster\r\nJabba the Hutt.\r\n\r\nLittle does Luke know that the\r\nGALACTIC EMPIRE has secretly\r\nbegun construction on a new\r\narmored space station even\r\nmore powerful than the first\r\ndreaded Death Star.\r\n\r\nWhen completed, this ultimate\r\nweapon will spell certain doom\r\nfor the small band of rebels\r\nstruggling to restore freedom\r\nto the galaxy...',
+//         director: 'Richard Marquand',
+//         producer: 'Howard G. Kazanjian, George Lucas, Rick McCallum',
+//         release_date: '1983-05-25',
+//         characters: [
+//           'https://swapi.dev/api/people/1/',
+//           'https://swapi.dev/api/people/2/',
+//           'https://swapi.dev/api/people/3/',
+//           'https://swapi.dev/api/people/4/',
+//           'https://swapi.dev/api/people/5/',
+//           'https://swapi.dev/api/people/10/',
+//           'https://swapi.dev/api/people/13/',
+//           'https://swapi.dev/api/people/14/',
+//           'https://swapi.dev/api/people/16/',
+//           'https://swapi.dev/api/people/18/',
+//           'https://swapi.dev/api/people/20/',
+//           'https://swapi.dev/api/people/21/',
+//           'https://swapi.dev/api/people/22/',
+//           'https://swapi.dev/api/people/25/',
+//           'https://swapi.dev/api/people/27/',
+//           'https://swapi.dev/api/people/28/',
+//           'https://swapi.dev/api/people/29/',
+//           'https://swapi.dev/api/people/30/',
+//           'https://swapi.dev/api/people/31/',
+//           'https://swapi.dev/api/people/45/',
+//         ],
+//         planets: [
+//           'https://swapi.dev/api/planets/1/',
+//           'https://swapi.dev/api/planets/5/',
+//           'https://swapi.dev/api/planets/7/',
+//           'https://swapi.dev/api/planets/8/',
+//           'https://swapi.dev/api/planets/9/',
+//         ],
+//         starships: [
+//           'https://swapi.dev/api/starships/2/',
+//           'https://swapi.dev/api/starships/3/',
+//           'https://swapi.dev/api/starships/10/',
+//           'https://swapi.dev/api/starships/11/',
+//           'https://swapi.dev/api/starships/12/',
+//           'https://swapi.dev/api/starships/15/',
+//           'https://swapi.dev/api/starships/17/',
+//           'https://swapi.dev/api/starships/22/',
+//           'https://swapi.dev/api/starships/23/',
+//           'https://swapi.dev/api/starships/27/',
+//           'https://swapi.dev/api/starships/28/',
+//           'https://swapi.dev/api/starships/29/',
+//         ],
+//         vehicles: [
+//           'https://swapi.dev/api/vehicles/8/',
+//           'https://swapi.dev/api/vehicles/16/',
+//           'https://swapi.dev/api/vehicles/18/',
+//           'https://swapi.dev/api/vehicles/19/',
+//           'https://swapi.dev/api/vehicles/24/',
+//           'https://swapi.dev/api/vehicles/25/',
+//           'https://swapi.dev/api/vehicles/26/',
+//           'https://swapi.dev/api/vehicles/30/',
+//         ],
+//         species: [
+//           'https://swapi.dev/api/species/1/',
+//           'https://swapi.dev/api/species/2/',
+//           'https://swapi.dev/api/species/3/',
+//           'https://swapi.dev/api/species/5/',
+//           'https://swapi.dev/api/species/6/',
+//           'https://swapi.dev/api/species/8/',
+//           'https://swapi.dev/api/species/9/',
+//           'https://swapi.dev/api/species/10/',
+//           'https://swapi.dev/api/species/15/',
+//         ],
+//         created: '2014-12-18T10:39:33.255000Z',
+//         edited: '2014-12-20T09:48:37.462000Z',
+//         url: 'https://swapi.dev/api/films/3/',
+//       },
+//       {
+//         title: 'The Phantom Menace',
+//         episode_id: 1,
+//         opening_crawl:
+//           'Turmoil has engulfed the\r\nGalactic Republic. The taxation\r\nof trade routes to outlying star\r\nsystems is in dispute.\r\n\r\nHoping to resolve the matter\r\nwith a blockade of deadly\r\nbattleships, the greedy Trade\r\nFederation has stopped all\r\nshipping to the small planet\r\nof Naboo.\r\n\r\nWhile the Congress of the\r\nRepublic endlessly debates\r\nthis alarming chain of events,\r\nthe Supreme Chancellor has\r\nsecretly dispatched two Jedi\r\nKnights, the guardians of\r\npeace and justice in the\r\ngalaxy, to settle the conflict....',
+//         director: 'George Lucas',
+//         producer: 'Rick McCallum',
+//         release_date: '1999-05-19',
+//         characters: [
+//           'https://swapi.dev/api/people/2/',
+//           'https://swapi.dev/api/people/3/',
+//           'https://swapi.dev/api/people/10/',
+//           'https://swapi.dev/api/people/11/',
+//           'https://swapi.dev/api/people/16/',
+//           'https://swapi.dev/api/people/20/',
+//           'https://swapi.dev/api/people/21/',
+//           'https://swapi.dev/api/people/32/',
+//           'https://swapi.dev/api/people/33/',
+//           'https://swapi.dev/api/people/34/',
+//           'https://swapi.dev/api/people/35/',
+//           'https://swapi.dev/api/people/36/',
+//           'https://swapi.dev/api/people/37/',
+//           'https://swapi.dev/api/people/38/',
+//           'https://swapi.dev/api/people/39/',
+//           'https://swapi.dev/api/people/40/',
+//           'https://swapi.dev/api/people/41/',
+//           'https://swapi.dev/api/people/42/',
+//           'https://swapi.dev/api/people/43/',
+//           'https://swapi.dev/api/people/44/',
+//           'https://swapi.dev/api/people/46/',
+//           'https://swapi.dev/api/people/47/',
+//           'https://swapi.dev/api/people/48/',
+//           'https://swapi.dev/api/people/49/',
+//           'https://swapi.dev/api/people/50/',
+//           'https://swapi.dev/api/people/51/',
+//           'https://swapi.dev/api/people/52/',
+//           'https://swapi.dev/api/people/53/',
+//           'https://swapi.dev/api/people/54/',
+//           'https://swapi.dev/api/people/55/',
+//           'https://swapi.dev/api/people/56/',
+//           'https://swapi.dev/api/people/57/',
+//           'https://swapi.dev/api/people/58/',
+//           'https://swapi.dev/api/people/59/',
+//         ],
+//         planets: [
+//           'https://swapi.dev/api/planets/1/',
+//           'https://swapi.dev/api/planets/8/',
+//           'https://swapi.dev/api/planets/9/',
+//         ],
+//         starships: [
+//           'https://swapi.dev/api/starships/31/',
+//           'https://swapi.dev/api/starships/32/',
+//           'https://swapi.dev/api/starships/39/',
+//           'https://swapi.dev/api/starships/40/',
+//           'https://swapi.dev/api/starships/41/',
+//         ],
+//         vehicles: [
+//           'https://swapi.dev/api/vehicles/33/',
+//           'https://swapi.dev/api/vehicles/34/',
+//           'https://swapi.dev/api/vehicles/35/',
+//           'https://swapi.dev/api/vehicles/36/',
+//           'https://swapi.dev/api/vehicles/37/',
+//           'https://swapi.dev/api/vehicles/38/',
+//           'https://swapi.dev/api/vehicles/42/',
+//         ],
+//         species: [
+//           'https://swapi.dev/api/species/1/',
+//           'https://swapi.dev/api/species/2/',
+//           'https://swapi.dev/api/species/6/',
+//           'https://swapi.dev/api/species/11/',
+//           'https://swapi.dev/api/species/12/',
+//           'https://swapi.dev/api/species/13/',
+//           'https://swapi.dev/api/species/14/',
+//           'https://swapi.dev/api/species/15/',
+//           'https://swapi.dev/api/species/16/',
+//           'https://swapi.dev/api/species/17/',
+//           'https://swapi.dev/api/species/18/',
+//           'https://swapi.dev/api/species/19/',
+//           'https://swapi.dev/api/species/20/',
+//           'https://swapi.dev/api/species/21/',
+//           'https://swapi.dev/api/species/22/',
+//           'https://swapi.dev/api/species/23/',
+//           'https://swapi.dev/api/species/24/',
+//           'https://swapi.dev/api/species/25/',
+//           'https://swapi.dev/api/species/26/',
+//           'https://swapi.dev/api/species/27/',
+//         ],
+//         created: '2014-12-19T16:52:55.740000Z',
+//         edited: '2014-12-20T10:54:07.216000Z',
+//         url: 'https://swapi.dev/api/films/4/',
+//       },
+//       {
+//         title: 'Attack of the Clones',
+//         episode_id: 2,
+//         opening_crawl:
+//           'There is unrest in the Galactic\r\nSenate. Several thousand solar\r\nsystems have declared their\r\nintentions to leave the Republic.\r\n\r\nThis separatist movement,\r\nunder the leadership of the\r\nmysterious Count Dooku, has\r\nmade it difficult for the limited\r\nnumber of Jedi Knights to maintain \r\npeace and order in the galaxy.\r\n\r\nSenator Amidala, the former\r\nQueen of Naboo, is returning\r\nto the Galactic Senate to vote\r\non the critical issue of creating\r\nan ARMY OF THE REPUBLIC\r\nto assist the overwhelmed\r\nJedi....',
+//         director: 'George Lucas',
+//         producer: 'Rick McCallum',
+//         release_date: '2002-05-16',
+//         characters: [
+//           'https://swapi.dev/api/people/2/',
+//           'https://swapi.dev/api/people/3/',
+//           'https://swapi.dev/api/people/6/',
+//           'https://swapi.dev/api/people/7/',
+//           'https://swapi.dev/api/people/10/',
+//           'https://swapi.dev/api/people/11/',
+//           'https://swapi.dev/api/people/20/',
+//           'https://swapi.dev/api/people/21/',
+//           'https://swapi.dev/api/people/22/',
+//           'https://swapi.dev/api/people/33/',
+//           'https://swapi.dev/api/people/35/',
+//           'https://swapi.dev/api/people/36/',
+//           'https://swapi.dev/api/people/40/',
+//           'https://swapi.dev/api/people/43/',
+//           'https://swapi.dev/api/people/46/',
+//           'https://swapi.dev/api/people/51/',
+//           'https://swapi.dev/api/people/52/',
+//           'https://swapi.dev/api/people/53/',
+//           'https://swapi.dev/api/people/58/',
+//           'https://swapi.dev/api/people/59/',
+//           'https://swapi.dev/api/people/60/',
+//           'https://swapi.dev/api/people/61/',
+//           'https://swapi.dev/api/people/62/',
+//           'https://swapi.dev/api/people/63/',
+//           'https://swapi.dev/api/people/64/',
+//           'https://swapi.dev/api/people/65/',
+//           'https://swapi.dev/api/people/66/',
+//           'https://swapi.dev/api/people/67/',
+//           'https://swapi.dev/api/people/68/',
+//           'https://swapi.dev/api/people/69/',
+//           'https://swapi.dev/api/people/70/',
+//           'https://swapi.dev/api/people/71/',
+//           'https://swapi.dev/api/people/72/',
+//           'https://swapi.dev/api/people/73/',
+//           'https://swapi.dev/api/people/74/',
+//           'https://swapi.dev/api/people/75/',
+//           'https://swapi.dev/api/people/76/',
+//           'https://swapi.dev/api/people/77/',
+//           'https://swapi.dev/api/people/78/',
+//           'https://swapi.dev/api/people/82/',
+//         ],
+//         planets: [
+//           'https://swapi.dev/api/planets/1/',
+//           'https://swapi.dev/api/planets/8/',
+//           'https://swapi.dev/api/planets/9/',
+//           'https://swapi.dev/api/planets/10/',
+//           'https://swapi.dev/api/planets/11/',
+//         ],
+//         starships: [
+//           'https://swapi.dev/api/starships/21/',
+//           'https://swapi.dev/api/starships/32/',
+//           'https://swapi.dev/api/starships/39/',
+//           'https://swapi.dev/api/starships/43/',
+//           'https://swapi.dev/api/starships/47/',
+//           'https://swapi.dev/api/starships/48/',
+//           'https://swapi.dev/api/starships/49/',
+//           'https://swapi.dev/api/starships/52/',
+//           'https://swapi.dev/api/starships/58/',
+//         ],
+//         vehicles: [
+//           'https://swapi.dev/api/vehicles/4/',
+//           'https://swapi.dev/api/vehicles/44/',
+//           'https://swapi.dev/api/vehicles/45/',
+//           'https://swapi.dev/api/vehicles/46/',
+//           'https://swapi.dev/api/vehicles/50/',
+//           'https://swapi.dev/api/vehicles/51/',
+//           'https://swapi.dev/api/vehicles/53/',
+//           'https://swapi.dev/api/vehicles/54/',
+//           'https://swapi.dev/api/vehicles/55/',
+//           'https://swapi.dev/api/vehicles/56/',
+//           'https://swapi.dev/api/vehicles/57/',
+//         ],
+//         species: [
+//           'https://swapi.dev/api/species/1/',
+//           'https://swapi.dev/api/species/2/',
+//           'https://swapi.dev/api/species/6/',
+//           'https://swapi.dev/api/species/12/',
+//           'https://swapi.dev/api/species/13/',
+//           'https://swapi.dev/api/species/15/',
+//           'https://swapi.dev/api/species/28/',
+//           'https://swapi.dev/api/species/29/',
+//           'https://swapi.dev/api/species/30/',
+//           'https://swapi.dev/api/species/31/',
+//           'https://swapi.dev/api/species/32/',
+//           'https://swapi.dev/api/species/33/',
+//           'https://swapi.dev/api/species/34/',
+//           'https://swapi.dev/api/species/35/',
+//         ],
+//         created: '2014-12-20T10:57:57.886000Z',
+//         edited: '2014-12-20T20:18:48.516000Z',
+//         url: 'https://swapi.dev/api/films/5/',
+//       },
+//       {
+//         title: 'Revenge of the Sith',
+//         episode_id: 3,
+//         opening_crawl:
+//           'War! The Republic is crumbling\r\nunder attacks by the ruthless\r\nSith Lord, Count Dooku.\r\nThere are heroes on both sides.\r\nEvil is everywhere.\r\n\r\nIn a stunning move, the\r\nfiendish droid leader, General\r\nGrievous, has swept into the\r\nRepublic capital and kidnapped\r\nChancellor Palpatine, leader of\r\nthe Galactic Senate.\r\n\r\nAs the Separatist Droid Army\r\nattempts to flee the besieged\r\ncapital with their valuable\r\nhostage, two Jedi Knights lead a\r\ndesperate mission to rescue the\r\ncaptive Chancellor....',
+//         director: 'George Lucas',
+//         producer: 'Rick McCallum',
+//         release_date: '2005-05-19',
+//         characters: [
+//           'https://swapi.dev/api/people/1/',
+//           'https://swapi.dev/api/people/2/',
+//           'https://swapi.dev/api/people/3/',
+//           'https://swapi.dev/api/people/4/',
+//           'https://swapi.dev/api/people/5/',
+//           'https://swapi.dev/api/people/6/',
+//           'https://swapi.dev/api/people/7/',
+//           'https://swapi.dev/api/people/10/',
+//           'https://swapi.dev/api/people/11/',
+//           'https://swapi.dev/api/people/12/',
+//           'https://swapi.dev/api/people/13/',
+//           'https://swapi.dev/api/people/20/',
+//           'https://swapi.dev/api/people/21/',
+//           'https://swapi.dev/api/people/33/',
+//           'https://swapi.dev/api/people/35/',
+//           'https://swapi.dev/api/people/46/',
+//           'https://swapi.dev/api/people/51/',
+//           'https://swapi.dev/api/people/52/',
+//           'https://swapi.dev/api/people/53/',
+//           'https://swapi.dev/api/people/54/',
+//           'https://swapi.dev/api/people/55/',
+//           'https://swapi.dev/api/people/56/',
+//           'https://swapi.dev/api/people/58/',
+//           'https://swapi.dev/api/people/63/',
+//           'https://swapi.dev/api/people/64/',
+//           'https://swapi.dev/api/people/67/',
+//           'https://swapi.dev/api/people/68/',
+//           'https://swapi.dev/api/people/75/',
+//           'https://swapi.dev/api/people/78/',
+//           'https://swapi.dev/api/people/79/',
+//           'https://swapi.dev/api/people/80/',
+//           'https://swapi.dev/api/people/81/',
+//           'https://swapi.dev/api/people/82/',
+//           'https://swapi.dev/api/people/83/',
+//         ],
+//         planets: [
+//           'https://swapi.dev/api/planets/1/',
+//           'https://swapi.dev/api/planets/2/',
+//           'https://swapi.dev/api/planets/5/',
+//           'https://swapi.dev/api/planets/8/',
+//           'https://swapi.dev/api/planets/9/',
+//           'https://swapi.dev/api/planets/12/',
+//           'https://swapi.dev/api/planets/13/',
+//           'https://swapi.dev/api/planets/14/',
+//           'https://swapi.dev/api/planets/15/',
+//           'https://swapi.dev/api/planets/16/',
+//           'https://swapi.dev/api/planets/17/',
+//           'https://swapi.dev/api/planets/18/',
+//           'https://swapi.dev/api/planets/19/',
+//         ],
+//         starships: [
+//           'https://swapi.dev/api/starships/2/',
+//           'https://swapi.dev/api/starships/32/',
+//           'https://swapi.dev/api/starships/48/',
+//           'https://swapi.dev/api/starships/59/',
+//           'https://swapi.dev/api/starships/61/',
+//           'https://swapi.dev/api/starships/63/',
+//           'https://swapi.dev/api/starships/64/',
+//           'https://swapi.dev/api/starships/65/',
+//           'https://swapi.dev/api/starships/66/',
+//           'https://swapi.dev/api/starships/68/',
+//           'https://swapi.dev/api/starships/74/',
+//           'https://swapi.dev/api/starships/75/',
+//         ],
+//         vehicles: [
+//           'https://swapi.dev/api/vehicles/33/',
+//           'https://swapi.dev/api/vehicles/50/',
+//           'https://swapi.dev/api/vehicles/53/',
+//           'https://swapi.dev/api/vehicles/56/',
+//           'https://swapi.dev/api/vehicles/60/',
+//           'https://swapi.dev/api/vehicles/62/',
+//           'https://swapi.dev/api/vehicles/67/',
+//           'https://swapi.dev/api/vehicles/69/',
+//           'https://swapi.dev/api/vehicles/70/',
+//           'https://swapi.dev/api/vehicles/71/',
+//           'https://swapi.dev/api/vehicles/72/',
+//           'https://swapi.dev/api/vehicles/73/',
+//           'https://swapi.dev/api/vehicles/76/',
+//         ],
+//         species: [
+//           'https://swapi.dev/api/species/1/',
+//           'https://swapi.dev/api/species/2/',
+//           'https://swapi.dev/api/species/3/',
+//           'https://swapi.dev/api/species/6/',
+//           'https://swapi.dev/api/species/15/',
+//           'https://swapi.dev/api/species/19/',
+//           'https://swapi.dev/api/species/20/',
+//           'https://swapi.dev/api/species/23/',
+//           'https://swapi.dev/api/species/24/',
+//           'https://swapi.dev/api/species/25/',
+//           'https://swapi.dev/api/species/26/',
+//           'https://swapi.dev/api/species/27/',
+//           'https://swapi.dev/api/species/28/',
+//           'https://swapi.dev/api/species/29/',
+//           'https://swapi.dev/api/species/30/',
+//           'https://swapi.dev/api/species/33/',
+//           'https://swapi.dev/api/species/34/',
+//           'https://swapi.dev/api/species/35/',
+//           'https://swapi.dev/api/species/36/',
+//           'https://swapi.dev/api/species/37/',
+//         ],
+//         created: '2014-12-20T18:49:38.403000Z',
+//         edited: '2014-12-20T20:47:52.073000Z',
+//         url: 'https://swapi.dev/api/films/6/',
+//       },
+//     ],
+//   };
+
+// jest.mock('../features/api/apiSlice');
 // jest.mock('react-router-dom', () => ({
 //   ...jest.requireActual('react-router-dom'),
-//   useLoaderData: jest.fn(),
-//   useNavigation: jest.fn(),
 //   useParams: jest.fn(),
 // }));
 
-// const mockLoaderData = {
-//   count: 1,
-//   next: null,
-//   previous: null,
-//   results: [
-//     {
-//       name: 'Luke Skywalker',
-//       height: '172',
-//       mass: '77',
-//       hair_color: 'blond',
-//       skin_color: 'fair',
-//       eye_color: 'blue',
-//       birth_year: '19BBY',
-//       gender: 'male',
-//       homeworld: 'https://swapi.dev/api/planets/1/',
-//       films: [
-//         'https://swapi.dev/api/films/1/',
-//         'https://swapi.dev/api/films/2/',
-//         'https://swapi.dev/api/films/3/',
-//         'https://swapi.dev/api/films/6/',
-//       ],
-//       species: [],
-//       vehicles: [
-//         'https://swapi.dev/api/vehicles/14/',
-//         'https://swapi.dev/api/vehicles/30/',
-//       ],
-//       starships: [
-//         'https://swapi.dev/api/starships/12/',
-//         'https://swapi.dev/api/starships/22/',
-//       ],
-//       created: '2014-12-09T13:50:51.644000Z',
-//       edited: '2014-12-20T21:17:56.891000Z',
-//       url: 'https://swapi.dev/api/people/1/',
-//     },
-//   ],
-// };
+// describe('Results Component', () => {
+//   const mockDispatch = jest.fn();
 
-// const seconddata = {
-//   count: 24,
-//   next: 'https://swapi.dev/api/people/?search=d&page=2',
-//   previous: null,
-//   results: [
-//     {
-//       name: 'R2-D2',
-//       height: '96',
-//       mass: '32',
-//       hair_color: 'n/a',
-//       skin_color: 'white, blue',
-//       eye_color: 'red',
-//       birth_year: '33BBY',
-//       gender: 'n/a',
-//       homeworld: 'https://swapi.dev/api/planets/8/',
-//       films: [
-//         'https://swapi.dev/api/films/1/',
-//         'https://swapi.dev/api/films/2/',
-//         'https://swapi.dev/api/films/3/',
-//         'https://swapi.dev/api/films/4/',
-//         'https://swapi.dev/api/films/5/',
-//         'https://swapi.dev/api/films/6/',
-//       ],
-//       species: ['https://swapi.dev/api/species/2/'],
-//       vehicles: [],
-//       starships: [],
-//       created: '2014-12-10T15:11:50.376000Z',
-//       edited: '2014-12-20T21:17:50.311000Z',
-//       url: 'https://swapi.dev/api/people/3/',
-//     },
-//     {
-//       name: 'Darth Vader',
-//       height: '202',
-//       mass: '136',
-//       hair_color: 'none',
-//       skin_color: 'white',
-//       eye_color: 'yellow',
-//       birth_year: '41.9BBY',
-//       gender: 'male',
-//       homeworld: 'https://swapi.dev/api/planets/1/',
-//       films: [
-//         'https://swapi.dev/api/films/1/',
-//         'https://swapi.dev/api/films/2/',
-//         'https://swapi.dev/api/films/3/',
-//         'https://swapi.dev/api/films/6/',
-//       ],
-//       species: [],
-//       vehicles: [],
-//       starships: ['https://swapi.dev/api/starships/13/'],
-//       created: '2014-12-10T15:18:20.704000Z',
-//       edited: '2014-12-20T21:17:50.313000Z',
-//       url: 'https://swapi.dev/api/people/4/',
-//     },
-//     {
-//       name: 'R5-D4',
-//       height: '97',
-//       mass: '32',
-//       hair_color: 'n/a',
-//       skin_color: 'white, red',
-//       eye_color: 'red',
-//       birth_year: 'unknown',
-//       gender: 'n/a',
-//       homeworld: 'https://swapi.dev/api/planets/1/',
-//       films: ['https://swapi.dev/api/films/1/'],
-//       species: ['https://swapi.dev/api/species/2/'],
-//       vehicles: [],
-//       starships: [],
-//       created: '2014-12-10T15:57:50.959000Z',
-//       edited: '2014-12-20T21:17:50.321000Z',
-//       url: 'https://swapi.dev/api/people/8/',
-//     },
-//     {
-//       name: 'Biggs Darklighter',
-//       height: '183',
-//       mass: '84',
-//       hair_color: 'black',
-//       skin_color: 'light',
-//       eye_color: 'brown',
-//       birth_year: '24BBY',
-//       gender: 'male',
-//       homeworld: 'https://swapi.dev/api/planets/1/',
-//       films: ['https://swapi.dev/api/films/1/'],
-//       species: [],
-//       vehicles: [],
-//       starships: ['https://swapi.dev/api/starships/12/'],
-//       created: '2014-12-10T15:59:50.509000Z',
-//       edited: '2014-12-20T21:17:50.323000Z',
-//       url: 'https://swapi.dev/api/people/9/',
-//     },
-//     {
-//       name: 'Greedo',
-//       height: '173',
-//       mass: '74',
-//       hair_color: 'n/a',
-//       skin_color: 'green',
-//       eye_color: 'black',
-//       birth_year: '44BBY',
-//       gender: 'male',
-//       homeworld: 'https://swapi.dev/api/planets/23/',
-//       films: ['https://swapi.dev/api/films/1/'],
-//       species: ['https://swapi.dev/api/species/4/'],
-//       vehicles: [],
-//       starships: [],
-//       created: '2014-12-10T17:03:30.334000Z',
-//       edited: '2014-12-20T21:17:50.336000Z',
-//       url: 'https://swapi.dev/api/people/15/',
-//     },
-//     {
-//       name: 'Jabba Desilijic Tiure',
-//       height: '175',
-//       mass: '1,358',
-//       hair_color: 'n/a',
-//       skin_color: 'green-tan, brown',
-//       eye_color: 'orange',
-//       birth_year: '600BBY',
-//       gender: 'hermaphrodite',
-//       homeworld: 'https://swapi.dev/api/planets/24/',
-//       films: [
-//         'https://swapi.dev/api/films/1/',
-//         'https://swapi.dev/api/films/3/',
-//         'https://swapi.dev/api/films/4/',
-//       ],
-//       species: ['https://swapi.dev/api/species/5/'],
-//       vehicles: [],
-//       starships: [],
-//       created: '2014-12-10T17:11:31.638000Z',
-//       edited: '2014-12-20T21:17:50.338000Z',
-//       url: 'https://swapi.dev/api/people/16/',
-//     },
-//     {
-//       name: 'Wedge Antilles',
-//       height: '170',
-//       mass: '77',
-//       hair_color: 'brown',
-//       skin_color: 'fair',
-//       eye_color: 'hazel',
-//       birth_year: '21BBY',
-//       gender: 'male',
-//       homeworld: 'https://swapi.dev/api/planets/22/',
-//       films: [
-//         'https://swapi.dev/api/films/1/',
-//         'https://swapi.dev/api/films/2/',
-//         'https://swapi.dev/api/films/3/',
-//       ],
-//       species: [],
-//       vehicles: ['https://swapi.dev/api/vehicles/14/'],
-//       starships: ['https://swapi.dev/api/starships/12/'],
-//       created: '2014-12-12T11:08:06.469000Z',
-//       edited: '2014-12-20T21:17:50.341000Z',
-//       url: 'https://swapi.dev/api/people/18/',
-//     },
-//     {
-//       name: 'Yoda',
-//       height: '66',
-//       mass: '17',
-//       hair_color: 'white',
-//       skin_color: 'green',
-//       eye_color: 'brown',
-//       birth_year: '896BBY',
-//       gender: 'male',
-//       homeworld: 'https://swapi.dev/api/planets/28/',
-//       films: [
-//         'https://swapi.dev/api/films/2/',
-//         'https://swapi.dev/api/films/3/',
-//         'https://swapi.dev/api/films/4/',
-//         'https://swapi.dev/api/films/5/',
-//         'https://swapi.dev/api/films/6/',
-//       ],
-//       species: ['https://swapi.dev/api/species/6/'],
-//       vehicles: [],
-//       starships: [],
-//       created: '2014-12-15T12:26:01.042000Z',
-//       edited: '2014-12-20T21:17:50.345000Z',
-//       url: 'https://swapi.dev/api/people/20/',
-//     },
-//     {
-//       name: 'Lando Calrissian',
-//       height: '177',
-//       mass: '79',
-//       hair_color: 'black',
-//       skin_color: 'dark',
-//       eye_color: 'brown',
-//       birth_year: '31BBY',
-//       gender: 'male',
-//       homeworld: 'https://swapi.dev/api/planets/30/',
-//       films: [
-//         'https://swapi.dev/api/films/2/',
-//         'https://swapi.dev/api/films/3/',
-//       ],
-//       species: [],
-//       vehicles: [],
-//       starships: ['https://swapi.dev/api/starships/10/'],
-//       created: '2014-12-15T12:56:32.683000Z',
-//       edited: '2014-12-20T21:17:50.357000Z',
-//       url: 'https://swapi.dev/api/people/25/',
-//     },
-//     {
-//       name: 'Arvel Crynyd',
-//       height: 'unknown',
-//       mass: 'unknown',
-//       hair_color: 'brown',
-//       skin_color: 'fair',
-//       eye_color: 'brown',
-//       birth_year: 'unknown',
-//       gender: 'male',
-//       homeworld: 'https://swapi.dev/api/planets/28/',
-//       films: ['https://swapi.dev/api/films/3/'],
-//       species: [],
-//       vehicles: [],
-//       starships: ['https://swapi.dev/api/starships/28/'],
-//       created: '2014-12-18T11:16:33.020000Z',
-//       edited: '2014-12-20T21:17:50.367000Z',
-//       url: 'https://swapi.dev/api/people/29/',
-//     },
-//   ],
-// };
+//   jest.mock('react-redux', () => ({
+//     ...jest.requireActual('react-redux'),
+//     useDispatch: () => mockDispatch,
+//   }));
 
-// describe('write results', () => {
 //   beforeEach(() => {
 //     jest.clearAllMocks();
 //   });
 
-//   test('render results', async () => {
-//     (useLoaderData as jest.Mock).mockReturnValue([
-//       {
-//         count: 0,
-//         next: null,
-//         previous: null,
-//         results: [],
-//       },
-//     ]);
-//     (useNavigation as jest.Mock).mockReturnValue({ state: 'idle' });
+//   it('renders loading state initially', () => {
+//     (useGetSearchAndPageQuery as jest.Mock).mockReturnValue({
+//       data: null,
+//       isError: false,
+//       isSuccess: false,
+//       isFetching: true,
+//       error: null,
+//     });
 //     (useParams as jest.Mock).mockReturnValue({
+//       search: 'Luke',
 //       page: '1',
-//       search: 'Llllke',
+//       id: '1',
 //     });
 
 //     render(
-//       <BrowserRouter>
-//         <SearchResults />
-//       </BrowserRouter>
+//       <Provider store={store}>
+//         <ApiProvider api={apiSlice}>
+//           <BrowserRouter>
+//             <Results />
+//           </BrowserRouter>
+//         </ApiProvider>
+//       </Provider>
 //     );
-//     expect(screen.getByText(/no results/i)).toBeInTheDocument();
+
+//     expect(screen.getByText('Loading...')).toBeInTheDocument();
 //   });
 
-//   test('render not found page', async () => {
-//     (useLoaderData as jest.Mock).mockReturnValue([mockLoaderData]);
-//     (useNavigation as jest.Mock).mockReturnValue({ state: 'idle' });
-//     (useParams as jest.Mock).mockReturnValue({
-//       page: '1',
-//       search: 'Luke',
+//   it('renders results when data is available', () => {
+//   (useGetSearchAndPageQuery as jest.Mock).mockReturnValue({
+//       data: mockResult,
+//       isError: false,
+//       isSuccess: true,
+//       isFetching: false,
+//       error: null,
 //     });
+//     (useGetFilmsQuery as jest.Mock).mockReturnValue({
+//       data: mockFilmsResult,
+//       isSuccess: true,
+//       isFetching: false,
+//       error: null,
+//       isError: false,
+//     });
+//     (useParams as jest.Mock).mockReturnValue({
+//       search: 'default',
+//       page: '1',
+//       id: undefined,
+//     });
+
 //     render(
-//       <BrowserRouter>
-//         <SearchResults />
-//       </BrowserRouter>
+//       <Provider store={store}>
+//         <ApiProvider api={apiSlice}>
+//           <BrowserRouter>
+//             <Results />
+//           </BrowserRouter>
+//         </ApiProvider>
+//       </Provider>
 //     );
 
 //     expect(screen.getByText(/Luke Skywalker/i)).toBeInTheDocument();
-//     expect(screen.getByText(/172/i)).toBeInTheDocument();
-//     expect(screen.getByText(/male/i)).toBeInTheDocument();
-
-//     const user = userEvent.setup();
-//     await user.click(screen.getByText(/Luke Skywalker/i));
-//     expect(window.location.pathname).toBe('/search/Luke/page/1/detail/1');
-//     const item = screen.getByTitle('Results');
-//     expect(item).toBeInTheDocument();
-//     expect(item).toHaveClass('app-results');
+//     expect(screen.getByText(/Darth Vader/i)).toBeInTheDocument();
+//     expect(screen.getByText(/A New Hope/i)).toBeInTheDocument();
+//     expect(screen.getByText(/The Empire Strikes Back/i)).toBeInTheDocument();
 //   });
 
-//   test('render not found page', async () => {
-//     (useLoaderData as jest.Mock).mockReturnValue([mockLoaderData]);
-//     (useNavigation as jest.Mock).mockReturnValue({ state: 'loading' });
+//   it('renders no results when count is zero', () => {
+//     const mockResult = {
+//       count: 0,
+//       results: [],
+//       next: null,
+//       previous: null,
+//     };
+
+//     (useGetSearchAndPageQuery as jest.Mock).mockReturnValue({
+//       data: mockResult,
+//       isError: false,
+//       isSuccess: true,
+//       isFetching: false,
+//       error: null,
+//     });
+//     (useParams as jest.Mock).mockReturnValue({
+//       search: 'kkkkkk',
+//       page: '1',
+//       id: '1',
+//     });
+
 //     render(
-//       <BrowserRouter>
-//         <SearchResults />
-//       </BrowserRouter>
+//       <Provider store={store}>
+//         <ApiProvider api={apiSlice}>
+//           <BrowserRouter>
+//             <Results />
+//           </BrowserRouter>
+//         </ApiProvider>
+//       </Provider>
 //     );
 
-//     expect(screen.getByTitle('Loading')).toBeInTheDocument();
+//     expect(screen.getByText('No Results')).toBeInTheDocument();
 //   });
 
-//   test('render not found page', async () => {
-//     (useLoaderData as jest.Mock).mockReturnValue([seconddata]);
-//     (useNavigation as jest.Mock).mockReturnValue({ state: 'idle' });
-//     (useParams as jest.Mock).mockReturnValue({ search: 'd', page: '1' });
+//   it('throws an error when there is an error state', () => {
+//     (useGetSearchAndPageQuery as jest.Mock).mockReturnValue({
+//       data: mockResult,
+//       isError: false,
+//       isSuccess: true,
+//       isFetching: false,
+//       error: null,
+//     });
+//     (useGetFilmsQuery as jest.Mock).mockReturnValue({
+//       data: mockFilmsResult,
+//       isSuccess: true,
+//     })
+//     (useParams as jest.Mock).mockReturnValue({
+//       search: 'default',
+//       page: '1',
+//       id: '1',
+//     });
+
+//     expect(() => {
+//       render(
+//         <Provider store={store}>
+//           <ApiProvider api={apiSlice}>
+//             <BrowserRouter>
+//               <Results />
+//             </BrowserRouter>
+//           </ApiProvider>
+//         </Provider>
+//       );
+//     })
+//   });
+
+//   it('renders error state when button is clicked', () => {
+
+//     (useGetSearchAndPageQuery as jest.Mock).mockReturnValue({
+//       data: mockResult,
+//       isError: false,
+//       isSuccess: true,
+//       isFetching: false,
+//       error: null,
+//     });
+//     (useGetFilmsQuery as jest.Mock).mockReturnValue({
+//       data: mockFilmsResult,
+//       isSuccess: true,
+//       isFetching: false,
+//       error: null,
+//       isError: false,
+//     });
+//     (useParams as jest.Mock).mockReturnValue({
+//       search: 'default',
+//       page: '1',
+//       id: '1',
+//     });
+
 //     render(
-//       <BrowserRouter>
-//         <SearchResults />
-//       </BrowserRouter>
+//       <Provider store={store}>
+//         <ApiProvider api={apiSlice}>
+//           <BrowserRouter>
+//             <Results />
+//           </BrowserRouter>
+//         </ApiProvider>
+//       </Provider>
 //     );
 
-//     expect(screen.getAllByRole('list')).toHaveLength(10);
-//     const pagination = screen.getByTitle('Pagination');
-//     expect(pagination).toBeInTheDocument();
-//     const links = pagination.querySelectorAll('a');
-//     expect(links).toHaveLength(1);
-
 //     const user = userEvent.setup();
-//     await user.click(links[0]);
-//     expect(window.location.pathname).toBe('/search/d/page/2');
 
-//     const page2 = screen.getAllByRole('list');
-//     expect(page2).toHaveLength(10);
+//     user.click(screen.getByText('Throw an error'));
 
-//     const pagination2 = screen.getByTitle('Pagination');
-//     expect(pagination2).toBeInTheDocument();
-//     const links2 = pagination2.querySelectorAll('a');
-//     expect(links2).toHaveLength(1);
+//     expect(() => {
+//       render(
+//         <Provider store={store}>
+//           <ApiProvider api={apiSlice}>
+//             <BrowserRouter>
+//               <Results />
+//             </BrowserRouter>
+//           </ApiProvider>
+//         </Provider>
+//       );
+//     }).toThrow('Something went wrong. Please try again later.');
 //   });
 // });

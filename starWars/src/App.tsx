@@ -42,7 +42,7 @@ function App() {
   }, [handleSearch, location.pathname, search]);
 
   return (
-    <div className={template}>
+    <div className={template} data-testId="app">
       {state === 'loading' && <Loader />}
       <ErrorBoundary>
         <Search
