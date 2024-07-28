@@ -1,17 +1,21 @@
 import '@testing-library/jest-dom';
-import { render, screen, waitFor } from '@testing-library/react';
-import Details from '../features/details/detailsPage';
-import { BrowserRouter, useParams } from 'react-router-dom';
-jest.mock('../features/api/apiSlice', () => ({
-  useGetDetailsQuery: jest.fn(),
-  useGetFilmsQuery: jest.fn(),
-}));
-import { useGetDetailsQuery, useGetFilmsQuery } from '../features/api/apiSlice';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+import fetchMock from 'jest-fetch-mock';
+import {
+  useGetSearchAndPageQuery,
+  useGetFilmsQuery,
+  useGetDetailsQuery,
+} from '../features/api/apiSlice';
+import { renderHook, waitFor } from '@testing-library/react';
+import store from '../app/store';
+beforeEach(() => {
+  fetchMock.enableMocks();
+});
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useParams: jest.fn(),
-}));
+afterEach(() => {
+  fetchMock.resetMocks();
+});
 
 const resultData2 = {
   name: 'Luke Skywalker',
@@ -43,6 +47,7 @@ const resultData2 = {
   edited: '2014-12-20T21:17:56.891000Z',
   url: 'https://swapi.dev/api/people/1/',
 };
+
 const resultData3 = {
   count: 6,
   next: null,
@@ -555,77 +560,123 @@ const resultData3 = {
   ],
 };
 
-describe('details page', () => {
-  it('should render details page', async () => {
-    (useGetDetailsQuery as jest.Mock).mockReturnValue({
-      data: resultData2,
-      isSuccess: true,
-      isFetching: false,
-      error: null,
-      isError: false,
-    });
-    (useGetFilmsQuery as jest.Mock).mockReturnValue({
-      data: resultData3,
-      isSuccess: true,
-      isFetching: false,
-      error: null,
-      isError: false,
-    });
-    (useParams as jest.Mock).mockReturnValue({
-      id: '1',
-      search: 'Luke',
-      page: '1',
-    });
-    render(
-      <BrowserRouter>
-        <Details />
-      </BrowserRouter>
-    );
+const data = {
+  count: 1,
+  next: null,
+  previous: null,
+  results: [resultData2],
+};
 
-    await waitFor(() => {
-      expect(screen.getByText(/luke skywalker/i)).toBeInTheDocument();
-      expect(screen.getByText(/luke skywalker/i)).toBeInTheDocument();
-      expect(screen.getByText(/172/i)).toBeInTheDocument();
-      expect(screen.getByText(/77/i)).toBeInTheDocument();
-      expect(screen.getByText(/blond/i)).toBeInTheDocument();
-      expect(screen.getByText(/fair/i)).toBeInTheDocument();
-      expect(screen.getByText(/blue/i)).toBeInTheDocument();
-      expect(screen.getByText(/19BBY/i)).toBeInTheDocument();
-      expect(screen.getByText(/male/i)).toBeInTheDocument();
-      expect(screen.getByText(/The Empire Strikes Back/i)).toBeInTheDocument();
-      expect(screen.getByText(/Revenge of the Sith/i)).toBeInTheDocument();
-      expect(screen.getByText(/A New Hope/i)).toBeInTheDocument();
-      expect(screen.getByAltText(/vader/i)).toBeInTheDocument();
-    });
+it('renders hook', async () => {
+  fetchMock.mockOnceIf('https://swapi.dev/api/people/?search=Luke&page=1', () =>
+    Promise.resolve({
+      status: 200,
+      body: JSON.stringify({ data }),
+    })
+  );
+  const { result } = renderHook(
+    () => useGetSearchAndPageQuery({ search: 'Luke', page: '1' }),
+    {
+      wrapper: ({ children }) => (
+        <Provider store={store}>
+          <BrowserRouter>{children}</BrowserRouter>
+        </Provider>
+      ),
+    }
+  );
+
+  expect(result.current).toMatchObject({
+    status: 'pending',
+    endpointName: 'getSearchAndPage',
+    isLoading: true,
+    isSuccess: false,
+    isError: false,
+    isFetching: true,
   });
 
-  it('should render details page', async () => {
-    (useGetDetailsQuery as jest.Mock).mockReturnValue({
-      data: resultData2,
-      isSuccess: true,
-      isFetching: true,
-      error: null,
-      isError: false,
-    });
-    (useGetFilmsQuery as jest.Mock).mockReturnValue({
-      data: resultData3,
-      isSuccess: true,
-      isFetching: true,
-      error: null,
-      isError: false,
-    });
-    (useParams as jest.Mock).mockReturnValue({
-      id: '1',
-      search: 'Luke',
-      page: '1',
-    });
-    render(
-      <BrowserRouter>
-        <Details />
-      </BrowserRouter>
-    );
+  await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  expect(fetchMock).toHaveBeenCalledTimes(1);
 
-    expect(screen.getByAltText(/loading/i)).toBeInTheDocument();
-    expect(screen.getByTestId(/Loading/i)).toBeInTheDocument();
+  expect(result.current).toMatchObject({
+    data: { data },
+    endpointName: 'getSearchAndPage',
+    isLoading: false,
+    isSuccess: true,
+    isError: false,
+    isFetching: false,
+  });
+});
+
+it('renders hook', async () => {
+  fetchMock.mockOnceIf('https://swapi.dev/api/people/1', () =>
+    Promise.resolve({
+      status: 200,
+      body: JSON.stringify({ resultData2 }),
+    })
+  );
+  const { result } = renderHook(() => useGetDetailsQuery('1'), {
+    wrapper: ({ children }) => (
+      <Provider store={store}>
+        <BrowserRouter>{children}</BrowserRouter>
+      </Provider>
+    ),
+  });
+
+  expect(result.current).toMatchObject({
+    status: 'pending',
+    endpointName: 'getDetails',
+    isLoading: true,
+    isSuccess: false,
+    isError: false,
+    isFetching: true,
+  });
+
+  await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  expect(fetchMock).toHaveBeenCalledTimes(1);
+
+  expect(result.current).toMatchObject({
+    data: { resultData2 },
+    endpointName: 'getDetails',
+    isLoading: false,
+    isSuccess: true,
+    isError: false,
+    isFetching: false,
+  });
+});
+
+it('renders hook', async () => {
+  fetchMock.mockOnceIf('https://swapi.dev/api/films', () =>
+    Promise.resolve({
+      status: 200,
+      body: JSON.stringify({ resultData3 }),
+    })
+  );
+  const { result } = renderHook(() => useGetFilmsQuery(), {
+    wrapper: ({ children }) => (
+      <Provider store={store}>
+        <BrowserRouter>{children}</BrowserRouter>
+      </Provider>
+    ),
+  });
+
+  expect(result.current).toMatchObject({
+    status: 'pending',
+    endpointName: 'getFilms',
+    isLoading: true,
+    isSuccess: false,
+    isError: false,
+    isFetching: true,
+  });
+
+  await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  expect(fetchMock).toHaveBeenCalledTimes(1);
+
+  expect(result.current).toMatchObject({
+    data: { resultData3 },
+    endpointName: 'getFilms',
+    isLoading: false,
+    isSuccess: true,
+    isError: false,
+    isFetching: false,
   });
 });

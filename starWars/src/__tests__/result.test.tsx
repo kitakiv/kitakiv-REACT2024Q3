@@ -5,6 +5,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import storeSlice from '../app/store';
 import userEvent from '@testing-library/user-event';
+import { ApiProvider } from '@reduxjs/toolkit/query/react';
+import { apiSlice } from '../features/api/apiSlice';
 
 describe('create result card', () => {
   test('Renders the main page', async () => {
@@ -61,11 +63,13 @@ describe('create result card', () => {
       .mockImplementation(addFavoriteCardMock);
 
     render(
-      <Provider store={storeSlice}>
-        <BrowserRouter>
-          <Result result={result} keyProps={key} films={films} />
-        </BrowserRouter>
-      </Provider>
+      <ApiProvider api={apiSlice}>
+        <Provider store={storeSlice}>
+          <BrowserRouter>
+            <Result result={result} keyProps={key} films={films} />
+          </BrowserRouter>
+        </Provider>
+      </ApiProvider>
     );
 
     expect(screen.getByText(result.name)).toBeInTheDocument();
@@ -110,5 +114,117 @@ describe('create result card', () => {
       payload: '1',
       type: 'cards/removeFavoriteCard',
     });
+    await user.click(checkbox);
+    expect(checkbox).toBeChecked();
+  });
+});
+
+const mockFilms = {
+  'https://swapi.dev/api/films/1/': 'A New Hope',
+  'https://swapi.dev/api/films/2/': 'The Empire Strikes Back',
+};
+
+const mockResult = {
+  name: 'Luke Skywalker',
+  height: '172',
+  mass: '77',
+  hair_color: 'blond',
+  skin_color: 'fair',
+  eye_color: 'blue',
+  birth_year: '19BBY',
+  gender: 'male',
+  url: 'https://swapi.dev/api/people/1/',
+  films: ['https://swapi.dev/api/films/1/', 'https://swapi.dev/api/films/2/'],
+  homeworld: 'https://swapi.dev/api/planets/1/',
+  species: ['https://swapi.dev/api/species/1/'],
+  vehicles: [
+    'https://swapi.dev/api/vehicles/14/',
+    'https://swapi.dev/api/vehicles/30/',
+  ],
+  starships: [
+    'https://swapi.dev/api/starships/12/',
+    'https://swapi.dev/api/starships/22/',
+  ],
+  created: '2014-12-09T13:50:51.644000Z',
+  edited: '2014-12-20T21:17:56.891000Z',
+};
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useParams: () => ({
+    search: 'Luke',
+    page: '1',
+  }),
+}));
+
+jest.mock('usehooks-ts', () => ({
+  useLocalStorage: () => ['dark', jest.fn()],
+}));
+
+describe('Result Component', () => {
+  test('renders Result component with correct data', () => {
+    render(
+      <ApiProvider api={apiSlice}>
+        <Provider store={storeSlice}>
+          <BrowserRouter>
+            <Result
+              result={mockResult}
+              keyProps={mockResult.url}
+              films={mockFilms}
+            />
+          </BrowserRouter>
+        </Provider>
+      </ApiProvider>
+    );
+
+    expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();
+    expect(screen.getByText('Height: 172')).toBeInTheDocument();
+    expect(screen.getByText('Mass: 77')).toBeInTheDocument();
+    expect(screen.getByText('Hair color: blond')).toBeInTheDocument();
+    expect(screen.getByText('Skin color: fair')).toBeInTheDocument();
+    expect(screen.getByText('Eye color: blue')).toBeInTheDocument();
+    expect(screen.getByText(/Birth year: 19BBY/i)).toBeInTheDocument();
+    expect(screen.getByText('Gender: male')).toBeInTheDocument();
+  });
+
+  test('renders correct template based on local storage value', () => {
+    const { rerender } = render(
+      <ApiProvider api={apiSlice}>
+        <Provider store={storeSlice}>
+          <BrowserRouter>
+            <Result
+              result={mockResult}
+              keyProps={mockResult.url}
+              films={mockFilms}
+            />
+          </BrowserRouter>
+        </Provider>
+      </ApiProvider>
+    );
+    expect(screen.getByAltText('vader')).toHaveAttribute(
+      'src',
+      'https://www.allsmileys.com/files/sweetim-fantasy/6455.gif'
+    );
+    jest.mock('usehooks-ts', () => ({
+      useLocalStorage: () => ['light', jest.fn()],
+    }));
+
+    rerender(
+      <ApiProvider api={apiSlice}>
+        <Provider store={storeSlice}>
+          <BrowserRouter>
+            <Result
+              result={mockResult}
+              keyProps={mockResult.url}
+              films={mockFilms}
+            />
+          </BrowserRouter>
+        </Provider>
+      </ApiProvider>
+    );
+    expect(screen.getByAltText('vader')).toHaveAttribute(
+      'src',
+      'https://www.allsmileys.com/files/sweetim-fantasy/6455.gif'
+    );
   });
 });

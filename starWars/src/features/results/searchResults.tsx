@@ -47,7 +47,7 @@ function Results() {
   return (
     <>
       {isFetching && <Loader />}
-      <section className="app-results" title="Results">
+      <section className="app-results" data-testId="Results">
         <>
           <button
             className="error-button shadow"

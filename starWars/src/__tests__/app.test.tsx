@@ -24,8 +24,8 @@ describe('App', () => {
         </BrowserRouter>
       </Provider>
     );
-    screen.getByTitle('Loading');
-    expect(screen.getByTitle('Loading')).toBeInTheDocument();
+    screen.getByTestId('Loading');
+    expect(screen.getByTestId('Loading')).toBeInTheDocument();
   });
 
   test('Renders the main page', async () => {
