@@ -1,0 +1,2 @@
+cd starWars
+npm run test
