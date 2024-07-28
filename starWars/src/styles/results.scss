@@ -181,12 +181,6 @@
     transition: all 0.5s;
     color: var(--white);
 
-    .fighter {
-      width: 130px;
-      height: auto;
-      object-fit: contain;
-    }
-
     &:hover {
       box-shadow:
         var(--yellow) 0px 30px 60px -12px inset,

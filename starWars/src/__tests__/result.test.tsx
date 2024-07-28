@@ -201,12 +201,8 @@ describe('Result Component', () => {
         </Provider>
       </ApiProvider>
     );
-    expect(screen.getByAltText('vader')).toHaveAttribute(
-      'src',
-      'https://www.allsmileys.com/files/sweetim-fantasy/6455.gif'
-    );
     jest.mock('usehooks-ts', () => ({
-      useLocalStorage: () => ['light', jest.fn()],
+      useLocalStorage: () => ['light'],
     }));
 
     rerender(
@@ -221,10 +217,6 @@ describe('Result Component', () => {
           </BrowserRouter>
         </Provider>
       </ApiProvider>
-    );
-    expect(screen.getByAltText('vader')).toHaveAttribute(
-      'src',
-      'https://www.allsmileys.com/files/sweetim-fantasy/6455.gif'
     );
   });
 });

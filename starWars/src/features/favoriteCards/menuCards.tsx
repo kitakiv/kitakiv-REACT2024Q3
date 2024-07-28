@@ -18,22 +18,24 @@ export const MenuCards = () => {
   }, [cards]);
 
   return (
-    cards.ids.length > 0 && (
-      <div className="menu-cards">
-        <span className="menu-cards-span">
-          {cards.ids.length} items are selected
-        </span>
-        <button className="button" onClick={() => dispatch(removeAllCards())}>
-          Unselect all
-        </button>
-        <a
-          className="button"
-          href={url}
-          download={`${cards.ids.length}_people.csv`}
-        >
-          Download
-        </a>
-      </div>
-    )
+    <div data-testid="menu-cards">
+      {cards.ids.length > 0 && (
+        <div className="menu-cards">
+          <span className="menu-cards-span">
+            {cards.ids.length} items are selected
+          </span>
+          <button className="button" onClick={() => dispatch(removeAllCards())}>
+            Unselect all
+          </button>
+          <a
+            className="button"
+            href={url}
+            download={`${cards.ids.length}_people.csv`}
+          >
+            Download
+          </a>
+        </div>
+      )}
+    </div>
   );
 };

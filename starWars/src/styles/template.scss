@@ -72,6 +72,15 @@ body {
       background-position: center;
     }
   }
+
+  .fighter {
+    width: 130px;
+    height: 130px;
+    background: url('./assets/svg/flying-bo-katan-kryze.gif');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
 }
 
 .dark {
@@ -83,6 +92,15 @@ body {
       background-repeat: no-repeat;
       background-position: center;
     }
+  }
+
+  .fighter {
+    width: 130px;
+    height: 130px;
+    background: url('./assets/svg/vader-dark.gif');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
   }
 }
 
