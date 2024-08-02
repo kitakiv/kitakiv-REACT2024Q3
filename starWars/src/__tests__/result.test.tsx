@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import Result from '../features/favoriteCards/result';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import storeSlice from '../app/store';
+import storeSlice from '../store/store';
 import userEvent from '@testing-library/user-event';
 import { ApiProvider } from '@reduxjs/toolkit/query/react';
 import { apiSlice } from '../features/api/apiSlice';

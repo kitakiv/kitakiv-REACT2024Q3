@@ -4,7 +4,7 @@ import Pagination from '../components/pagination';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from '../app/store';
+import store from '../store/store';
 
 const resultData = {
   count: 82,
