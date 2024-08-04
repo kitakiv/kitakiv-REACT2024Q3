@@ -1,7 +1,8 @@
 import { SWCharacter } from '../../interface/interface.ts';
-import { useParams, Link } from 'react-router-dom';
 import Checkbox from './checkbox.tsx';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 interface Props {
   result: SWCharacter;
   keyProps: string;
@@ -9,8 +10,9 @@ interface Props {
 }
 
 function Result({ result, keyProps, films }: Props) {
+  const router = useRouter();
+  const { search, page } = router.query;
   const [resultFilms, setResultFilms] = useState<string[]>([]);
-  const { search, page } = useParams();
 
   useEffect(() => {
     const filmsObj = films;
@@ -30,7 +32,7 @@ function Result({ result, keyProps, films }: Props) {
       <Link
         className="results-link"
         key={keyProps}
-        to={`/search/${search}/page/${page}/detail/${keyProps.split('/')[keyProps.split('/').length - 2]}`}
+        href={`/?search=${search || ''}&page=${page || '1'}&detail=${keyProps.split('/')[keyProps.split('/').length - 2]}`}
       >
         <h3>{result.name}</h3>
         <div className="fighter" />

@@ -1,46 +1,51 @@
 import { useState, useRef, useEffect } from 'react';
-import { useGetFilmsQuery, useGetSearchAndPageQuery } from '../api/apiSlice';
 import Result from '../favoriteCards/result';
-import { Outlet, useParams } from 'react-router-dom';
 import NoResults from '../../components/noResults';
 import Loader from '../../components/loader';
 import Pagination from '../../components/pagination';
-import { SWFilm } from '../../interface/interface';
+import {
+  SWCharacterWithFilms,
+  SWFilm,
+  SWApiResponse,
+  SWCharacter,
+} from '../../interface/interface';
 import { useAppDispatch } from '../../store/hooks';
 import { setCurrentPage } from './currentPageSlice';
+import { useRouter } from 'next/router';
+import DetailsPage from '../details/detailsPage';
 
-function Results() {
+function Results({
+  result,
+  filmsResult,
+  detailResult,
+  isSuccess,
+  isFetching,
+}: {
+  result: SWApiResponse;
+  filmsResult: SWCharacterWithFilms;
+  detailResult: SWCharacter | null;
+  isSuccess: boolean;
+  isFetching: boolean;
+}) {
+  const router = useRouter();
+  const { search, page, detail } = router.query;
   const [films, setFilms] = useState<{ [key: string]: string }>({});
   const [errorThrown, setErrorThrown] = useState(false);
   const errorText = 'Something went wrong. Please try again later.';
-  const { search, page, id } = useParams();
   const resultRef = useRef(null);
-  const searchName = search === 'default' ? '' : search;
   const pageName = page ? page : '1';
   const dispatch = useAppDispatch();
-  const {
-    data: result,
-    isError,
-    isSuccess,
-    isFetching,
-    error,
-  } = useGetSearchAndPageQuery({
-    search: searchName || '',
-    page: pageName,
-  });
-
-  const { data: filmsResult, isSuccess: isSuccessFilms } = useGetFilmsQuery();
 
   useEffect(() => {
-    if (isSuccessFilms) {
+    if (isSuccess) {
       filmsResult.results.forEach((film: SWFilm) => {
         setFilms((prev) => ({ ...prev, [film.url]: film.title }));
       });
     }
     dispatch(setCurrentPage(result?.results || []));
-  }, [isSuccessFilms, filmsResult, dispatch, result?.results]);
+  }, [isSuccess, filmsResult, dispatch, result?.results]);
 
-  if (errorThrown || isError || error) {
+  if (errorThrown) {
     throw new Error(errorText);
   }
 
@@ -67,15 +72,22 @@ function Results() {
               </div>
               <Pagination
                 result={result}
-                page={pageName}
-                search={search || 'default'}
-                id={id}
+                page={pageName.toString() || '1'}
+                search={search?.toString() || ''}
+                detail={detail?.toString() || undefined}
               />
             </div>
           )}
           {isSuccess && result.count === 0 && <NoResults />}
         </>
-        <Outlet />
+        {detailResult && (
+          <DetailsPage
+            details={detailResult}
+            filmsResult={films}
+            page={pageName.toString() || '1'}
+            search={search?.toString() || ''}
+          />
+        )}
       </section>
     </>
   );

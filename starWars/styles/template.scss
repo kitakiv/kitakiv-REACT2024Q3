@@ -81,6 +81,15 @@ body {
     background-repeat: no-repeat;
     background-position: center;
   }
+
+  .vader {
+    width: 200px;
+    height: 200px;
+    background-image: url('../public/assets/svg/vader-light.gif');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
 }
 
 .dark {
@@ -98,6 +107,15 @@ body {
     width: 130px;
     height: 130px;
     background: url('../public/assets/svg/vader-dark.gif');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .vader {
+    width: 200px;
+    height: 200px;
+    background-image: url('../public/assets/svg/vader-dark.webp');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;

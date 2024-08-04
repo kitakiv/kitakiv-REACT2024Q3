@@ -1,12 +1,14 @@
 import Search from '../components/search';
 import ErrorBoundary from '../components/errorBoundary';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import { MenuCards } from '../features/favoriteCards/menuCards';
+import { useRouter } from 'next/router';
 
-function App() {
+function App({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const [search, setSearch, removeSearch] = useLocalStorage('search', '');
-  const [template, setTemplate] = useLocalStorage('background', 'dark');
+  const [template, setTemplate] = useState('dark');
   const handleSearch = useCallback(
     (searchResult: string) => {
       if (searchResult === '') {
@@ -14,8 +16,9 @@ function App() {
       } else {
         setSearch(searchResult);
       }
+      router.push(`/?search=${searchResult}&page=1`);
     },
-    [removeSearch, setSearch]
+    [removeSearch, setSearch, router]
   );
 
   const handleChange = () => {
@@ -26,11 +29,11 @@ function App() {
     }
   };
 
-  // useEffect(() => {
-  //   if (location.pathname === '/') {
-  //     handleSearch(search);
-  //   }
-  // }, [handleSearch, location.pathname, search]);
+  useEffect(() => {
+    if (!router.query.search && !router.query.page) {
+      router.push(`/?search=&page=1`);
+    }
+  }, [router.query.search, search, router]);
 
   return (
     <div className={template} data-testId="app">
@@ -42,9 +45,9 @@ function App() {
         />
       </ErrorBoundary>
 
-      {/* <ErrorBoundary>
-        <Outlet />
-      </ErrorBoundary> */}
+      <ErrorBoundary>
+        <>{children}</>
+      </ErrorBoundary>
 
       <ErrorBoundary>
         <MenuCards />

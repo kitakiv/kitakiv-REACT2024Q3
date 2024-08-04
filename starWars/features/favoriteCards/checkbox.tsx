@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { addFavoriteCard, removeFavoriteCard } from './cardsSlice';
 import { SWCharacter } from '../../interface/interface';
+import React from 'react';
 
 const Checkbox = ({ data, films }: { data: SWCharacter; films: string[] }) => {
   const dispatch = useAppDispatch();

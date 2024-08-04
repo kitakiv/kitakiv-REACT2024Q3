@@ -1,8 +1,10 @@
+import Image from 'next/image';
+
 function NotFound() {
   return (
     <div className="not-found">
       <h1>Page Not Found</h1>
-      <img
+      <Image
         src="https://media0.giphy.com/media/l0Iy0z5m3FN9T6HuM/source.gif"
         alt="404"
       />
