@@ -21,6 +21,6 @@
     "incremental": true,
     "plugins": [{ "name": "next" }]
   },
-  "include": ["./pages", "./dist/types/**/*.ts", "./next-env.d.ts"],
+  "include": ["pagesss", "./dist/types/**/*.ts", "./next-env.d.ts"],
   "exclude": ["./node_modules"]
 }
