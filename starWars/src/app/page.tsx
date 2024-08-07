@@ -2,6 +2,8 @@ import React from 'react';
 import ProviderApp from '../components/provider';
 import App from '../components/App';
 import Results from '../features/results/searchResults';
+import { redirect } from 'next/navigation';
+import { getCookie } from '../app/action';
 import {
   SWApiResponse,
   SWCharacter,
@@ -17,6 +19,10 @@ async function getServerSideProps({
     detail: string | undefined;
   };
 }) {
+  if (!search && !page) {
+    const search = (await getCookie())?.value || '';
+    redirect(`/?search=${search}&page=1`);
+  }
   const res = await fetch(
     `https://swapi.dev/api/people/?search=${search || ''}&page=${page || '1'}`
   );
@@ -65,7 +71,6 @@ export default async function Post({
   return (
     <ProviderApp>
       <App>
-        {' '}
         <Results
           result={data}
           filmsResult={filmData}

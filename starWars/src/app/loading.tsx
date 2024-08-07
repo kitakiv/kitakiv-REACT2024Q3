@@ -2,6 +2,7 @@ import Image from 'next/legacy/image';
 import React from 'react';
 
 function Loader() {
+  console.log('loading');
   return (
     <div className="pop-up-load" data-testId="Loading">
       <div className="loader"></div>
