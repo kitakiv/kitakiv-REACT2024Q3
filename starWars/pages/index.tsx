@@ -7,6 +7,7 @@ import {
   SWCharacter,
   SWCharacterWithFilms,
 } from '../interface/interface';
+import { NextApiRequest, NextApiResponse } from 'next';
 export default function Home({
   data,
   dataDetails,
@@ -33,22 +34,37 @@ export default function Home({
 
 export async function getServerSideProps({
   query: { search, page, detail },
+  res,
+  req,
 }: {
   query: {
     search: string | undefined;
     page: string | undefined;
     detail: string | undefined;
   };
+  res: NextApiResponse;
+  req: NextApiRequest;
 }) {
-  const res = await fetch(
+  if (!page && !search) {
+    const newSearch = req.cookies['search'] || '';
+    return {
+      redirect: {
+        destination: `/?search=${newSearch}&page=1`,
+        permanent: false,
+      },
+    };
+  } else {
+    res.setHeader('Set-Cookie', `search=${search || ''}; path=/; expires=Fri`);
+  }
+  const result = await fetch(
     `https://swapi.dev/api/people/?search=${search || ''}&page=${page || '1'}`
   );
-  const data = await res.json();
+  const data = await result.json();
   const filmRes = await fetch(`https://swapi.dev/api/films/`);
   const filmData = await filmRes.json();
   if (detail) {
-    const res = await fetch(`https://swapi.dev/api/people/${detail}`);
-    const dataDetails = await res.json();
+    const result = await fetch(`https://swapi.dev/api/people/${detail}`);
+    const dataDetails = await result.json();
     return {
       props: {
         data,
