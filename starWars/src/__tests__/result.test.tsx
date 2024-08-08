@@ -7,6 +7,7 @@ import storeSlice from '../store/store';
 import userEvent from '@testing-library/user-event';
 import { ApiProvider } from '@reduxjs/toolkit/query/react';
 import { apiSlice } from '../features/api/apiSlice';
+import React from 'react';
 
 describe('create result card', () => {
   test('Renders the main page', async () => {
@@ -66,7 +67,13 @@ describe('create result card', () => {
       <ApiProvider api={apiSlice}>
         <Provider store={storeSlice}>
           <BrowserRouter>
-            <Result result={result} keyProps={key} films={films} />
+            <Result
+              result={result}
+              keyProps={key}
+              films={films}
+              page={'1'}
+              search="luke"
+            />
           </BrowserRouter>
         </Provider>
       </ApiProvider>
@@ -171,6 +178,8 @@ describe('Result Component', () => {
               result={mockResult}
               keyProps={mockResult.url}
               films={mockFilms}
+              page={'1'}
+              search="luke"
             />
           </BrowserRouter>
         </Provider>
@@ -185,38 +194,5 @@ describe('Result Component', () => {
     expect(screen.getByText('Eye color: blue')).toBeInTheDocument();
     expect(screen.getByText(/Birth year: 19BBY/i)).toBeInTheDocument();
     expect(screen.getByText('Gender: male')).toBeInTheDocument();
-  });
-
-  test('renders correct template based on local storage value', () => {
-    const { rerender } = render(
-      <ApiProvider api={apiSlice}>
-        <Provider store={storeSlice}>
-          <BrowserRouter>
-            <Result
-              result={mockResult}
-              keyProps={mockResult.url}
-              films={mockFilms}
-            />
-          </BrowserRouter>
-        </Provider>
-      </ApiProvider>
-    );
-    jest.mock('usehooks-ts', () => ({
-      useLocalStorage: () => ['light'],
-    }));
-
-    rerender(
-      <ApiProvider api={apiSlice}>
-        <Provider store={storeSlice}>
-          <BrowserRouter>
-            <Result
-              result={mockResult}
-              keyProps={mockResult.url}
-              films={mockFilms}
-            />
-          </BrowserRouter>
-        </Provider>
-      </ApiProvider>
-    );
   });
 });

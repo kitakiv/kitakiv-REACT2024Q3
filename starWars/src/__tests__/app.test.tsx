@@ -1,59 +1,61 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import App from '../../components/App';
-import { BrowserRouter } from 'react-router-dom';
-import { useLocation, useNavigation } from 'react-router-dom';
+import App from '../components/App';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import store from '../store/store';
+import React from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useLocation: jest.fn(),
-  useNavigation: jest.fn(),
+jest.mock('next/navigation', () => ({
+  ...jest.requireActual('next/navigation'),
+  useRouter: jest.fn().mockImplementation(() => ({ route: '/' })),
+  useSearchParams: jest.fn().mockImplementation(() => ({ get: jest.fn() })),
 }));
 
 describe('App', () => {
-  test('Renders the main page', () => {
-    (useLocation as jest.Mock).mockReturnValue({ pathname: '/' });
-    (useNavigation as jest.Mock).mockReturnValue({ state: 'loading' });
+  test('Renders the main page', async () => {
+    (useRouter as jest.Mock).mockReturnValue({ route: '/' });
+    (useSearchParams as jest.Mock).mockReturnValue({ get: jest.fn() });
     render(
       <Provider store={store}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <App>
+          <div title="test"></div>
+        </App>
       </Provider>
     );
-    screen.getByTestId('Loading');
-    expect(screen.getByTestId('Loading')).toBeInTheDocument();
+    expect(screen.getByTitle(/test/i)).toBeInTheDocument();
+    const user = userEvent.setup();
+    expect(screen.getByTestId('app')).toHaveClass('dark');
+    await user.click(screen.getByTestId('template'));
+    expect(screen.getByTestId('app')).toHaveClass('light');
   });
 
-  test('Renders the main page', async () => {
-    (useLocation as jest.Mock).mockReturnValue({ pathname: '/search' });
-    (useNavigation as jest.Mock).mockReturnValue({ state: 'idle' });
-    render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </Provider>
-    );
-    const app = screen.getByTestId('app');
-    expect(app).toBeInTheDocument();
-    expect(app).toHaveClass('dark');
-    const template = screen.getByTestId('template');
-    const user = userEvent.setup();
-    await user.click(template);
-    expect(app).toHaveClass('light');
+  describe('App', () => {
+    test('Renders the main page', async () => {
+      (useRouter as jest.Mock).mockReturnValue({ push: jest.fn() });
+      (useSearchParams as jest.Mock).mockReturnValue({
+        get: (t: string) => {
+          if (t === 'search') {
+            return 'Luke';
+          }
+        },
+      });
+      render(
+        <Provider store={store}>
+          <App>
+            <div title="test"></div>
+          </App>
+        </Provider>
+      );
+      expect(screen.getByPlaceholderText(/Darth Vader/i)).toBeInTheDocument();
+      expect(screen.getByRole('textbox')).toHaveAttribute('value', 'Luke');
 
-    await user.click(template);
-    expect(app).toHaveClass('dark');
-
-    const button = screen.getByRole('button');
-    const input = screen.getByRole('textbox');
-    expect(button).toBeInTheDocument();
-    await user.type(input, 'Luke');
-    await user.click(button);
-    expect(window.location.pathname).toBe('/search/Luke/page/1');
+      const user = userEvent.setup();
+      const input = screen.getByRole('textbox');
+      await user.clear(input);
+      await user.type(input, 'darth');
+      expect(input).toHaveAttribute('value', 'darth');
+    });
   });
 });
