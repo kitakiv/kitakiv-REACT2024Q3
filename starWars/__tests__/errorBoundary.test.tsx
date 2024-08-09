@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import ErrorBoundary from '../components/errorBoundary';
+import React from 'react';
 
 const ProblematicComponent = () => {
   throw new Error('Test error');

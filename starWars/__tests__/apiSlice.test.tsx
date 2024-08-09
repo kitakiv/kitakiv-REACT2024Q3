@@ -12,6 +12,7 @@ import store from '../store/store';
 beforeEach(() => {
   fetchMock.enableMocks();
 });
+import React from 'react';
 
 afterEach(() => {
   fetchMock.resetMocks();

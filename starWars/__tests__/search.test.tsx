@@ -2,6 +2,7 @@ import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import Search from '../components/search';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
 
 describe('submit result with right values', () => {
   const functionSearch = jest.fn();

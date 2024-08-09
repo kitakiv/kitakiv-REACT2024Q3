@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { DataInitial } from '../interface/interface';
 import { configureStore, createSlice } from '@reduxjs/toolkit';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
 
 const initialState: DataInitial = {
   ids: ['1', '2'],

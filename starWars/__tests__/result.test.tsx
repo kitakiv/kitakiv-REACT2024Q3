@@ -7,9 +7,23 @@ import storeSlice from '../store/store';
 import userEvent from '@testing-library/user-event';
 import { ApiProvider } from '@reduxjs/toolkit/query/react';
 import { apiSlice } from '../features/api/apiSlice';
+import React from 'react';
+import { useRouter } from 'next/router';
+
+jest.mock('next/router', () => ({
+  ...jest.requireActual('next/router'),
+  useRouter: jest
+    .fn()
+    .mockImplementation(() => ({ route: '/', push: jest.fn() })),
+}));
 
 describe('create result card', () => {
   test('Renders the main page', async () => {
+    (useRouter as jest.Mock).mockReturnValue({
+      route: '/',
+      push: jest.fn(),
+      query: { search: 'Luke', page: '1' },
+    });
     const films = {
       '/https://swapi.dev/api/films/1/': 'Nebula',
       '/https://swapi.dev/api/films/2/': 'A New Hope',
@@ -149,20 +163,13 @@ const mockResult = {
   edited: '2014-12-20T21:17:56.891000Z',
 };
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useParams: () => ({
-    search: 'Luke',
-    page: '1',
-  }),
-}));
-
-jest.mock('usehooks-ts', () => ({
-  useLocalStorage: () => ['dark', jest.fn()],
-}));
-
 describe('Result Component', () => {
   test('renders Result component with correct data', () => {
+    (useRouter as jest.Mock).mockReturnValue({
+      route: '/',
+      push: jest.fn(),
+      query: { search: 'Luke', page: '1' },
+    });
     render(
       <ApiProvider api={apiSlice}>
         <Provider store={storeSlice}>
@@ -185,38 +192,5 @@ describe('Result Component', () => {
     expect(screen.getByText('Eye color: blue')).toBeInTheDocument();
     expect(screen.getByText(/Birth year: 19BBY/i)).toBeInTheDocument();
     expect(screen.getByText('Gender: male')).toBeInTheDocument();
-  });
-
-  test('renders correct template based on local storage value', () => {
-    const { rerender } = render(
-      <ApiProvider api={apiSlice}>
-        <Provider store={storeSlice}>
-          <BrowserRouter>
-            <Result
-              result={mockResult}
-              keyProps={mockResult.url}
-              films={mockFilms}
-            />
-          </BrowserRouter>
-        </Provider>
-      </ApiProvider>
-    );
-    jest.mock('usehooks-ts', () => ({
-      useLocalStorage: () => ['light'],
-    }));
-
-    rerender(
-      <ApiProvider api={apiSlice}>
-        <Provider store={storeSlice}>
-          <BrowserRouter>
-            <Result
-              result={mockResult}
-              keyProps={mockResult.url}
-              films={mockFilms}
-            />
-          </BrowserRouter>
-        </Provider>
-      </ApiProvider>
-    );
   });
 });

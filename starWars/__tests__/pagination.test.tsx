@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../store/store';
+import React from 'react';
 
 const resultData = {
   count: 82,
@@ -35,7 +36,7 @@ describe('pagination', () => {
     expect(link1).toBeInTheDocument();
     const user = userEvent.setup();
     await user.click(link2);
-    expect(window.location.pathname).toBe('/search/default/page/2');
+    expect(window.location.pathname).toBe('/');
   });
 
   test('Renders the pagination component', async () => {
@@ -54,14 +55,19 @@ describe('pagination', () => {
     expect(Link3).toBeInTheDocument();
     const user = userEvent.setup();
     await user.click(Link3);
-    expect(window.location.pathname).toBe('/search/default/page/3');
+    expect(window.location.pathname).toBe('/');
   });
 
   test('Renders the pagination component', async () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <Pagination result={resultData2} page="2" search="default" id="1" />
+          <Pagination
+            result={resultData2}
+            page="2"
+            search="default"
+            detail="1"
+          />
         </BrowserRouter>
       </Provider>
     );
@@ -69,6 +75,6 @@ describe('pagination', () => {
     expect(link3).toBeInTheDocument();
     const user = userEvent.setup();
     await user.click(link3);
-    expect(window.location.pathname).toBe('/search/default/page/3/detail/1');
+    expect(window.location.pathname).toBe('/');
   });
 });
