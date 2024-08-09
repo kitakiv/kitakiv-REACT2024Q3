@@ -1,6 +1,6 @@
 import Search from '../components/search';
 import ErrorBoundary from '../components/errorBoundary';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { MenuCards } from '../features/favoriteCards/menuCards';
 import { useRouter } from 'next/router';
 
@@ -23,12 +23,6 @@ function App({ children }: { children: React.ReactNode }) {
       setTemplate('dark');
     }
   };
-
-  useEffect(() => {
-    if (!router.query.search && !router.query.page) {
-      router.push(`/?search=&page=1`);
-    }
-  }, [router.query.search, search, router]);
 
   return (
     <div className={template} data-testId="app">

@@ -192,5 +192,9 @@ describe('Result Component', () => {
     expect(screen.getByText('Eye color: blue')).toBeInTheDocument();
     expect(screen.getByText(/Birth year: 19BBY/i)).toBeInTheDocument();
     expect(screen.getByText('Gender: male')).toBeInTheDocument();
+    expect(screen.getByRole('link')).toHaveAttribute(
+      'href',
+      '/?search=Luke&page=1&detail=1'
+    );
   });
 });

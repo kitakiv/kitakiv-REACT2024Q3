@@ -9,13 +9,11 @@ import { useRouter } from 'next/router';
 
 jest.mock('next/router', () => ({
   ...jest.requireActual('next/router'),
-  useRouter: jest
-    .fn()
-    .mockImplementation(() => ({
-      route: '/',
-      push: jest.fn(),
-      query: { search: 'Luke', page: '1' },
-    })),
+  useRouter: jest.fn().mockImplementation(() => ({
+    route: '/',
+    push: jest.fn(),
+    query: { search: 'Luke', page: '1' },
+  })),
 }));
 
 describe('App', () => {
@@ -61,6 +59,54 @@ describe('App', () => {
       await user.clear(input);
       await user.type(input, 'darth');
       expect(input).toHaveAttribute('value', 'darth');
+    });
+
+    test('Renders the main page', async () => {
+      (useRouter as jest.Mock).mockReturnValue({
+        route: '/',
+        push: jest.fn(),
+        query: { search: 'Luke', page: '1' },
+      });
+      render(
+        <Provider store={store}>
+          <App>
+            <div title="test"></div>
+          </App>
+        </Provider>
+      );
+      const user = userEvent.setup();
+      const input = screen.getByRole('textbox');
+      await user.clear(input);
+      await user.type(input, 'luke ');
+      expect(screen.getByText(/Please remove space/i)).toBeInTheDocument();
+      await user.clear(input);
+      await user.type(input, 'darth');
+      expect(screen.getByRole('textbox')).toHaveAttribute('value', 'darth');
+      await user.click(screen.getByRole('button'));
+      expect(window.location.pathname).toBe('/');
+    });
+
+    test('Renders the main page', async () => {
+      (useRouter as jest.Mock).mockReturnValue({
+        route: '/',
+        push: jest.fn(),
+        query: { search: 'Luke', page: '1' },
+      });
+      render(
+        <Provider store={store}>
+          <App>
+            <div title="test"></div>
+          </App>
+        </Provider>
+      );
+      const user = userEvent.setup();
+      const button = screen.getByTestId('template');
+      expect(screen.getByTestId('app')).toHaveClass('dark');
+      await user.click(button);
+      expect(screen.getByTestId('app')).toHaveClass('light');
+      const button2 = screen.getByTestId('template');
+      await user.click(button2);
+      expect(screen.getByTestId('app')).toHaveClass('dark');
     });
   });
 });
