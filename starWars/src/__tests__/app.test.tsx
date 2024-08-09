@@ -57,5 +57,31 @@ describe('App', () => {
       await user.type(input, 'darth');
       expect(input).toHaveAttribute('value', 'darth');
     });
+
+    test('Renders the main page', async () => {
+      (useRouter as jest.Mock).mockReturnValue({ push: jest.fn() });
+      (useSearchParams as jest.Mock).mockReturnValue({
+        get: (t: string) => {
+          if (t === 'search') {
+            return 'Luke';
+          }
+        },
+      });
+      render(
+        <Provider store={store}>
+          <App>
+            <div title="test"></div>
+          </App>
+        </Provider>
+      );
+      const user = userEvent.setup();
+      const button = screen.getByTestId('template');
+      expect(screen.getByTestId('app')).toHaveClass('dark');
+      await user.click(button);
+      expect(screen.getByTestId('app')).toHaveClass('light');
+      const button2 = screen.getByTestId('template');
+      await user.click(button2);
+      expect(screen.getByTestId('app')).toHaveClass('dark');
+    });
   });
 });
