@@ -1,11 +1,11 @@
-import { Outlet, useLocation } from 'react-router-dom';
-import Search from './components/search';
-import ErrorBoundary from './components/errorBoundary';
-import { useNavigate, useNavigation } from 'react-router-dom';
+import { useLocation } from '@remix-run/react';
+import Search from './search';
+import ErrorBoundary from './/errorBoundary';
+import { useNavigate, useNavigation } from '@remix-run/react';
 import { useCallback, useEffect } from 'react';
-import Loader from './components/loader';
+import Loader from './/loader';
 import { useLocalStorage } from 'usehooks-ts';
-import { MenuCards } from './features/favoriteCards/menuCards';
+import { MenuCards } from '../features/favoriteCards/menuCards';
 
 function App() {
   const [search, setSearch, removeSearch] = useLocalStorage('search', '');
@@ -17,12 +17,11 @@ function App() {
   const handleSearch = useCallback(
     (searchResult: string) => {
       if (searchResult === '') {
-        navigate(`/search/default/page/1`);
         removeSearch();
       } else {
         setSearch(searchResult);
-        navigate(`/search/${searchResult}/page/1`);
       }
+      navigate(`/?search=${searchResult}&page=1`);
     },
     [navigate, removeSearch, setSearch]
   );
@@ -52,9 +51,9 @@ function App() {
         />
       </ErrorBoundary>
 
-      <ErrorBoundary>
+      {/* <ErrorBoundary>
         <Outlet />
-      </ErrorBoundary>
+      </ErrorBoundary> */}
 
       <ErrorBoundary>
         <MenuCards />

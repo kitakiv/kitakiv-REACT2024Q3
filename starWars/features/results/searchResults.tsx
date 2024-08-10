@@ -6,7 +6,7 @@ import NoResults from '../../components/noResults';
 import Loader from '../../components/loader';
 import Pagination from '../../components/pagination';
 import { SWFilm } from '../../interface/interface';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch } from '../../../store/hooks';
 import { setCurrentPage } from './currentPageSlice';
 
 function Results() {

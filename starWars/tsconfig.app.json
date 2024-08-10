@@ -24,5 +24,12 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "store",
+    "vite-env.d.ts",
+    "components",
+    "features",
+    "store"
+  ]
 }
