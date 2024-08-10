@@ -91,6 +91,7 @@ function Results({
             filmsResult={films}
             page={pageName.toString() || '1'}
             search={search?.toString() || ''}
+            detail={detail?.toString() || '1'}
           />
         )}
       </section>

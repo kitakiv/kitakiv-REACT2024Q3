@@ -7,19 +7,25 @@ function DetailsPage({
   filmsResult,
   page,
   search,
+  detail,
 }: {
   details: SWCharacter;
   filmsResult: { [key: string]: string };
   page: string;
   search: string;
+  detail: string;
 }) {
   return (
     <>
       {details.films ? (
         <div className="details-page">
-          <div>
+          <div className="details-header">
             <h1>{details.name}</h1>
-            <div className="vader"></div>
+            <img
+              className="details-img"
+              src={`https://starwars-visualguide.com/assets/img/characters/${detail}.jpg`}
+              alt={details.name}
+            />
           </div>
           <div>
             <h3>Details</h3>
