@@ -1,60 +1,25 @@
-import { Link, useParams } from 'react-router-dom';
-import { SWFilm } from '../../interface/interface';
-import Loader from '../../components/loader';
-import { useState, useEffect } from 'react';
-import { useGetDetailsQuery, useGetFilmsQuery } from '../api/apiSlice';
-import { useLocalStorage } from 'usehooks-ts';
+import { SWCharacter } from '../../interface/interface';
+import { Link } from '@remix-run/react';
+import NoResults from '../../components/noResults';
 
-function DetailsPage() {
-  const [films, setFilms] = useState<{ [key: string]: string }>({});
-  const [template] = useLocalStorage('background', 'dark');
-  const [state, setState] = useState('loading');
-  const { search, page, id } = useParams();
-  const {
-    data: details,
-    isSuccess,
-    isFetching: isFetchingDetails,
-  } = useGetDetailsQuery(id || '1');
-
-  const {
-    data: filmsResult,
-    isSuccess: isSuccessFilms,
-    isFetching: isFetchingFilms,
-  } = useGetFilmsQuery();
-
-  useEffect(() => {
-    if (isFetchingDetails || isFetchingFilms) {
-      setState('loading');
-    } else {
-      setState('idle');
-    }
-    if (isSuccessFilms) {
-      filmsResult.results.forEach((film: SWFilm) => {
-        setFilms((prev) => ({ ...prev, [film.url]: film.title }));
-      });
-    }
-  }, [isFetchingDetails, isFetchingFilms, isSuccessFilms, filmsResult]);
-
+function DetailsPage({
+  details,
+  filmsResult,
+  page,
+  search,
+}: {
+  details: SWCharacter;
+  filmsResult: { [key: string]: string };
+  page: string;
+  search: string;
+}) {
   return (
     <>
-      {state === 'loading' && <Loader />}
-      {isSuccess && state === 'idle' && (
+      {details.films ? (
         <div className="details-page">
           <div>
             <h1>{details.name}</h1>
-            {template === 'light' ? (
-              <img
-                src="https://media.tenor.com/Ok5fuOj3FjYAAAAj/star-wars-walking.gif"
-                alt="vader"
-                className="vader"
-              />
-            ) : (
-              <img
-                src="https://media4.giphy.com/media/SmYqlOh9GtnuAe4SwB/giphy.gif?cid=6c09b952xlb8fg6fyamxsbe02ovtxdxelr36om2xti5w0auf&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=s"
-                alt="vader"
-                className="vader"
-              />
-            )}
+            <div className="vader"></div>
           </div>
           <div>
             <h3>Details</h3>
@@ -71,18 +36,20 @@ function DetailsPage() {
           <div className="films" id="films">
             <h3>Films</h3>
             <ul>
-              {details.films.map((film) => (
-                <li key={film}>{films[film]}</li>
+              {details.films.map((filmLink) => (
+                <li key={filmLink}>{filmsResult[filmLink]}</li>
               ))}
             </ul>
           </div>
           <div></div>
           <Link
-            to={`/search/${search}/page/${page}`}
+            to={`/?search=${search}&page=${page}`}
             className="cross"
             defaultValue="back"
           ></Link>
         </div>
+      ) : (
+        <NoResults />
       )}
     </>
   );

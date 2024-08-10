@@ -1,16 +1,17 @@
 import { SWCharacter } from '../../interface/interface.ts';
-import { useParams, Link } from 'react-router-dom';
 import Checkbox from './checkbox.tsx';
 import { useEffect, useState } from 'react';
+import { Link } from '@remix-run/react';
 interface Props {
   result: SWCharacter;
   keyProps: string;
   films: { [key: string]: string };
+  search: string;
+  page: string;
 }
 
-function Result({ result, keyProps, films }: Props) {
+function Result({ result, keyProps, films, search, page }: Props) {
   const [resultFilms, setResultFilms] = useState<string[]>([]);
-  const { search, page } = useParams();
 
   useEffect(() => {
     const filmsObj = films;
@@ -30,7 +31,7 @@ function Result({ result, keyProps, films }: Props) {
       <Link
         className="results-link"
         key={keyProps}
-        to={`/search/${search}/page/${page}/detail/${keyProps.split('/')[keyProps.split('/').length - 2]}`}
+        to={`/?search=${search || ''}&page=${page || '1'}&detail=${keyProps.split('/')[keyProps.split('/').length - 2]}`}
       >
         <h3>{result.name}</h3>
         <div className="fighter" />

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useAppSelector, useAppDispatch } from '../../../store/hooks';
+import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { addFavoriteCard, removeFavoriteCard } from './cardsSlice';
 import { SWCharacter } from '../../interface/interface';
 

@@ -1,18 +1,16 @@
-import { useLocation } from '@remix-run/react';
 import Search from './search';
 import ErrorBoundary from './/errorBoundary';
 import { useNavigate, useNavigation } from '@remix-run/react';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useState } from 'react';
 import Loader from './/loader';
 import { useLocalStorage } from 'usehooks-ts';
 import { MenuCards } from '../features/favoriteCards/menuCards';
 
-function App() {
+function App({ children }: { children: React.ReactNode }) {
   const [search, setSearch, removeSearch] = useLocalStorage('search', '');
-  const [template, setTemplate] = useLocalStorage('background', 'dark');
+  const [template, setTemplate] = useState('dark');
   const { state } = useNavigation();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleSearch = useCallback(
     (searchResult: string) => {
@@ -34,12 +32,6 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    if (location.pathname === '/') {
-      handleSearch(search);
-    }
-  }, [handleSearch, location.pathname, search]);
-
   return (
     <div className={template} data-testId="app">
       {state === 'loading' && <Loader />}
@@ -51,9 +43,9 @@ function App() {
         />
       </ErrorBoundary>
 
-      {/* <ErrorBoundary>
-        <Outlet />
-      </ErrorBoundary> */}
+      <ErrorBoundary>
+        <>{children}</>
+      </ErrorBoundary>
 
       <ErrorBoundary>
         <MenuCards />

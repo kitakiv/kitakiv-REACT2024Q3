@@ -30,6 +30,7 @@
     "vite-env.d.ts",
     "components",
     "features",
-    "store"
+    "store",
+    "interface"
   ]
 }
