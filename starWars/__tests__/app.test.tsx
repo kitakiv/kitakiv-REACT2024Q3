@@ -1,11 +1,12 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import App from '../App';
+import App from '../components/App';
 import { BrowserRouter } from 'react-router-dom';
 import { useLocation, useNavigation } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
-import store from '../app/store';
+import store from '../store/store';
+import React from 'react';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),

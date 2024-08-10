@@ -7,6 +7,7 @@ jest.mock('../features/api/apiSlice', () => ({
   useGetFilmsQuery: jest.fn(),
 }));
 import { useGetDetailsQuery, useGetFilmsQuery } from '../features/api/apiSlice';
+import React from 'react';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),

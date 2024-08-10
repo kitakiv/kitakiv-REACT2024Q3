@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { configureStore, createSlice } from '@reduxjs/toolkit';
 import { DataInitial } from '../interface/interface';
+import React from 'react';
 
 const initialState: DataInitial = {
   ids: ['1', '2'],

@@ -6,7 +6,7 @@
   "scripts": {
      "dev": "node ./server.js",
     "start": "cross-env NODE_ENV=production node ./server.js",
-    "test": "jest --coverage --collectCoverageFrom='src/**/*.{ts,tsx}'",
+    "test": "jest --coverage",
     "build": "tsc -b && vite build",
     "lint": "eslint ./src --ext ts,tsx",
     "lint:fix": "eslint ./src --ext ts,tsx --fix",

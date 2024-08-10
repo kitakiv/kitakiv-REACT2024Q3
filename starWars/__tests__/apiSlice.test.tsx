@@ -8,7 +8,8 @@ import {
   useGetDetailsQuery,
 } from '../features/api/apiSlice';
 import { renderHook, waitFor } from '@testing-library/react';
-import store from '../app/store';
+import store from '../store/store';
+import React from 'react';
 beforeEach(() => {
   fetchMock.enableMocks();
 });

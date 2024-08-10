@@ -8,4 +8,11 @@ export default {
   moduleNameMapper: {
     '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/test/__ mocks __/fileMock.js',
   },
+  collectCoverageFrom: [
+    './**/*.ts?(x)',
+    '!./vite.config.ts',
+    '!./jest.config.ts',
+    '!./vite-env.d.ts  ',
+  ],
+  collectCoverage: true,
 };

@@ -4,7 +4,8 @@ import Pagination from '../components/pagination';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from '../app/store';
+import store from '../store/store';
+import React from 'react';
 
 const resultData = {
   count: 82,
@@ -61,7 +62,12 @@ describe('pagination', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <Pagination result={resultData2} page="2" search="default" id="1" />
+          <Pagination
+            result={resultData2}
+            page="2"
+            search="default"
+            detail="1"
+          />
         </BrowserRouter>
       </Provider>
     );
