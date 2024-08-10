@@ -1,0 +1,46 @@
+.details-page {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 10px 20px;
+  width: 85%;
+  color: var(--black);
+  background-color: var(--yellow);
+  border-radius: 20px;
+  box-shadow:
+    var(--dark-blue) 0px 30px 60px -12px inset,
+    var(--dark-blue) 0px 18px 36px -18px inset;
+
+  h1,
+  h3 {
+    font-family: 'Rubik Mono One', monospace;
+    font-weight: 400;
+    font-style: normal;
+    text-align: center;
+  }
+
+  .vader {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    margin: 0 auto;
+  }
+
+  .cross {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 40px;
+    transition: all 0.5s;
+    text-decoration: none;
+    width: 40px;
+    height: 40px;
+    background-image: url('../public/assets/svg/cross.svg');
+    background-size: contain;
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+}

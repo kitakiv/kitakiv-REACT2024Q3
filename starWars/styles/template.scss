@@ -1,0 +1,137 @@
+@keyframes background-animation {
+  0% {
+    background: var(--yellow);
+  }
+  60% {
+    background: var(--light-blue);
+  }
+  100% {
+    background: var(--yellow);
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  .dark {
+    min-height: 100vh;
+    background-color: black;
+    background-image: url('../public/assets/img/dark-vader.webp');
+    background-size: 100vw auto;
+    background-repeat: no-repeat;
+    background-position: center top;
+
+    @media screen and (max-width: 768px) {
+      background-image: url('../public/assets/img/vader.webp');
+      background-size: auto 100vh;
+    }
+  }
+
+  .light {
+    min-height: 100vh;
+    animation: background-animation 10s infinite linear;
+  }
+}
+.light,
+.dark {
+  padding: 130px 0 90px 0;
+
+  @media screen and (max-width: 768px) {
+    padding-bottom: 160px;
+  }
+
+  .template {
+    width: 60px;
+    height: 30px;
+    background-color: var(--black);
+    cursor: pointer;
+    border-radius: 100px;
+    border: var(--yellow) 5px solid;
+    display: flex;
+    transition: all 1s;
+
+    &-circle {
+      transition: all 0.6s;
+      width: 30px;
+      height: 30px;
+      background-color: var(--dark-blue);
+      cursor: pointer;
+      border-radius: 100px;
+    }
+  }
+}
+
+.light {
+  .template {
+    &-circle {
+      margin-left: 0;
+      background-image: url('../public/assets/svg/sun.svg');
+      background-size: 25px 25px;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+
+  .fighter {
+    width: 130px;
+    height: 130px;
+    background: url('../public/assets/svg/flying-bo-katan-kryze.gif');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .vader {
+    width: 200px;
+    height: 200px;
+    background-image: url('../public/assets/svg/vader-light.gif');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}
+
+.dark {
+  .template {
+    &-circle {
+      margin-left: 30px;
+      background-image: url('../public/assets/svg/moon.svg');
+      background-size: 25px 25px;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+
+  .fighter {
+    width: 130px;
+    height: 130px;
+    background: url('../public/assets/svg/vader-dark.gif');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .vader {
+    width: 200px;
+    height: 200px;
+    background-image: url('../public/assets/svg/vader-dark.webp');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}
+
+.shadow {
+  box-shadow:
+    var(--dark-blue) 0px 30px 60px -12px inset,
+    var(--dark-blue) 0px 18px 36px -18px inset;
+}
+
+.error {
+  margin: 40px;
+  color: var(--yellow);
+  font-size: large;
+  height: 100%;
+  text-align: center;
+}

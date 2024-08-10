@@ -1,0 +1,83 @@
+.app-search {
+  width: 100%;
+  display: flex;
+  position: absolute;
+  top: 15px;
+  z-index: 1;
+  background-color: var(--dark-blue);
+  border-radius: 100px;
+  box-shadow: var(--dark-blue) 0px 0px 16px 6px;
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+  justify-content: center;
+
+  .input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  form {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 0.9fr 0.05fr 0.05fr;
+    margin: 10px 30px 0 30px;
+
+    @media screen and (max-width: 768px) {
+      grid-template-columns: 1fr 0.15fr 0.15fr;
+    }
+  }
+
+  input[type='text'] {
+    width: 98%;
+    outline: none;
+    border: none;
+    background-color: var(--white);
+    padding: 0 20px;
+    color: var(--white);
+    font-size: 20px;
+    padding: 5px 10px;
+    border-radius: 100px;
+    transition: 0.3s;
+    color: var(--dark-blue);
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  label {
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    bottom: 2px;
+    color: rgb(0, 0, 0);
+    font-size: 0.7em;
+    max-width: 100%;
+    white-space: wrap;
+  }
+
+  button[type='submit'] {
+    width: 50px;
+    height: 50px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background-color: rgba(240, 248, 255, 0);
+    background-image: url('../public/assets/svg/search.svg');
+    background-size: 40px 40px;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: 0.6s;
+    margin: 5px;
+    margin-top: -4px;
+
+    &:hover {
+      box-shadow:
+        rgba(255, 255, 255, 0.618) 0px 30px 60px -12px inset,
+        rgba(255, 255, 255, 0.618) 0px 18px 36px -18px inset;
+      border-radius: 100px;
+    }
+  }
+}
