@@ -51,7 +51,7 @@ function Results({
 
   return (
     <>
-      <section className="app-results" data-testId="Results">
+      <section className="app-results" data-testid="Results">
         <>
           <button
             className="error-button shadow"

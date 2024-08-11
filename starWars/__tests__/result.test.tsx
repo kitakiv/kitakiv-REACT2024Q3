@@ -9,6 +9,10 @@ import { ApiProvider } from '@reduxjs/toolkit/query/react';
 import { apiSlice } from '../features/api/apiSlice';
 import React from 'react';
 
+jest.mock('@remix-run/react', () => ({
+  Link: ({ children, ...props }) => <a {...props}>{children}</a>,
+}));
+
 describe('create result card', () => {
   test('Renders the main page', async () => {
     const films = {
@@ -67,7 +71,13 @@ describe('create result card', () => {
       <ApiProvider api={apiSlice}>
         <Provider store={storeSlice}>
           <BrowserRouter>
-            <Result result={result} keyProps={key} films={films} />
+            <Result
+              result={result}
+              keyProps={key}
+              films={films}
+              search="Luke"
+              page="1"
+            />
           </BrowserRouter>
         </Provider>
       </ApiProvider>
@@ -172,6 +182,8 @@ describe('Result Component', () => {
               result={mockResult}
               keyProps={mockResult.url}
               films={mockFilms}
+              search="Luke"
+              page="1"
             />
           </BrowserRouter>
         </Provider>
@@ -197,14 +209,13 @@ describe('Result Component', () => {
               result={mockResult}
               keyProps={mockResult.url}
               films={mockFilms}
+              search="Luke"
+              page="1"
             />
           </BrowserRouter>
         </Provider>
       </ApiProvider>
     );
-    jest.mock('usehooks-ts', () => ({
-      useLocalStorage: () => ['light'],
-    }));
 
     rerender(
       <ApiProvider api={apiSlice}>
@@ -214,6 +225,8 @@ describe('Result Component', () => {
               result={mockResult}
               keyProps={mockResult.url}
               films={mockFilms}
+              search="Luke"
+              page="1"
             />
           </BrowserRouter>
         </Provider>

@@ -47,7 +47,10 @@ export default function Home() {
   );
 }
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async (
+  p0: { request: Request },
+  { request }: LoaderFunctionArgs
+) => {
   const url = new URL(request.url);
   const search = url.searchParams.get('search') || '';
   const page = url.searchParams.get('page');

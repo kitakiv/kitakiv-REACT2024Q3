@@ -15,4 +15,10 @@ export default {
     '!./vite-env.d.ts  ',
   ],
   collectCoverage: true,
+  globals: {
+    'ts-jest': {
+      useESM: true,
+    },
+  },
+  transformIgnorePatterns: ['/node_modules/(?!@web3-storage/multipart-parser)'],
 };

@@ -1,6 +1,6 @@
 import { SWCharacter } from '../../interface/interface';
-import { Link } from '@remix-run/react';
 import NoResults from '../../components/noResults';
+import { Link } from '@remix-run/react';
 
 function DetailsPage({
   details,
@@ -9,7 +9,7 @@ function DetailsPage({
   search,
   detail,
 }: {
-  details: SWCharacter;
+  details: SWCharacter | null;
   filmsResult: { [key: string]: string };
   page: string;
   search: string;
@@ -17,7 +17,7 @@ function DetailsPage({
 }) {
   return (
     <>
-      {details.films ? (
+      {details ? (
         <div className="details-page">
           <div className="details-header">
             <h1>{details.name}</h1>
