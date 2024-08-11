@@ -4,7 +4,7 @@ import store from '../../store/store';
 import App from '../../components/App';
 import Loader from '../../components/loader';
 import { redirect, useLoaderData, useNavigation } from '@remix-run/react';
-import type { LoaderFunctionArgs } from '@remix-run/node';
+import { type LoaderFunctionArgs } from '@remix-run/node';
 import Results from '../../features/results/searchResults';
 import {
   SWApiResponse,
@@ -47,21 +47,20 @@ export default function Home() {
   );
 }
 
-export const loader = async (
-  p0: { request: Request },
-  { request }: LoaderFunctionArgs
-) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
-  const search = url.searchParams.get('search') || '';
+  const search = url.searchParams.get('search');
   const page = url.searchParams.get('page');
   const detail = url.searchParams.get('detail');
-  const searchProps = search.toString() || '';
+  const searchProps = search?.toString() || '';
   const pageProps = page?.toString() || '1';
   const detailProps = detail?.toString() || undefined;
 
   if (!search && !page) {
-    redirect(`/?search=&page=1`);
+    const cookie = '';
+    redirect(`/?search=${cookie}&page=1`);
   }
+
   const res = await fetch(
     `https://swapi.dev/api/people/?search=${searchProps || ''}&page=${pageProps || '1'}`
   );
