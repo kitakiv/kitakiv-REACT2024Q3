@@ -7,6 +7,10 @@ function App() {
   const [count, setCount] = useState(0)
   const c: any = 0
 
+  if (c) {
+    console.log(c)
+  }
+
   console.log(c)
 
   return (
