@@ -1,0 +1,2 @@
+cd react-forms
+npx lint-staged
