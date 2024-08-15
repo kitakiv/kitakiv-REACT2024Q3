@@ -9,7 +9,7 @@
     "lint": "eslint ./src",
     "preview": "vite preview",
     "format:fix": "prettier --write ./src",
-    "prepare": "cd .. && husky starWars/.husky && husky install"
+    "prepare": "cd .. && husky install react-forms/.husky"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^8.1.0",
