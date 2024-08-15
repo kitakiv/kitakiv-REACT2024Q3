@@ -7,6 +7,8 @@ function App() {
   const [count, setCount] = useState(0)
   const c: any = 0
 
+  console.log(c)
+
   return (
     <>
       <div>
