@@ -9,6 +9,8 @@ function App() {
 
   console.log(c)
 
+  console.log(c)
+
   return (
     <>
       <div>
