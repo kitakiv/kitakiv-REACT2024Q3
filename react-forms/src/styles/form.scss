@@ -1,0 +1,33 @@
+.form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1em;
+    width: 80%;
+    color: $light-blue;
+    padding: 1.5em;
+    background-color: $dark-white;
+    border: $dark-blue 1px solid;
+    border-radius: 10px;
+    &__input {
+        width: 100%;
+        padding: 0.5em;
+        border: $dark-blue 1px solid;
+        margin-bottom: 1.5em;
+        border-radius: 10px;
+    }
+
+    &__btn {
+        width: 100%;
+        padding: 0.5em;
+        border: $dark-blue 1px solid;
+        margin-bottom: 1.5em;
+        border-radius: 10px;
+        background-color: $dark-blue;
+        color: $white;
+    }
+
+    &__label {
+        color: $light-blue
+    }
+
+}

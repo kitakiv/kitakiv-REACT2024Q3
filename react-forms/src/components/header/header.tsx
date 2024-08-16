@@ -6,7 +6,7 @@ function Header() {
     <>
       <header className="header">
         <nav className="header__nav">
-        <NavLink
+          <NavLink
             to="/"
             className={({ isActive }) =>
               isActive ? 'header__link_active' : 'header__link'
