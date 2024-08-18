@@ -9,6 +9,8 @@ import { addNewForm, updateForm } from '../../features/formResults/formSlice';
 
 function ReactForm() {
   const dispatch = useAppDispatch();
+  const [confirmEye, setConfirmEye] = useState(true);
+  const [passwordEye, setPasswordEye] = useState(true);
   const [countrySelect, setCountrySelect] = useState('');
   const { value } = useAppSelector((state) => state.countries);
   const { ids } = useAppSelector((state) => state.formResults);
@@ -19,7 +21,7 @@ function ReactForm() {
     formState: { errors, isValid },
     setValue,
     trigger,
-    reset
+    reset,
   } = useForm<FormInput>({ resolver: yupResolver(schema), mode: 'onChange' });
   const onSubmit = async (data: FormInput) => {
     const file = data.file[0];
@@ -48,7 +50,7 @@ function ReactForm() {
           dispatch(updateForm(id));
         }, 5000);
         reset();
-      }
+      };
     }
   };
   return (
@@ -66,7 +68,7 @@ function ReactForm() {
               className="form__input"
               placeholder="Enter your first name"
               autoComplete="additional-name"
-              id='firstName'
+              id="firstName"
             />
             <p className="form__error">{errors.firstName?.message}</p>
           </div>
@@ -81,7 +83,7 @@ function ReactForm() {
               className="form__input"
               placeholder="Enter your age"
               autoComplete="on"
-              id='age'
+              id="age"
             />
             <p className="form__error">{errors.age?.message}</p>
           </div>
@@ -90,7 +92,7 @@ function ReactForm() {
               Email
             </label>
             <input
-              id='email'
+              id="email"
               type="text"
               {...register('email')}
               className="form__input"
@@ -104,7 +106,7 @@ function ReactForm() {
             <label htmlFor="gender" className="form__label">
               Gender
             </label>
-            <select {...register('gender')} id='gender'>
+            <select {...register('gender')} id="gender">
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>
@@ -118,13 +120,14 @@ function ReactForm() {
               Password
             </label>
             <input
-              id='password'
-              type="password"
+              id="password"
+              type={passwordEye ? 'password' : 'text'}
               {...register('password')}
               className="form__input"
               placeholder="Enter your password"
               autoComplete="current-password"
             />
+            <div className={passwordEye ? 'form__eye' : 'form__eye_hide'} onClick={() => setPasswordEye(!passwordEye)}></div>
             <p className="form__error">{errors.password?.message}</p>
           </div>
           <div className="form__block">
@@ -132,19 +135,20 @@ function ReactForm() {
               Confirm Password
             </label>
             <input
-              type="password"
+              type={confirmEye ? 'password' : 'text'}
               {...register('confirm')}
               className="form__input"
               placeholder="Confirm your password"
               autoComplete="confirm-password"
-              id='confirm'
+              id="confirm"
             />
+            <div className={confirmEye ? 'form__eye' : 'form__eye_hide'} onClick={() => setConfirmEye(!confirmEye)}></div>
             <p className="form__error">{errors.confirm?.message}</p>
           </div>
           <div className="form__block">
             <label htmlFor="country">Select Country</label>
             <input
-              id='country'
+              id="country"
               type="text"
               className="form__input"
               {...register('country')}
@@ -186,7 +190,7 @@ function ReactForm() {
           <div className="form__block">
             <label htmlFor="file">Upload File</label>
             <input
-              id='file'
+              id="file"
               type="file"
               {...register('file')}
               accept=".jpeg, .png"
@@ -197,7 +201,7 @@ function ReactForm() {
             <p className="form__error">{errors.file?.message}</p>
           </div>
           <div className="form__block form__checkbox">
-            <input type="checkbox" {...register('agree')}  id='checkbox'/>
+            <input type="checkbox" {...register('agree')} id="checkbox" />
             <label htmlFor="checkbox">
               accept Terms and Conditions agreement
             </label>

@@ -1,8 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { FormState } from '../../validation/validation';
 
-
-
 interface StateInitial {
   ids: string[];
   entities: { [key: string]: FormState };

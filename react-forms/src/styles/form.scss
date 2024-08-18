@@ -10,6 +10,30 @@
   border: $dark-blue 1px solid;
   border-radius: 5px;
 
+  &__eye {
+    position: absolute;
+    right: 1.5em;
+    top: 2.2em;
+    cursor: pointer;
+    background: url('/open.svg');
+    width: 20px;
+    height: 20px;
+    background-size: cover;
+    z-index: 2;
+
+    &_hide {
+      position: absolute;
+      right: 1.5em;
+      top: 2.2em;
+      cursor: pointer;
+      background: url('/close.svg');
+      width: 20px;
+      height: 20px;
+      background-size: cover;
+      z-index: 2;
+    }
+  }
+
   @media (max-width: 850px) {
     width: 90%;
     display: flex;

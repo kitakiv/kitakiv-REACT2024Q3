@@ -94,20 +94,18 @@ export interface ValidFormInput {
 }
 
 export interface Base64 {
-    firstName: string;
-    gender: string;
-    age: number;
-    email: string;
-    password: string;
-    confirm: string;
-    country: string;
-    agree: boolean;
-    base64: string;
-  }
-
-
+  firstName: string;
+  gender: string;
+  age: number;
+  email: string;
+  password: string;
+  confirm: string;
+  country: string;
+  agree: boolean;
+  base64: string;
+}
 
 export interface FormState extends Base64 {
-    newForm: boolean;
-    id: string;
-  }
+  newForm: boolean;
+  id: string;
+}
