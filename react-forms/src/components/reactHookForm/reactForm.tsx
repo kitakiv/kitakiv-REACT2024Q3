@@ -3,10 +3,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppSelector } from '../../app/hooks';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { FormInput, schema } from '../../validation/validation';
+import { FormInput, FormState, schema } from '../../validation/validation';
 import { useAppDispatch } from '../../app/hooks';
-import { addNewForm, updateForm} from '../../features/formResults/formSlice';
-
+import { addNewForm, updateForm } from '../../features/formResults/formSlice';
 
 function ReactForm() {
   const dispatch = useAppDispatch();
@@ -19,22 +18,38 @@ function ReactForm() {
     handleSubmit,
     formState: { errors, isValid },
     setValue,
-    trigger
+    trigger,
+    reset
   } = useForm<FormInput>({ resolver: yupResolver(schema), mode: 'onChange' });
   const onSubmit = async (data: FormInput) => {
-    const id = ids.length.toString();
-    const formData = {
-      ...data,
-      newForm: true,
-      id,
-    };
-    dispatch(addNewForm(formData));
-    console.log(data);
-    navigate('/');
-
-    setTimeout(() => {
-      dispatch(updateForm(id));
-    }, 5000);
+    const file = data.file[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const id = ids.length.toString();
+        const formData: FormState = {
+          firstName: data.firstName,
+          age: data.age,
+          email: data.email,
+          gender: data.gender,
+          password: data.password,
+          confirm: data.confirm,
+          country: data.country,
+          agree: data.agree,
+          newForm: true,
+          id: ids.length.toString(),
+          base64: reader.result as string,
+        };
+        dispatch(addNewForm(formData));
+        console.log(data);
+        navigate('/');
+        setTimeout(() => {
+          dispatch(updateForm(id));
+        }, 5000);
+        reset();
+      }
+    }
   };
   return (
     <div className="form__wrapper">
@@ -51,6 +66,7 @@ function ReactForm() {
               className="form__input"
               placeholder="Enter your first name"
               autoComplete="additional-name"
+              id='firstName'
             />
             <p className="form__error">{errors.firstName?.message}</p>
           </div>
@@ -65,6 +81,7 @@ function ReactForm() {
               className="form__input"
               placeholder="Enter your age"
               autoComplete="on"
+              id='age'
             />
             <p className="form__error">{errors.age?.message}</p>
           </div>
@@ -73,6 +90,7 @@ function ReactForm() {
               Email
             </label>
             <input
+              id='email'
               type="text"
               {...register('email')}
               className="form__input"
@@ -86,7 +104,7 @@ function ReactForm() {
             <label htmlFor="gender" className="form__label">
               Gender
             </label>
-            <select {...register('gender')}>
+            <select {...register('gender')} id='gender'>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>
@@ -100,10 +118,12 @@ function ReactForm() {
               Password
             </label>
             <input
+              id='password'
               type="password"
               {...register('password')}
               className="form__input"
               placeholder="Enter your password"
+              autoComplete="current-password"
             />
             <p className="form__error">{errors.password?.message}</p>
           </div>
@@ -116,12 +136,15 @@ function ReactForm() {
               {...register('confirm')}
               className="form__input"
               placeholder="Confirm your password"
+              autoComplete="confirm-password"
+              id='confirm'
             />
             <p className="form__error">{errors.confirm?.message}</p>
           </div>
           <div className="form__block">
             <label htmlFor="country">Select Country</label>
             <input
+              id='country'
               type="text"
               className="form__input"
               {...register('country')}
@@ -163,6 +186,7 @@ function ReactForm() {
           <div className="form__block">
             <label htmlFor="file">Upload File</label>
             <input
+              id='file'
               type="file"
               {...register('file')}
               accept=".jpeg, .png"
@@ -173,7 +197,7 @@ function ReactForm() {
             <p className="form__error">{errors.file?.message}</p>
           </div>
           <div className="form__block form__checkbox">
-            <input type="checkbox" {...register('agree')} />
+            <input type="checkbox" {...register('agree')}  id='checkbox'/>
             <label htmlFor="checkbox">
               accept Terms and Conditions agreement
             </label>
@@ -181,11 +205,11 @@ function ReactForm() {
           </div>
         </div>
         <input
-            type="submit"
-            className="form__btn"
-            value={'Submit'}
-            disabled={!isValid}
-          />
+          type="submit"
+          className="form__btn"
+          value={'Submit'}
+          disabled={!isValid}
+        />
       </form>
     </div>
   );

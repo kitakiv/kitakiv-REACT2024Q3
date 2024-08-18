@@ -21,7 +21,8 @@ export const schema = yup
       .positive('Age must be a positive number')
       .integer('Age must be an integer')
       .min(1, 'Age must be at least 1')
-      .max(150, 'Age must be less than 150').required('Age is required'),
+      .max(150, 'Age must be less than 150')
+      .required('Age is required'),
     email: yup
       .string()
       .email('Invalid email')
@@ -37,17 +38,20 @@ export const schema = yup
       .matches(
         /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/,
         'Password must include at least one special character (e.g. !@#$%^&*)/)'
-      ).required('Password is required'),
+      )
+      .required('Password is required'),
     confirm: yup
       .string()
       .required()
       .oneOf([yup.ref('password')], 'Passwords must match'),
-    country: yup.string().oneOf(countries, 'Country is invalid').required('Country is required'),
+    country: yup
+      .string()
+      .oneOf(countries, 'Country is invalid')
+      .required('Country is required'),
     file: yup
       .mixed()
       .test('fileType', 'Only PNG and JPEG files are allowed', (value) => {
         const file = (value as FileList)[0] as File;
-        console.log(file);
         return (
           file && (file.type === 'image/jpeg' || file.type === 'image/png')
         );
@@ -58,11 +62,38 @@ export const schema = yup
         return file && file.size <= 2 * 1024 * 1024;
       })
       .required('Image is required'),
-    agree: yup.boolean().required('please accept terms and conditions').oneOf([true], 'please accept terms and conditions'),
+    agree: yup
+      .boolean()
+      .required('please accept terms and conditions')
+      .oneOf([true], 'please accept terms and conditions'),
   })
   .required('All fields are required');
 
 export interface FormInput {
+  firstName: string;
+  gender: string;
+  age: number;
+  email: string;
+  password: string;
+  confirm: string;
+  country: string;
+  agree: boolean;
+  file: FileList;
+}
+
+export interface ValidFormInput {
+  firstName: string | undefined;
+  gender: string | undefined;
+  age: number | undefined | string;
+  email: string | undefined;
+  password: string | undefined;
+  confirm: string | undefined;
+  country: string | undefined;
+  agree: boolean | undefined;
+  file: FileList | undefined | null;
+}
+
+export interface Base64 {
     firstName: string;
     gender: string;
     age: number;
@@ -71,18 +102,12 @@ export interface FormInput {
     confirm: string;
     country: string;
     agree: boolean;
-    file: FileList;
+    base64: string;
   }
 
-  export interface ValidFormInput {
-    firstName: string | undefined;
-    gender: string | undefined;
-    age: number | undefined | string;
-    email: string | undefined;
-    password: string | undefined;
-    confirm: string | undefined;
-    country: string | undefined;
-    agree: boolean | undefined;
-    file: FileList | undefined | null;
-  }
 
+
+export interface FormState extends Base64 {
+    newForm: boolean;
+    id: string;
+  }

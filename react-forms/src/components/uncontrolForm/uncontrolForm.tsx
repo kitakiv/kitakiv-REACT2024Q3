@@ -4,14 +4,14 @@ import { schema, ValidFormInput, FormInput } from '../../validation/validation';
 import { ValidationError } from 'yup';
 import { addNewForm, updateForm } from '../../features/formResults/formSlice';
 import { useNavigate } from 'react-router';
+import { FormState } from '../../validation/validation';
 function UncontrolledForm() {
   const [countrySelect, setCountrySelect] = useState('');
-  const [formErrors, setFormErrors] = useState<{[key: string]: string}>({} );
+  const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
   const ids = useAppSelector((state) => state.formResults.ids);
   const dispatch = useAppDispatch();
   const { value } = useAppSelector((state) => state.countries);
   const navigate = useNavigate();
-
 
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,35 +27,65 @@ function UncontrolledForm() {
       agree: agreeRef.current?.checked,
       file: fileRef.current?.files,
     };
+
+    function reset() {
+      nameRef.current!.value = '';
+      ageRef.current!.value = '';
+      emailRef.current!.value = '';
+      genderRef.current!.value = '';
+      passwordRef.current!.value = '';
+      confirmRef.current!.value = '';
+      countryRef.current!.value = '';
+      agreeRef.current!.checked = false;
+      fileRef.current!.value = '';
+    }
     const isValid = await checkValidation(data);
 
     if (isValid) {
       const form = data as unknown as FormInput;
-      const formData = {
-        ...form,
-        newForm: true,
-        id: ids.length.toString(),
-      }
-      dispatch(addNewForm(formData));
-      navigate('/');
-      setTimeout(() => {
-        dispatch(updateForm(formData.id));
-      }, 5000);
+      const file = fileRef.current?.files?.[0];
+     if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      console.log(reader)
+
+      reader.onload = () => {
+        const formData: FormState = {
+          firstName: form.firstName,
+          age: form.age,
+          email: form.email,
+          gender: form.gender,
+          password: form.password,
+          confirm: form.confirm,
+          country: form.country,
+          agree: form.agree,
+          newForm: true,
+          id: ids.length.toString(),
+          base64: reader.result as string,
+        };
+        dispatch(addNewForm(formData));
+        navigate('/');
+        setTimeout(() => {
+          dispatch(updateForm(formData.id));
+        }, 5000);
+        reset();
+      };
+     }
     }
   };
 
   async function checkValidation(data: ValidFormInput) {
     try {
       await schema.validate(data, { abortEarly: false });
-        setFormErrors({});
+      setFormErrors({});
       return true;
     } catch (err: unknown) {
       if (err instanceof ValidationError) {
-        const validationErrors : {[key: string]: string} = {};
+        const validationErrors: { [key: string]: string } = {};
         err.inner.forEach((error) => {
           const path = error.path as string;
-        validationErrors[path] = error.message;
-      });
+          validationErrors[path] = error.message;
+        });
         setFormErrors(validationErrors);
       }
       return false;
@@ -87,6 +117,7 @@ function UncontrolledForm() {
               className="form__input"
               placeholder="Enter your first name"
               autoComplete="additional-name"
+              id='firstName'
             />
             <p className="form__error">{formErrors.firstName}</p>
           </div>
@@ -101,6 +132,7 @@ function UncontrolledForm() {
               className="form__input"
               placeholder="Enter your age"
               autoComplete="on"
+              id='age'
             />
             <p className="form__error">{formErrors.age}</p>
           </div>
@@ -114,6 +146,7 @@ function UncontrolledForm() {
               className="form__input"
               placeholder="Enter your email"
               autoComplete="email"
+              id='email'
             />
             <p className="form__error">{formErrors.email}</p>
           </div>
@@ -122,7 +155,7 @@ function UncontrolledForm() {
             <label htmlFor="gender" className="form__label">
               Gender
             </label>
-            <select ref={genderRef}>
+            <select ref={genderRef} id='gender'>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>
@@ -140,6 +173,8 @@ function UncontrolledForm() {
               ref={passwordRef}
               className="form__input"
               placeholder="Enter your password"
+              id='password'
+              autoComplete="new-password"
             />
             <p className="form__error">{formErrors.password}</p>
           </div>
@@ -152,6 +187,8 @@ function UncontrolledForm() {
               ref={confirmRef}
               className="form__input"
               placeholder="Confirm your password"
+              id='confirm'
+              autoComplete="confirm-password"
             />
             <p className="form__error">{formErrors.confirm}</p>
           </div>
@@ -164,6 +201,7 @@ function UncontrolledForm() {
               onChange={(e) => {
                 setCountrySelect(e.target.value);
               }}
+              id='country'
               placeholder="Enter your country"
               autoComplete="country-name"
             />
@@ -202,15 +240,18 @@ function UncontrolledForm() {
               placeholder="Upload"
               autoComplete="file"
               className="form__input"
+              id='file'
             />
             <p className="form__error">{formErrors.file}</p>
           </div>
           <div className="form__block form__checkbox">
-            <input type="checkbox" ref={agreeRef} />
+            <input type="checkbox" ref={agreeRef} id='checkbox'/>
             <label htmlFor="checkbox">
               accept Terms and Conditions agreement
             </label>
-            <p className="form__error">{formErrors.agree ? formErrors.agree : ''}</p>
+            <p className="form__error">
+              {formErrors.agree ? formErrors.agree : ''}
+            </p>
           </div>
         </div>
         <input type="submit" className="form__btn" value={'Submit'} />

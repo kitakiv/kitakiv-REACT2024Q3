@@ -5,7 +5,6 @@ export interface CountriesState {
   value: string[];
 }
 
-
 const initialState: CountriesState = {
   value: countries,
 };

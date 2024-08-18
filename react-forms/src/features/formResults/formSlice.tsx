@@ -1,17 +1,16 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { FormInput } from '../../validation/validation';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { FormState } from '../../validation/validation';
 
-interface FormState extends FormInput {
-    newForm: boolean;
-    id: string;
-  }
+
 
 interface StateInitial {
   ids: string[];
-  entities: {[key: string]: FormState};
+  entities: { [key: string]: FormState };
 }
 
-const initialState: StateInitial = JSON.parse(localStorage.getItem('formResults') as string) || {
+const initialState: StateInitial = JSON.parse(
+  localStorage.getItem('formResults') as string
+) || {
   ids: [],
   entities: {},
 };
@@ -20,19 +19,18 @@ export const counterSlice = createSlice({
   initialState,
   reducers: {
     addNewForm: (state, action: PayloadAction<FormState>) => {
-      state.ids.push(action.payload.id)
-      state.entities[action.payload.id] = action.payload
-      localStorage.setItem('formResults', JSON.stringify(state))
+      state.ids.push(action.payload.id);
+      state.entities[action.payload.id] = action.payload;
+      localStorage.setItem('formResults', JSON.stringify(state));
     },
     updateForm: (state, action: PayloadAction<string>) => {
       if (state.ids.includes(action.payload)) {
-        state.entities[action.payload].newForm = false
-        localStorage.setItem('formResults', JSON.stringify(state))
+        state.entities[action.payload].newForm = false;
+        localStorage.setItem('formResults', JSON.stringify(state));
       }
-
     },
-  }
-})
+  },
+});
 
-export const { addNewForm, updateForm} = counterSlice.actions
-export default counterSlice.reducer
+export const { addNewForm, updateForm } = counterSlice.actions;
+export default counterSlice.reducer;
