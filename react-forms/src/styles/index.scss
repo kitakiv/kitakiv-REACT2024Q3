@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import './variables.scss';
+@import './App.scss';
+@import './header.scss';
+@import './form.scss';
+@import './main.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Work Sans', sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
