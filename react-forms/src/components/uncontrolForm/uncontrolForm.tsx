@@ -178,7 +178,10 @@ function UncontrolledForm() {
               id="password"
               autoComplete="new-password"
             />
-            <div className={passwordEye ? 'form__eye' : 'form__eye_hide'} onClick={() => setPasswordEye(!passwordEye)}></div>
+            <div
+              className={passwordEye ? 'form__eye' : 'form__eye_hide'}
+              onClick={() => setPasswordEye(!passwordEye)}
+            ></div>
             <p className="form__error">{formErrors.password}</p>
           </div>
           <div className="form__block">
@@ -193,7 +196,10 @@ function UncontrolledForm() {
               id="confirm"
               autoComplete="confirm-password"
             />
-            <div className={confirmEye ? 'form__eye' : 'form__eye_hide'} onClick={() => setConfirmEye(!confirmEye)}></div>
+            <div
+              className={confirmEye ? 'form__eye' : 'form__eye_hide'}
+              onClick={() => setConfirmEye(!confirmEye)}
+            ></div>
             <p className="form__error">{formErrors.confirm}</p>
           </div>
           <div className="form__block">

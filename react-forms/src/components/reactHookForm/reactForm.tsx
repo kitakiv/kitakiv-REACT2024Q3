@@ -3,9 +3,21 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppSelector } from '../../app/hooks';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { FormInput, FormState, schema } from '../../validation/validation';
+import {FormState, schema } from '../../validation/validation';
 import { useAppDispatch } from '../../app/hooks';
 import { addNewForm, updateForm } from '../../features/formResults/formSlice';
+
+interface SubmitData {
+  firstName: string;
+  age: number;
+  email: string;
+  gender: string;
+  password: string;
+  confirm: string;
+  country: string;
+  file: unknown;
+  agree: NonNullable<boolean | undefined>;
+}
 
 function ReactForm() {
   const dispatch = useAppDispatch();
@@ -22,9 +34,9 @@ function ReactForm() {
     setValue,
     trigger,
     reset,
-  } = useForm<FormInput>({ resolver: yupResolver(schema), mode: 'onChange' });
-  const onSubmit = async (data: FormInput) => {
-    const file = data.file[0];
+  } = useForm({ resolver: yupResolver(schema), mode: 'onChange' });
+  const onSubmit = async (data: SubmitData) => {
+    const file = (data.file as FileList)[0] as File;
     if (file) {
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -127,7 +139,10 @@ function ReactForm() {
               placeholder="Enter your password"
               autoComplete="current-password"
             />
-            <div className={passwordEye ? 'form__eye' : 'form__eye_hide'} onClick={() => setPasswordEye(!passwordEye)}></div>
+            <div
+              className={passwordEye ? 'form__eye' : 'form__eye_hide'}
+              onClick={() => setPasswordEye(!passwordEye)}
+            ></div>
             <p className="form__error">{errors.password?.message}</p>
           </div>
           <div className="form__block">
@@ -142,7 +157,10 @@ function ReactForm() {
               autoComplete="confirm-password"
               id="confirm"
             />
-            <div className={confirmEye ? 'form__eye' : 'form__eye_hide'} onClick={() => setConfirmEye(!confirmEye)}></div>
+            <div
+              className={confirmEye ? 'form__eye' : 'form__eye_hide'}
+              onClick={() => setConfirmEye(!confirmEye)}
+            ></div>
             <p className="form__error">{errors.confirm?.message}</p>
           </div>
           <div className="form__block">
