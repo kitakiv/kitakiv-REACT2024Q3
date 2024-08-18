@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { IFormInput } from '../../validation/validation';
+import { FormInput } from '../../validation/validation';
 
-interface FormState extends IFormInput {
+interface FormState extends FormInput {
     newForm: boolean;
     id: string;
   }

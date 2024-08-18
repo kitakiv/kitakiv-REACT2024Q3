@@ -3,7 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppSelector } from '../../app/hooks';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { IFormInput, schema } from '../../validation/validation';
+import { FormInput, schema } from '../../validation/validation';
 import { useAppDispatch } from '../../app/hooks';
 import { addNewForm, updateForm} from '../../features/formResults/formSlice';
 
@@ -20,8 +20,8 @@ function ReactForm() {
     formState: { errors, isValid },
     setValue,
     trigger
-  } = useForm<IFormInput>({ resolver: yupResolver(schema), mode: 'onChange' });
-  const onSubmit = async (data: IFormInput) => {
+  } = useForm<FormInput>({ resolver: yupResolver(schema), mode: 'onChange' });
+  const onSubmit = async (data: FormInput) => {
     const id = ids.length.toString();
     const formData = {
       ...data,
@@ -39,6 +39,7 @@ function ReactForm() {
   return (
     <div className="form__wrapper">
       <form onSubmit={handleSubmit(onSubmit)} className="form">
+        <h2 className="form__text">React Hook Form</h2>
         <div>
           <div className="form__block">
             <label htmlFor="firstName" className="form__label">
@@ -167,23 +168,24 @@ function ReactForm() {
               accept=".jpeg, .png"
               placeholder="Upload"
               autoComplete="file"
+              className="form__input"
             />
             <p className="form__error">{errors.file?.message}</p>
           </div>
-          <div className="form__block">
+          <div className="form__block form__checkbox">
             <input type="checkbox" {...register('agree')} />
             <label htmlFor="checkbox">
               accept Terms and Conditions agreement
             </label>
             <p className="form__error">{errors.agree?.message}</p>
           </div>
-          <input
+        </div>
+        <input
             type="submit"
             className="form__btn"
             value={'Submit'}
             disabled={!isValid}
           />
-        </div>
       </form>
     </div>
   );

@@ -18,20 +18,18 @@ export const schema = yup
       .required('First name is required'),
     age: yup
       .number()
-      .required('Age is required')
       .positive('Age must be a positive number')
       .integer('Age must be an integer')
       .min(1, 'Age must be at least 1')
-      .max(150, 'Age must be less than 150'),
+      .max(150, 'Age must be less than 150').required('Age is required'),
     email: yup
       .string()
       .email('Invalid email')
-      .required('Email is required')
-      .matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email'),
+      .matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email')
+      .required('Email is required'),
     gender: yup.string().required('Gender is required'),
     password: yup
       .string()
-      .required('Password is required')
       .min(8, 'Password must be at least 8 characters')
       .matches(/[A-Z]/, 'Password must include at least one uppercase letter')
       .matches(/[a-z]/, 'Password must include at least one lowercase letter')
@@ -39,7 +37,7 @@ export const schema = yup
       .matches(
         /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/,
         'Password must include at least one special character (e.g. !@#$%^&*)/)'
-      ),
+      ).required('Password is required'),
     confirm: yup
       .string()
       .required()
@@ -47,7 +45,6 @@ export const schema = yup
     country: yup.string().oneOf(countries, 'Country is invalid').required('Country is required'),
     file: yup
       .mixed()
-      .required('Image is required')
       .test('fileType', 'Only PNG and JPEG files are allowed', (value) => {
         const file = (value as FileList)[0] as File;
         console.log(file);
@@ -57,13 +54,15 @@ export const schema = yup
       })
       .test('fileSize', 'File size is too large. Max size is 2MB', (value) => {
         const file = (value as FileList)[0];
+        if (!file) return true;
         return file && file.size <= 2 * 1024 * 1024;
-      }),
+      })
+      .required('Image is required'),
     agree: yup.boolean().required('please accept terms and conditions').oneOf([true], 'please accept terms and conditions'),
   })
   .required('All fields are required');
 
-export interface IFormInput {
+export interface FormInput {
     firstName: string;
     gender: string;
     age: number;
@@ -73,5 +72,17 @@ export interface IFormInput {
     country: string;
     agree: boolean;
     file: FileList;
+  }
+
+  export interface ValidFormInput {
+    firstName: string | undefined;
+    gender: string | undefined;
+    age: number | undefined | string;
+    email: string | undefined;
+    password: string | undefined;
+    confirm: string | undefined;
+    country: string | undefined;
+    agree: boolean | undefined;
+    file: FileList | undefined | null;
   }
 
